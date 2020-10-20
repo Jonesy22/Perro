@@ -1,0 +1,2 @@
+# Perro
+Effective project management requires a project manager have good insight into the amount of work remaining on a project (task estimation) and the rate at which a team can perform the work (velocity). The team will develop a light-weight, multi-user, web application that enables project managers to track and estimate tasks, record historical velocity/task completion information, and generate estimated project completion reports (based on historical data provided by the project manager).
