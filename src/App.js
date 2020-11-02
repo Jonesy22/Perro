@@ -7,7 +7,6 @@ import LeftProjectButton from './components/LeftProjectButton'
 function App() {
   return (
     <div>
-      <LeftProjectButton />
     </div>
   );
 }
