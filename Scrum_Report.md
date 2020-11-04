@@ -10,6 +10,7 @@ __Member task:__ Kyler: Creating react app.
              Trevor: Data button. Tracking button.
              
 __Scrum record:__ 
+
 Meeting 10/30:
 Initial meeting, tasks assigned and will update on Monday's meeting. 
 
