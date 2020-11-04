@@ -9,7 +9,7 @@ Member task: Kyler: Creating react app.
              Daniel: Summary button.
              Trevor: Data button. Tracking button.
              
-_Scrum record:_ 
+**Scrum record:** 
 Meeting 10/30:
 Initial meeting, tasks assigned and will update on Monday's meeting. 
 
