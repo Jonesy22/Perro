@@ -1,13 +1,16 @@
 # __Sprint 1__
 
-## __Sprint goal:__  A working front end that includes: A create project button, the drop down task list component, the Summary, Data, and Tracking components started, and scaffolding for the website.
+## __Sprint goal:__  
+A working front end that includes: A create project button, the drop down task list component, the Summary, Data, and Tracking components started, and scaffolding for the website.
 
-## __Product log:__ Create react-app to get working start point, Create Project button, drop down task list, Summary button, Data button, Tracking button.
+## __Product log:__ 
+Create react-app to get working start point, Create Project button, drop down task list, Summary button, Data button, Tracking button.
 
-## __Member task:__ Kyler: Creating react app.
-             Matthew: Creating project button. Creat drop down task list.
-             Daniel: Summary button.
-             Trevor: Data button. Tracking button.
+## __Member task:__ 
+Kyler: Creating react app.
+Matthew: Creating project button. Creat drop down task list.
+Daniel: Summary button.
+Trevor: Data button. Tracking button.
              
 ## __Scrum record:__ 
 
