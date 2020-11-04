@@ -7,7 +7,7 @@ const RightSummaryButton = ({}) => {
         <div>
             <Button variant="primary">Summary</Button>{' '}
         </div>
-    );          
+    );
 }
 
 export default RightSummaryButton
