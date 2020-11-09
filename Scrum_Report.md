@@ -22,5 +22,5 @@ Recapped what we have all contributed so far. Kyler is going to implement the si
 Created the react app and pushed to master branch. Project button and drop down task list is pushed to master branch. Summary button is waiting to be merged to master. Data button and Tracking button are soon to be implemented. Will discuss continue to discuss over Discord about any issues that may come up. Next thing to work on as a group and divide tasks is importing the components into app.js.
 
 ### Meeting 10/30:
-Initial meeting, tasks assigned and will update on Monday's meeting. 
+Initial meeting, tasks assigned and will update on Monday's meeting. We got an idea of where to start from the picture on the GitHub we were shown by our project partner Taj. We decided we should start with implementing the buttons, the dropdown, and some styling for our website. We split these up to each team member, and will work on these during the sprint, and contact each other over Discord if any issues arise. 
 
