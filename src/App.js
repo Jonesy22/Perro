@@ -2,13 +2,14 @@ import logo from './logo.svg';
 import './App.css';
 
 // components
-import LeftProjectButton from './components/LeftProjectButton'
+import LeftProjectView from './components/LeftProjectView'
 import RightProjectView from './components/RightProjectView'
 
 function App() {
   return (
     <div>
       <RightProjectView></RightProjectView>
+      <LeftProjectView></LeftProjectView>
     </div>
   );
 }
