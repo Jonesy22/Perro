@@ -1,7 +1,7 @@
 # __Sprint 1__
 
 ## __Sprint goal:__  
-A working front end that includes: A create project button, the drop down task list component, the Summary, Data, and Tracking components started, and scaffolding for the website.
+A working front end that includes: A create project button, the drop down task list component, the Summary, Data, and Tracking components started, and scaffolding for the website. Add login/sign up button, and navigation bar for switching pages.
 
 ## __Product log:__ 
 Create react-app to get working start point, Create Project button, drop down task list, Summary button, Data button, Tracking button.
