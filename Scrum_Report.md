@@ -15,7 +15,7 @@ Trevor: Data button. Tracking button.
 ## __Scrum record:__ 
 
 ### Meeting 11/3:
-
+Recapped what we have all contributed so far. Kyler is going to implement the signup/login button, as well as a navbar that allows to switch pages. Planning on finishing those components by Wednesday, we will meet Thursday 10/12 instead of normal friday meeting, so we can debreif before the demo Friday. Kyler will reach out to the team if he needs help with anything this week. We will continue to think about stretch goals and what we can implement down the line as we continue implementing. Need to get in contact with Taj to confirm a meeting next Tuesday. By Thursday we need to ensure our prototype is working how we want, so we can showcase it Friday during class. 
 
 
 ### Meeting 11/2:
