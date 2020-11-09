@@ -14,6 +14,10 @@ Trevor: Data button. Tracking button.
              
 ## __Scrum record:__ 
 
+### Meeting 11/3:
+
+
+
 ### Meeting 11/2:
 Created the react app and pushed to master branch. Project button and drop down task list is pushed to master branch. Summary button is waiting to be merged to master. Data button and Tracking button are soon to be implemented. Will discuss continue to discuss over Discord about any issues that may come up. Next thing to work on as a group and divide tasks is importing the components into app.js.
 
