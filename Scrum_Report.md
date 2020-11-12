@@ -14,6 +14,10 @@ Trevor: Data button. Tracking button.
              
 ## __Scrum record:__ 
 
+### Meeting 11/12:
+Kyler showed us the functionality for his part of the product log, and the front-end is starting to look more like an application. We decided to push his work to a branch, and by next week we can continue to add features such as deleting a milestone or task, or add another child task from an existing task. If we are not able to cleanly implement new features by the time of our demo, then we will demo what we have. Our next step is to install Redux and use that in order to populate the project with fake data. We need to implement our Home Page that allows users to login or sign up, and then will be brought to their profile from there. We need to talk with Taj about how the flow of the website should work, and what the project page should look like (same flow in the screenshot, or change the UI to make it more user friendly?). Our Monday meeting we will document questions we can ask Taj, mostly about the flow and vision of the project so we can implement that in the weeks to come. 
+
+
 ### Meeting 11/3:
 Recapped what we have all contributed so far. Kyler is going to implement the signup/login button, as well as a navbar that allows to switch pages. Planning on finishing those components by Wednesday, we will meet Thursday 10/12 instead of normal friday meeting, so we can debreif before the demo Friday. Kyler will reach out to the team if he needs help with anything this week. We will continue to think about stretch goals and what we can implement down the line as we continue implementing. Need to get in contact with Taj to confirm a meeting next Tuesday. By Thursday we need to ensure our prototype is working how we want, so we can showcase it Friday during class. 
 
