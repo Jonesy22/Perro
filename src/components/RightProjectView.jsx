@@ -21,27 +21,23 @@ class RightProjectView extends React.Component {
 
     render() {
         return(
-            <div>
-                <h1>RightProjectView Component</h1>
-                
+            <div>                
                 <ButtonGroup aria-label="View Selector">
                     <Button variant="primary" onClick={()=>this.setView(0)}>Summary</Button>{' '}
                     <Button variant="primary" onClick={()=>this.setView(1)}>Data</Button>{' '}
                     <Button variant="primary" onClick={()=>this.setView(2)}>Tracking</Button>{' '}
                 </ButtonGroup>
-
-                <h2>viewId: {this.state.viewId}</h2>
-
+                
                 {this.state.viewId === 0 &&
-                    <SummaryView ></SummaryView>
+                    <SummaryView />
                 }
 
                 {this.state.viewId === 1 &&
-                    <DataView ></DataView>
+                    <DataView />
                 }
 
                 {this.state.viewId === 2 &&
-                    <TrackingView ></TrackingView>
+                    <TrackingView />
                 }
                 
             </div>

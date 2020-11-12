@@ -15,7 +15,6 @@ class LeftProjectView extends React.Component {
         return(
             <div>
                 <MilestoneView/>
-                <GraphView/>
             </div>
         )
     }

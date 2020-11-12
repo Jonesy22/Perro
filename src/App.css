@@ -36,3 +36,32 @@
     transform: rotate(360deg);
   }
 }
+
+.float-container {
+  border: 3px solid #fff;
+  padding: 20px;
+}
+
+.float-child-left {
+  width: 49.5%;
+  float: left;
+  padding: 20px;
+  margin-right: .5%;
+  border: 1px solid lightgrey;
+  background-color: white;
+}  
+
+.float-child-right {
+  width: 49.5%;
+  float: left;
+  padding: 20px;
+  margin-left: .5%;
+  border: 1px solid lightgrey;
+  background-color: white;
+}  
+
+.page-footer { 
+  position: fixed; 
+  padding: 10px 10px 0px 10px; 
+  bottom: 0;
+}
