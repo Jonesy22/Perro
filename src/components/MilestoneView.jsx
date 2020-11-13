@@ -33,12 +33,11 @@ class MilestoneView extends React.Component {
                 }}
             />
         </div>  
-      );
-      
+    );
+    
     render() {
         return (
             <div>
-                <h2>MilestoneView</h2>
                 <Button variant="primary">Project</Button>
 
                 <div>
