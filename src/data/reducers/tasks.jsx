@@ -18,8 +18,7 @@ const executeAction = function(state = initialState, action) {
         byIds: {
           ...updatedByIds,
           [id]: {
-            content,
-            completed: false
+            content
           }
         }
       };
