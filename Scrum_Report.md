@@ -14,6 +14,9 @@ Trevor: Data button. Tracking button.
              
 ## __Scrum record:__ 
 
+### Meeting 11/16 (Kyler):
+Sprint planning. Today we prioritized tasks for the sprint and refined the overall flow of our product. We also discussed our design review, allocated tasks for creating our presentation and brainstormed questions for our meeting with our product partner. We will be assigning tasks for this sprint tomorrow, after our meeting with our project partner. Trevor implemented state over the weekend using Redux. Matthew, Daniel and I are going to ramp on Redux this sprint.
+
 ### Meeting 11/12:
 Kyler showed us the functionality for his part of the product log, and the front-end is starting to look more like an application. We decided to push his work to a branch, and by next week we can continue to add features such as deleting a milestone or task, or add another child task from an existing task. If we are not able to cleanly implement new features by the time of our demo, then we will demo what we have. Our next step is to install Redux and use that in order to populate the project with fake data. We need to implement our Home Page that allows users to login or sign up, and then will be brought to their profile from there. We need to talk with Taj about how the flow of the website should work, and what the project page should look like (same flow in the screenshot, or change the UI to make it more user friendly?). Our Monday meeting we will document questions we can ask Taj, mostly about the flow and vision of the project so we can implement that in the weeks to come. 
 
@@ -27,4 +30,3 @@ Created the react app and pushed to master branch. Project button and drop down 
 
 ### Meeting 10/30:
 Initial meeting, tasks assigned and will update on Monday's meeting. We got an idea of where to start from the picture on the GitHub we were shown by our project partner Taj. We decided we should start with implementing the buttons, the dropdown, and some styling for our website. We split these up to each team member, and will work on these during the sprint, and contact each other over Discord if any issues arise. 
-
