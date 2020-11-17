@@ -8,6 +8,9 @@
 
 ## __Member task:__ 
 Kyler: 
+Matthew:
+Daniel: 
+Trevor: 
 
 ## __Scrum record:__ 
 
