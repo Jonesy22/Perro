@@ -11,12 +11,12 @@ import Footer from './components/Footer';
 function App() {
   return (
     <div>
-      <div class="float-container">
+      <div className="float-container">
         <Header />
-        <div class="float-child-left">
+        <div className="float-child-left">
           <LeftProjectView />
         </div>
-        <div class="float-child-right">
+        <div className="float-child-right">
           <RightProjectView />
         </div>  
       </div>
