@@ -1,5 +1,5 @@
 
-# __Sprint 2__
+# __Sprint 2__ (Scrum Master: Kyler)
 
 ## __Sprint goal:__  
 
@@ -14,13 +14,13 @@ Trevor:
 
 ## __Scrum record:__ 
 
-### Meeting 11/16 (Kyler):
+### Meeting 11/16:
 Sprint planning. Today we prioritized tasks for the sprint and refined the overall flow of our product. We also discussed our design review, allocated tasks for creating our presentation and brainstormed questions for our meeting with our product partner. We will be assigning tasks for this sprint tomorrow, after our meeting with our project partner. Trevor implemented state over the weekend using Redux. Matthew, Daniel and I are going to ramp on Redux this sprint.
 
 
 
 
-# __Sprint 1__
+# __Sprint 1__ (Scrum Master: Daniel)
 
 ## __Sprint goal:__  
 A working front end that includes: A create project button, the drop down task list component, the Summary, Data, and Tracking components started, and scaffolding for the website. Add login/sign up button, and navigation bar for switching pages.
