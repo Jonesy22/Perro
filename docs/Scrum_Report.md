@@ -2,15 +2,14 @@
 # __Sprint 2__ (Scrum Master: Kyler)
 
 ## __Sprint goal:__  
-
+By the end of this sprint the website scaffolding will be complemented by a few different functional elements. A user will be able to create and delete tasks, navigate from the login page to the projects page and there will a graph with some dummy data plotted on it.
 ## __Product log:__ 
-
-
+Create input modal, create routing and splash page, data visualization, deletion functionality, authentication. 
 ## __Member task:__ 
-Kyler: 
-Matthew:
-Daniel: 
-Trevor: 
+Kyler: Create input modal
+Matthew: Create routing and splash page
+Daniel: Create data visualization
+Trevor: Implement task deletion funcionality. 
 
 ## __Scrum record:__ 
 
