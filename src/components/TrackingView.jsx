@@ -1,6 +1,6 @@
 import React, {useState, useEffect } from 'react'
 import GraphView from './GraphView'
-import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineSeries} from 'react-vis';
+import MilestoneView from './MilestoneView'
 
 class TrackingView extends React.Component {
     render() {
