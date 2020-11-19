@@ -13,6 +13,9 @@ Trevor: Implement task deletion funcionality.
 
 ## __Scrum record:__ 
 
+### Meeting 11/19:
+Sprint check-in: Daniel used react-vis to create a dummy graph for our presentation. Trevor is in the process of creating a Redux document for members of the team who are less familiar with the technology. Everyone contributed a slide to our powerpoint presentation. We discussed how we expect the presentation to go and checked to see if anyone was blocked on their tasks.
+
 ### Meeting 11/16:
 Sprint planning. Today we prioritized tasks for the sprint and refined the overall flow of our product. We also discussed our design review, allocated tasks for creating our presentation and brainstormed questions for our meeting with our product partner. We will be assigning tasks for this sprint tomorrow, after our meeting with our project partner. Trevor implemented state over the weekend using Redux. Matthew, Daniel and I are going to ramp on Redux this sprint.
 
