@@ -20,11 +20,7 @@
     "react-router-dom": "^5.2.0",
     "react-router-redux": "^5.0.0-alpha.9",
     "react-scripts": "4.0.0",
-<<<<<<< HEAD
-    "rebass": "^3.0.0-12",
-=======
     "react-vis": "^1.11.7",
->>>>>>> main
     "redux": "^4.0.5",
     "styled-components": "^5.2.1",
     "web-vitals": "^0.2.4"
