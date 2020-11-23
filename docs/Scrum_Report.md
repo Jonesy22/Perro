@@ -2,17 +2,19 @@
 # __Sprint 2__ (Scrum Master: Kyler)
 
 ## __Sprint goal:__  
-
+By the end of this sprint the website scaffolding will be complemented by a few different functional elements. A user will be able to create and delete tasks, navigate from the login page to the projects page and there will a graph with some dummy data plotted on it.
 ## __Product log:__ 
-
-
+Create input modal, create routing and splash page, data visualization, deletion functionality, authentication. 
 ## __Member task:__ 
-Kyler: 
-Matthew:
-Daniel: 
-Trevor: 
+Kyler: Create input modal
+Matthew: Create routing and splash page
+Daniel: Create data visualization
+Trevor: Implement task deletion funcionality. 
 
 ## __Scrum record:__ 
+
+### Meeting 11/19:
+Sprint check-in: Daniel used react-vis to create a dummy graph for our presentation. Trevor is in the process of creating a Redux document for members of the team who are less familiar with the technology. Everyone contributed a slide to our powerpoint presentation. We discussed how we expect the presentation to go and checked to see if anyone was blocked on their tasks.
 
 ### Meeting 11/16:
 Sprint planning. Today we prioritized tasks for the sprint and refined the overall flow of our product. We also discussed our design review, allocated tasks for creating our presentation and brainstormed questions for our meeting with our product partner. We will be assigning tasks for this sprint tomorrow, after our meeting with our project partner. Trevor implemented state over the weekend using Redux. Matthew, Daniel and I are going to ramp on Redux this sprint.

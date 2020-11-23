@@ -15,6 +15,7 @@ import {
   Route,
   } from "react-router-dom"
 
+<<<<<<< HEAD
 let LandingPageComponent = props => <LandingPage/>
 
 class App extends React.Component {
@@ -33,6 +34,11 @@ class App extends React.Component {
 }
 
 const TrackingView = () => {
+=======
+
+
+function App() {
+>>>>>>> main
   return (
     <div>
       <div className="float-container">
