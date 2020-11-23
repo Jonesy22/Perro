@@ -13,6 +13,9 @@ Trevor: Implement task deletion funcionality.
 
 ## __Scrum record:__ 
 
+### Meeting 11/23:
+Sprint check in: Matthew was able to implement React Routers and create a landing page for the site. Daniel and Kyler are ramping on Redux using Trevors documentation. Daniel isn't blocked at the moment and is going to be implemting the graph component this week. We discussed the componenent hierarchy that would make sense for the graph component. Kyler discussed potential libraries he might use to implement the modal. Kyler is hoping to have most of the modal implemented by the next check-in and is not currently blocked. 
+
 ### Meeting 11/19:
 Sprint check-in: Daniel used react-vis to create a dummy graph for our presentation. Trevor is in the process of creating a Redux document for members of the team who are less familiar with the technology. Everyone contributed a slide to our powerpoint presentation. We discussed how we expect the presentation to go and checked to see if anyone was blocked on their tasks.
 
