@@ -17,7 +17,7 @@ class TrackingView extends React.Component {
 			    xType = 'ordinal'
 				margin={{bottom: 80, left: 50, right: 10, top: 20}} >
   		 	<HorizontalGridLines />
-               <LegendView />
+            <LegendView />
 			<XAxis />
 			<YAxis />
             
@@ -41,21 +41,35 @@ class TrackingView extends React.Component {
 					textAnchor: 'end'
 				}}
 			/>
-  		 	<LineMarkSeries
-			   color="red"
+            <LineMarkSeries
+            //Black line
+			   color="#000000"
     			data={[
 					{x: "01/01/2020", y: 0},
-					{x: "01/8/2020", y: 1},
-					{x: "01/15/2020", y: 2},
+					{x: "01/8/2020", y: .65},
+					{x: "01/15/2020", y: 1.3},
 					{x: "01/22/2020", y: 1},
-					{x: "01/29/2020", y: 2},
+					{x: "01/29/2020", y: 1},
+					{x: "02/05/2020", y: .75}
+			]}
+			/>
+  		 	<LineMarkSeries
+               //Blue line
+			   color="#41BAFB"
+    			data={[
+					{x: "01/01/2020", y: 0},
+					{x: "01/8/2020", y: 1.5},
+					{x: "01/15/2020", y: 3},
+					{x: "01/22/2020", y: 2},
+					{x: "01/29/2020", y: 2.5},
 					{x: "02/05/2020", y: 3}
 			]}
 			/>
 			<LineMarkSeries
-			   color="green"
+            //Green line
+			   color="#4EEA00"
     			data={[
-					{x: "01/01/2020", y: 3},
+					{x: "01/01/2020", y: 1},
 					{x: "01/8/2020", y: 2},
 					{x: "01/15/2020", y: 4},
 					{x: "01/22/2020", y: 3},
@@ -63,6 +77,7 @@ class TrackingView extends React.Component {
 					{x: "02/05/2020", y: 3.5}
 			]}
 			/>
+            
             
 			</XYPlot>	
         </div>

@@ -6,7 +6,7 @@ import {DiscreteColorLegend} from 'react-vis';
 const ITEMS = [
     {title: 'Progress', color: "#41BAFB"},
     {title: 'Remaining', color: '#000000'},
-    {title: 'Total', color: '#044e06'}
+    {title: 'Total', color: '4EEA00'}
   ];
 
 class LegendView extends React.Component {
