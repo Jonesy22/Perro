@@ -13,11 +13,13 @@ class TrackingView extends React.Component {
     render() {
 	return (
         <div>
+			<LegendView />
             <XYPlot width={800} height={500}
 			    xType = 'ordinal'
-				margin={{bottom: 80, left: 50, right: 10, top: 20}} >
+				margin={{bottom: 80, left: 50, right: 10}} >
+					
   		 	<HorizontalGridLines />
-            <LegendView />
+            
 			<XAxis />
 			<YAxis />
             
