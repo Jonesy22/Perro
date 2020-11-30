@@ -43,7 +43,9 @@ class TrackingView extends React.Component {
 					textAnchor: 'end'
 				}}
 			/>
+			
             <LineMarkSeries
+			//This is the area that needs to be populated using Redux and not hard coded data
             //Black line
 			   color="#000000"
     			data={[
