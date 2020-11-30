@@ -13,6 +13,9 @@ Trevor: Implement task deletion funcionality.
 
 ## __Scrum record:__ 
 
+### Meeting 11/30: 
+Sprint check in: Kyler implemented the modal element for creating a project and creating a task. The modals still need to be tied into the Redux framework so Kyler and Trevor are going to discuss possible implementations. Daniel was able to clean up the graph component a bit and add labels to the functions. Daniel and Trevor are going to work on getting the graph connected with Redux. Matthew has been working on the group documents (Milestone 2 and the Retrospectvie). Trevor has been helping with Redux questions and has also been working on the group documents.
+
 ### Meeting 11/23:
 Sprint check in: Matthew was able to implement React Routers and create a landing page for the site. Daniel and Kyler are ramping on Redux using Trevors documentation. Daniel isn't blocked at the moment and is going to be implemting the graph component this week. We discussed the componenent hierarchy that would make sense for the graph component. Kyler discussed potential libraries he might use to implement the modal. Kyler is hoping to have most of the modal implemented by the next check-in and is not currently blocked. 
 
