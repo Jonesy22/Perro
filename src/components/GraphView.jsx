@@ -1,5 +1,8 @@
 import React, {useState, useEffect } from 'react'
 import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineMarkSeries, ChartLabel, DiscreteColorLegend} from 'react-vis';
+import { connect } from 'react-redux'
+import { addTimeEstimate } from '../data/actions'
+import { getAllChildTimeEstimates } from "../data/selectors";
 
 class GraphView extends React.Component {
 	constructor(props) {
@@ -7,6 +10,7 @@ class GraphView extends React.Component {
 		this.state = {milestones: []};
 	}
     render() {
+	console.log(this.props.timeEstimateGraphData)
 	return (
         <div>
             <XYPlot
@@ -17,25 +21,11 @@ class GraphView extends React.Component {
   		 	<HorizontalGridLines />
   		 	<LineMarkSeries
 			   color="red"
-    			data={[
-					{x: "01/01/2020", y: 0},
-					{x: "01/8/2020", y: 1},
-					{x: "01/15/2020", y: 2},
-					{x: "01/22/2020", y: 1},
-					{x: "01/29/2020", y: 2},
-					{x: "02/05/2020", y: 3}
-			]}
+    			data={this.props.timeEstimateGraphData.estimate}
 			/>
 			<LineMarkSeries
 			   color="green"
-    			data={[
-					{x: "01/01/2020", y: 3},
-					{x: "01/8/2020", y: 2},
-					{x: "01/15/2020", y: 4},
-					{x: "01/22/2020", y: 3},
-					{x: "01/29/2020", y: 3},
-					{x: "02/05/2020", y: 3.5}
-			]}
+    			data={this.props.timeEstimateGraphData.actual}
 			/>
 			  <XAxis 
 			  style={{
@@ -72,4 +62,8 @@ class GraphView extends React.Component {
     }
 }
 
-export default GraphView
+// export default GraphView
+export default connect(
+    state => ({ timeEstimateGraphData: getAllChildTimeEstimates(state) }),
+    { addTimeEstimate }
+  )(GraphView)

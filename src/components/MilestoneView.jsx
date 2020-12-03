@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button'
 import { Collapse } from 'antd';
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux'
-import { addTask } from '../data/actions'
+import { addTask, setSelectedId } from '../data/actions'
 import { getTaskHierarchy } from "../data/selectors";
 const { Panel } = Collapse;
 
@@ -14,8 +14,9 @@ class MilestoneView extends React.Component {
         this.state = {milestones: []};
     }
 
-    callback(key) {
-        console.log(key);
+    callback = (key) => {
+        console.log(parseInt(key[0]));
+        this.props.setSelectedId(parseInt(key[0]));
     }
 
     genAnotherPanel = (taskId) => (
@@ -73,5 +74,5 @@ class MilestoneView extends React.Component {
 
 export default connect(
     state => ({ taskHierarchy: getTaskHierarchy(state) }),
-    { addTask }
+    { addTask, setSelectedId }
   )(MilestoneView)
