@@ -1,19 +1,20 @@
-import React, {useState, useEffect } from 'react'
+import React, {useState, useEffect, Component } from 'react';
 import Button from 'react-bootstrap/Button'
 import { Collapse } from 'antd';
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux'
 import { addTask } from '../data/actions'
 import { getTaskHierarchy } from "../data/selectors";
+import { InputModal} from './InputModal';
 const { Panel } = Collapse;
 
 class MilestoneView extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {milestones: []};
+        this.state = {milestones: [], addProjectModalShow: false, addTaskModalShow: false };
     }
-
+    state = { show: false}
     callback(key) {
         console.log(key);
     }
@@ -26,9 +27,10 @@ class MilestoneView extends React.Component {
                     this.handleAddTask(taskId);
                     // TODO: Add a new nested panel
                     // If you don't want click extra trigger collapse, you can prevent this:
+                    this.setState({addTaskModalShow: true})
                     event.stopPropagation();
                 }}
-                />
+            />
             <CloseOutlined
                 onClick={event => {
                     console.log("delete panel")
@@ -57,10 +59,24 @@ class MilestoneView extends React.Component {
     }
 
     render() {
+        let addProjectModalClose = () => this.setState({addProjectModalShow:false});
+        let addTaskModalClose = () => this.setState({addTaskModalShow:false})
         return (
             <div>
-                <Button variant="primary">Project</Button>
-
+                <Button 
+                variant="primary"
+                onClick={() => this.setState({addProjectModalShow: true})}
+                >Create Project</Button>
+                <InputModal
+                type= "Project"
+                show={this.state.addProjectModalShow}
+                onHide={addProjectModalClose}
+                />
+                <InputModal
+                type= "Task"
+                show={this.state.addTaskModalShow}
+                onHide={addTaskModalClose}
+                />
                 <div>
                 {Object.entries(this.props.taskHierarchy).map((value, index) => {
                     return this.buildRecursivePanels(value[1]);
