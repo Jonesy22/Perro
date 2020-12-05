@@ -1,9 +1,10 @@
 import React, {useState, useEffect } from 'react'
 import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal';
 import { Collapse } from 'antd';
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux'
-import { addTask } from '../data/actions'
+import { addTask, deleteTask } from '../data/actions'
 import { getTaskHierarchy } from "../data/selectors";
 const { Panel } = Collapse;
 
@@ -11,7 +12,7 @@ class MilestoneView extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {milestones: []};
+        this.state = {milestones: [], showModal: false, deletedId: -1};
     }
 
     callback(key) {
@@ -32,6 +33,7 @@ class MilestoneView extends React.Component {
             <CloseOutlined
                 onClick={event => {
                     console.log("delete panel")
+                    this.setState({showModal: true, deletedId: taskId})
                     // TODO: Add deletion to panel
                     // If you don't want click extra trigger collapse, you can prevent this:
                     event.stopPropagation();
@@ -56,6 +58,18 @@ class MilestoneView extends React.Component {
         this.props.addTask({text: "test task name", time: 12, childIds: [], parentId: parentId})
     }
 
+    deleteModalClose = () => this.setState({showModal:false});
+
+    deleteSubtasks = () => {
+        this.deleteModalClose()
+        this.props.deleteTask({id: this.state.deletedId, mode: 0})      // mode 0 means deleting all subtasks
+    }
+
+    moveSubtasksUp = () => {
+        this.deleteModalClose()
+        this.props.deleteTask({id: this.state.deletedId, mode: 1})      // mode 1 means shifting all subtasks
+    }
+
     render() {
         return (
             <div>
@@ -66,6 +80,29 @@ class MilestoneView extends React.Component {
                     return this.buildRecursivePanels(value[1]);
                 })}
                 </div>
+
+                <Modal
+                    show={this.state.showModal}
+                    onHide={this.deleteModalClose}
+                    backdrop="static"
+                    keyboard={false}
+                >
+                    <Modal.Header closeButton>
+                    <Modal.Title>Delete Task</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                    Would you like to delete this tasks and all tasks below it, or move it's subtasks up to it's parent task?
+                    </Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="secondary" onClick={this.deleteModalClose}>
+                        Cancel
+                    </Button>
+                    <Button variant="primary" onClick={this.deleteSubtasks}>
+                        Delete Subtasks
+                    </Button>
+                    <Button variant="primary" onClick={this.moveSubtasksUp}>Move Subtasks to Parent</Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         )
     }
@@ -73,5 +110,5 @@ class MilestoneView extends React.Component {
 
 export default connect(
     state => ({ taskHierarchy: getTaskHierarchy(state) }),
-    { addTask }
+    { addTask, deleteTask }
   )(MilestoneView)
