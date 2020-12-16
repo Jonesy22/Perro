@@ -4,9 +4,8 @@ import {DiscreteColorLegend} from 'react-vis';
 
 
 const ITEMS = [
-    {title: 'Progress', color: "#41BAFB", strokeWidth: 50},
-    {title: 'Remaining', color: '#000000', strokeWidth: 50},
-    {title: 'Total', color: '4EEA00', strokeWidth: 2}
+    {title: 'Total Days Needed', color: "#000000", strokeWidth: 50},
+    {title: 'Progress', color: '#41BAFB', strokeWidth: 50}
   ];
 
 class LegendView extends React.Component {

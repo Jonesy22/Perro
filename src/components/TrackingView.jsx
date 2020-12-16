@@ -48,14 +48,13 @@ class TrackingView extends React.Component {
 			/>
 			
             <LineMarkSeries
-			//This is the area that needs to be populated using Redux and not hard coded data
             //Black line
-			   color="#000000"
+			   color="#41BAFB"
     			data={this.props.timeEstimateGraphData.estimate}
 			/>
   		 	<LineMarkSeries
                //Blue line
-			   color="#41BAFB"
+			   color="#000000"
     			data={this.props.timeEstimateGraphData.actual}
 			/>
             
