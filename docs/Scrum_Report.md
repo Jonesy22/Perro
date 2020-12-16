@@ -2,17 +2,28 @@
 # __Sprint 2__ (Scrum Master: Kyler)
 
 ## __Sprint goal:__  
-
+By the end of this sprint the website scaffolding will be complemented by a few different functional elements. A user will be able to create and delete tasks, navigate from the login page to the projects page and there will a graph with some dummy data plotted on it.
 ## __Product log:__ 
-
-
+Create input modal, create routing and splash page, data visualization, deletion functionality, authentication. 
 ## __Member task:__ 
-Kyler: 
-Matthew:
-Daniel: 
-Trevor: 
+Kyler: Create input modal
+Matthew: Create routing and splash page
+Daniel: Create data visualization
+Trevor: Implement task deletion funcionality. 
 
 ## __Scrum record:__ 
+
+## Meeting 12/4:
+Sprint check in: Kyler and Trevor worked together to get the input modals tied into Redux. Trevor also helped Daniel with setting up redux data for the graph components. The whole team worked together on getting the sprint retrospective and Milestone 2 doucuments edited and submitted. Daniel is going to continue working on getting the graphs updated with the Redux information and Trevor is going to implement the ability to delete tasks. The team also discussed how we want to approach winter break. Members will be learning React and Redux through various courses and guides in order to prepare for the next term. 
+
+### Meeting 11/30: 
+Sprint check in: Kyler implemented the modal element for creating a project and creating a task. The modals still need to be tied into the Redux framework so Kyler and Trevor are going to discuss possible implementations. Daniel was able to clean up the graph component a bit and add labels to the functions. Daniel and Trevor are going to work on getting the graph connected with Redux. Matthew has been working on the group documents (Milestone 2 and the Retrospectvie). Trevor has been helping with Redux questions and has also been working on the group documents.
+
+### Meeting 11/23:
+Sprint check in: Matthew was able to implement React Routers and create a landing page for the site. Daniel and Kyler are ramping on Redux using Trevors documentation. Daniel isn't blocked at the moment and is going to be implemting the graph component this week. We discussed the componenent hierarchy that would make sense for the graph component. Kyler discussed potential libraries he might use to implement the modal. Kyler is hoping to have most of the modal implemented by the next check-in and is not currently blocked. 
+
+### Meeting 11/19:
+Sprint check-in: Daniel used react-vis to create a dummy graph for our presentation. Trevor is in the process of creating a Redux document for members of the team who are less familiar with the technology. Everyone contributed a slide to our powerpoint presentation. We discussed how we expect the presentation to go and checked to see if anyone was blocked on their tasks.
 
 ### Meeting 11/16:
 Sprint planning. Today we prioritized tasks for the sprint and refined the overall flow of our product. We also discussed our design review, allocated tasks for creating our presentation and brainstormed questions for our meeting with our product partner. We will be assigning tasks for this sprint tomorrow, after our meeting with our project partner. Trevor implemented state over the weekend using Redux. Matthew, Daniel and I are going to ramp on Redux this sprint.
