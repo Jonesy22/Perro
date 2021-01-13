@@ -1,4 +1,6 @@
 import { ADD_TASK, ADD_TIME_ESTIMATE, SET_SELECTED_ID } from "./actionTypes";
+import { ADD_TASK, DELETE_TASK } from "./actionTypes";
+
 
 let nextTaskId = 3;
 let nextTimeEstimateId = 1;
@@ -10,6 +12,7 @@ export const addTask = (content) => ({
     content
   }
 });
+
 
 export const addTimeEstimate = (content) => ({
   type: ADD_TIME_ESTIMATE,
@@ -25,3 +28,12 @@ export const setSelectedId = (content) => ({
     selectedId: content
   }
 });
+
+export const deleteTask = (content) => ({
+  type: DELETE_TASK,
+  payload: {
+    id: content.id,
+    content
+  }
+});
+

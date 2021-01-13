@@ -62,3 +62,6 @@ Created the react app and pushed to master branch. Project button and drop down 
 
 ### Meeting 10/30:
 Initial meeting, tasks assigned and will update on Monday's meeting. We got an idea of where to start from the picture on the GitHub we were shown by our project partner Taj. We decided we should start with implementing the buttons, the dropdown, and some styling for our website. We split these up to each team member, and will work on these during the sprint, and contact each other over Discord if any issues arise. 
+
+### Meeting 1/8:
+Meeting after break where we reviewed the state of the project and decided on a backend using Express. Some tasks were added to our Kanban board to implement the backend as well as creating form verifications. We also agreed to put in some more effort into the project because our class load is less than the previous term. Furthermore, we are planning to meet with our Project Partner, Taj, to show him the state of our project and get any advice that we may need going forward.
