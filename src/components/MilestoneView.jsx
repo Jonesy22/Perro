@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Collapse } from 'antd';
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux'
+import { addTask, setSelectedId } from '../data/actions'
 import { addTask, deleteTask } from '../data/actions'
 import { getTaskHierarchy } from "../data/selectors";
 import InputModal from './InputModal';
@@ -15,6 +16,11 @@ class MilestoneView extends React.Component {
         super(props);
         this.state = {milestones: [], addProjectModalShow: false, addTaskModalShow: false, showModal: false, deletedId: -1 };
     }
+
+    callback = (key) => {
+        console.log(parseInt(key[0]));
+        this.props.setSelectedId(parseInt(key[0]));
+
     callback(key) {
         console.log(key);
     }
@@ -128,5 +134,6 @@ class MilestoneView extends React.Component {
 
 export default connect(
     state => ({ taskHierarchy: getTaskHierarchy(state) }),
+    { addTask, setSelectedId }
     { addTask, deleteTask }
   )(MilestoneView)
