@@ -1,5 +1,4 @@
-import { ADD_TASK, ADD_TIME_ESTIMATE, SET_SELECTED_ID } from "./actionTypes";
-import { ADD_TASK, DELETE_TASK } from "./actionTypes";
+import { ADD_TASK, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK } from "./actionTypes";
 
 
 let nextTaskId = 3;
