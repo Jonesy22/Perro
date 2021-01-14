@@ -4,8 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Collapse } from 'antd';
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux'
-import { addTask, setSelectedId } from '../data/actions'
-import { addTask, deleteTask } from '../data/actions'
+import { addTask, setSelectedId, deleteTask } from '../data/actions'
 import { getTaskHierarchy } from "../data/selectors";
 import InputModal from './InputModal';
 const { Panel } = Collapse;
@@ -20,9 +19,6 @@ class MilestoneView extends React.Component {
     callback = (key) => {
         console.log(parseInt(key[0]));
         this.props.setSelectedId(parseInt(key[0]));
-
-    callback(key) {
-        console.log(key);
     }
 
     genAnotherPanel = (taskId) => (
@@ -134,6 +130,5 @@ class MilestoneView extends React.Component {
 
 export default connect(
     state => ({ taskHierarchy: getTaskHierarchy(state) }),
-    { addTask, setSelectedId }
-    { addTask, deleteTask }
+    { addTask, setSelectedId, deleteTask }
   )(MilestoneView)
