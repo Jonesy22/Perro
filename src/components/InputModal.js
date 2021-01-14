@@ -82,14 +82,12 @@ class InputModal extends Component{
                     </select>
                     </Form.Group>
                     <Form.Group>
+                        <Button variant="danger" onClick={this.props.onHide}>Cancel</Button>
                         <Button variant="primary" type="submit" onClick={this.props.onHide}>Create</Button>
                     </Form.Group>
                 </Form>
                 </div> 
             </Modal.Body>
-            <Modal.Footer>
-                <Button variant="danger" onClick={this.props.onHide}>Cancel</Button>
-            </Modal.Footer>
             </Modal>
         )
     }

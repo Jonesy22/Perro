@@ -1,4 +1,9 @@
 export const getTasksState = store => store.tasks;
+export const getTimeEstimatesState = store => store.timeEstimates;
+export const getAppDataState = store => store.appData;
+
+export const getSelectedTask = store => 
+getAppDataState(store) ? getAppDataState(store).selectedId : 0;
 
 export const getTaskIdList = store =>
   getTasksState(store) ? getTasksState(store).allIds : [];
@@ -32,4 +37,23 @@ export const getTaskHierarchy = function(store) {
         }
     }
     return taskHierarchy
+}
+
+
+export const getTaskTimeEstimateData = (store, id) => {
+    if (id in getTimeEstimatesState(store).byIds) {
+        return getTimeEstimatesState(store).byIds[id];
+    } else {
+        return []
+    }
+}
+
+export const getAllChildTimeEstimates = function(store) {
+    // TODO we need to decide how to handle the time estimates for a task with sub tasks.
+    // Im thinking we can just add all of the data together down a given tasks children
+    // such that when clicking on a task it shows the time estimate for that task + its children
+    // which would mean that adding a sub task will increase the time estimate/work for its parents.
+    // We can do that summation here so that we don't have to add data to a parent task when adding time data to a child
+    console.log(getSelectedTask(store))
+    return getTaskTimeEstimateData(store, getSelectedTask(store))
 }

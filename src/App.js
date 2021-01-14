@@ -44,7 +44,8 @@ const TrackingView = () => {
       </div>
       <Footer />
     </div>
-  )
+  
+  );
 }
 
 export default App;

@@ -1,12 +1,30 @@
-import { ADD_TASK, DELETE_TASK } from "./actionTypes";
+import { ADD_TASK, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK } from "./actionTypes";
 
-let nextTaskId = 1;
+
+let nextTaskId = 3;
+let nextTimeEstimateId = 1;
 
 export const addTask = (content) => ({
   type: ADD_TASK,
   payload: {
     id: ++nextTaskId,
     content
+  }
+});
+
+
+export const addTimeEstimate = (content) => ({
+  type: ADD_TIME_ESTIMATE,
+  payload: {
+    id: ++nextTimeEstimateId,
+    content
+  }
+});
+
+export const setSelectedId = (content) => ({
+  type: SET_SELECTED_ID,
+  payload: {
+    selectedId: content
   }
 });
 
@@ -17,3 +35,4 @@ export const deleteTask = (content) => ({
     content
   }
 });
+
