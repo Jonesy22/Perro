@@ -1,11 +1,12 @@
 import React, {useState, useEffect } from 'react'
 import MilestoneView from './MilestoneView'
 import LegendView from './LegendView'
-import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineMarkSeries, ChartLabel, DiscreteColorLegend} from 'react-vis';
+import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineMarkSeries, ChartLabel, DiscreteColorLegend, makeVisFlexible} from 'react-vis';
 import { connect } from 'react-redux'
 import { addTimeEstimate } from '../data/actions'
 import { getAllChildTimeEstimates } from "../data/selectors";
 
+const FlexibleXYPlot = makeVisFlexible(XYPlot);
 
 class TrackingView extends React.Component {
 	constructor(props) {
@@ -17,7 +18,7 @@ class TrackingView extends React.Component {
 	return (
         <div>
 			<LegendView />
-            <XYPlot width={800} height={500}
+            <FlexibleXYPlot height = {500}
 			    xType = 'ordinal'
 				margin={{bottom: 80, left: 50, right: 10}} >
 					
@@ -59,7 +60,7 @@ class TrackingView extends React.Component {
 			/>
             
             
-			</XYPlot>	
+			</FlexibleXYPlot>	
         </div>
         )
     }
