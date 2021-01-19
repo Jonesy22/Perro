@@ -66,7 +66,6 @@ class TrackingView extends React.Component {
     }
 }
 
-// export default TrackingView
 export default connect(
     state => ({ timeEstimateGraphData: getAllChildTimeEstimates(state) }),
     { addTimeEstimate }

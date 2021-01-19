@@ -78,7 +78,8 @@ class InputModal extends Component{
                     <Form.Label>Reporter</Form.Label>
                     <select className="form-control required">
                         placeholder="Assignee"
-                        <option>Person1</option>
+                        <option>Person 1</option>
+                        <option>Person 2</option>
                     </select>
                     </Form.Group>
                     <Form.Group>

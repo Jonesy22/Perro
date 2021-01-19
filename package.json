@@ -23,6 +23,7 @@
     "react-router-dom": "^5.2.0",
     "react-router-redux": "^5.0.0-alpha.9",
     "react-scripts": "4.0.0",
+    "react-show-more-text": "^1.4.6",
     "react-vis": "^1.11.7",
     "redux": "^4.0.5",
     "styled-components": "^5.2.1",
