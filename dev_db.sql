@@ -1,0 +1,51 @@
+DROP TABLE IF EXISTS `UserAccessibleTasks`;
+DROP TABLE IF EXISTS `Commits`;
+DROP TABLE IF EXISTS `Users`;
+DROP TABLE IF EXISTS `Tasks`;
+
+CREATE TABLE `Users` (
+  `userID` int(11) NOT NULL AUTO_INCREMENT,
+  `fname` varchar (255),
+  `lname` varchar (255),
+  `email` varchar (255),
+  PRIMARY KEY (`userID`)
+);
+
+INSERT INTO `Users` VALUES (NULL, 'fname0','lname0','user0@email.com'), (NULL, 'fname1','lname1','user1@email.com'), (NULL, 'fname2','lname2','user2@email.com'), (NULL, 'fname3','lname3','user3@email.com'), (NULL, 'fname4','lname4','user4@email.com'), (NULL, 'fname5','lname5','user5@email.com'), (NULL, 'fname6','lname6','user6@email.com'), (NULL, 'fname7','lname7','user7@email.com'), (NULL, 'fname8','lname8','user8@email.com'), (NULL, 'fname9','lname9','user9@email.com'), (NULL, 'fname10','lname10','user10@email.com'), (NULL, 'fname11','lname11','user11@email.com'), (NULL, 'fname12','lname12','user12@email.com'), (NULL, 'fname13','lname13','user13@email.com'), (NULL, 'fname14','lname14','user14@email.com'), (NULL, 'fname15','lname15','user15@email.com'), (NULL, 'fname16','lname16','user16@email.com'), (NULL, 'fname17','lname17','user17@email.com'), (NULL, 'fname18','lname18','user18@email.com'), (NULL, 'fname19','lname19','user19@email.com'), (NULL, 'fname20','lname20','user20@email.com'), (NULL, 'fname21','lname21','user21@email.com'), (NULL, 'fname22','lname22','user22@email.com'), (NULL, 'fname23','lname23','user23@email.com'), (NULL, 'fname24','lname24','user24@email.com'), (NULL, 'fname25','lname25','user25@email.com'), (NULL, 'fname26','lname26','user26@email.com'), (NULL, 'fname27','lname27','user27@email.com'), (NULL, 'fname28','lname28','user28@email.com'), (NULL, 'fname29','lname29','user29@email.com'), (NULL, 'fname30','lname30','user30@email.com'), (NULL, 'fname31','lname31','user31@email.com'), (NULL, 'fname32','lname32','user32@email.com'), (NULL, 'fname33','lname33','user33@email.com'), (NULL, 'fname34','lname34','user34@email.com'), (NULL, 'fname35','lname35','user35@email.com'), (NULL, 'fname36','lname36','user36@email.com'), (NULL, 'fname37','lname37','user37@email.com'), (NULL, 'fname38','lname38','user38@email.com'), (NULL, 'fname39','lname39','user39@email.com'), (NULL, 'fname40','lname40','user40@email.com'), (NULL, 'fname41','lname41','user41@email.com'), (NULL, 'fname42','lname42','user42@email.com'), (NULL, 'fname43','lname43','user43@email.com'), (NULL, 'fname44','lname44','user44@email.com'), (NULL, 'fname45','lname45','user45@email.com'), (NULL, 'fname46','lname46','user46@email.com'), (NULL, 'fname47','lname47','user47@email.com'), (NULL, 'fname48','lname48','user48@email.com'), (NULL, 'fname49','lname49','user49@email.com');
+
+CREATE TABLE `Tasks` (
+  `taskID` int(11) NOT NULL AUTO_INCREMENT,
+  `parentID` int(11),
+  `tname` varchar (255),
+  `timeEstimate` int(11),
+  `summary` text,
+  `description` text,
+  PRIMARY KEY (`taskID`)
+);
+
+INSERT INTO `Tasks` VALUES (1, NULL, 'Project 1', 10, 'This is the summary for the first main project', 'desc for first main project'), (2, NULL, 'Project 2', 10, 'This is the summary for the first main project', 'desc for first main project'), (3, NULL, 'Project 3', 10, 'This is the summary for the first main project', 'desc for first main project'), (4, NULL, 'Project 4', 10, 'This is the summary for the first main project', 'desc for first main project'), (5, NULL, 'Project 5', 10, 'This is the summary for the first main project', 'desc for first main project'), (6, NULL, 'Project 6', 10, 'This is the summary for the first main project', 'desc for first main project'), (7, NULL, 'Project 7', 10, 'This is the summary for the first main project', 'desc for first main project'), (8, NULL, 'Project 8', 10, 'This is the summary for the first main project', 'desc for first main project'), (9, NULL, 'Project 9', 10, 'This is the summary for the first main project', 'desc for first main project'), (10, NULL, 'Project 10', 10, 'This is the summary for the first main project', 'desc for first main project'), (11, NULL, 'Project 11', 10, 'This is the summary for the first main project', 'desc for first main project'), (12, NULL, 'Project 12', 10, 'This is the summary for the first main project', 'desc for first main project'), (13, NULL, 'Project 13', 10, 'This is the summary for the first main project', 'desc for first main project'), (14, NULL, 'Project 14', 10, 'This is the summary for the first main project', 'desc for first main project'), (15, NULL, 'Project 15', 10, 'This is the summary for the first main project', 'desc for first main project'), (16, NULL, 'Project 16', 10, 'This is the summary for the first main project', 'desc for first main project'), (17, NULL, 'Project 17', 10, 'This is the summary for the first main project', 'desc for first main project'), (18, NULL, 'Project 18', 10, 'This is the summary for the first main project', 'desc for first main project'), (19, NULL, 'Project 19', 10, 'This is the summary for the first main project', 'desc for first main project'), (20, NULL, 'Project 20', 10, 'This is the summary for the first main project', 'desc for first main project'), (21, NULL, 'Project 21', 10, 'This is the summary for the first main project', 'desc for first main project'), (22, NULL, 'Project 22', 10, 'This is the summary for the first main project', 'desc for first main project'), (23, NULL, 'Project 23', 10, 'This is the summary for the first main project', 'desc for first main project'), (24, NULL, 'Project 24', 10, 'This is the summary for the first main project', 'desc for first main project'), (25, NULL, 'Project 25', 10, 'This is the summary for the first main project', 'desc for first main project'), (26, NULL, 'Project 26', 10, 'This is the summary for the first main project', 'desc for first main project'), (27, NULL, 'Project 27', 10, 'This is the summary for the first main project', 'desc for first main project'), (28, NULL, 'Project 28', 10, 'This is the summary for the first main project', 'desc for first main project'), (29, NULL, 'Project 29', 10, 'This is the summary for the first main project', 'desc for first main project'), (30, NULL, 'Project 30', 10, 'This is the summary for the first main project', 'desc for first main project'), (31, NULL, 'Project 31', 10, 'This is the summary for the first main project', 'desc for first main project'), (32, NULL, 'Project 32', 10, 'This is the summary for the first main project', 'desc for first main project'), (33, NULL, 'Project 33', 10, 'This is the summary for the first main project', 'desc for first main project'), (34, NULL, 'Project 34', 10, 'This is the summary for the first main project', 'desc for first main project'), (35, NULL, 'Project 35', 10, 'This is the summary for the first main project', 'desc for first main project'), (36, NULL, 'Project 36', 10, 'This is the summary for the first main project', 'desc for first main project'), (37, NULL, 'Project 37', 10, 'This is the summary for the first main project', 'desc for first main project'), (38, NULL, 'Project 38', 10, 'This is the summary for the first main project', 'desc for first main project'), (39, NULL, 'Project 39', 10, 'This is the summary for the first main project', 'desc for first main project'), (40, NULL, 'Project 40', 10, 'This is the summary for the first main project', 'desc for first main project'), (41, NULL, 'Project 41', 10, 'This is the summary for the first main project', 'desc for first main project'), (42, NULL, 'Project 42', 10, 'This is the summary for the first main project', 'desc for first main project'), (43, NULL, 'Project 43', 10, 'This is the summary for the first main project', 'desc for first main project'), (44, NULL, 'Project 44', 10, 'This is the summary for the first main project', 'desc for first main project'), (45, NULL, 'Project 45', 10, 'This is the summary for the first main project', 'desc for first main project'), (46, NULL, 'Project 46', 10, 'This is the summary for the first main project', 'desc for first main project'), (47, NULL, 'Project 47', 10, 'This is the summary for the first main project', 'desc for first main project'), (48, NULL, 'Project 48', 10, 'This is the summary for the first main project', 'desc for first main project'), (49, NULL, 'Project 49', 10, 'This is the summary for the first main project', 'desc for first main project'), (50, NULL, 'Project 50', 10, 'This is the summary for the first main project', 'desc for first main project');
+INSERT INTO `Tasks` VALUES (51, 1, 'Task 1', 3, 'subtask for project 1', 'description 1'), (52, 51, 'Subtask 1', 1, 'subtask of a subtask of a project', 'desc'), (53, 1, 'Task 2', 5, 'subtask for project 1', 'description 2'), (54, 1, 'Task 3', 3, 'subtask for project 1', 'description 3'), (55, 53, 'Subtask 1', 1, 'subtask of a subtask of a project', 'desc 2'), (56, 53, 'Subtask 2', 1, 'subtask of a subtask of a project', 'desc 3');
+
+CREATE TABLE `UserAccessibleTasks` (
+  `userID` int(11) NOT NULL,
+  `taskID` int(11) NOT NULL,
+  PRIMARY KEY (`userID`, `taskID`),
+  FOREIGN KEY (`userID`) REFERENCES `Users` (`userID`) ON DELETE CASCADE,
+  FOREIGN KEY (`taskID`) REFERENCES `Tasks` (`taskID`) ON DELETE CASCADE
+);
+
+INSERT INTO `UserAccessibleTasks` VALUES (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10), (11, 11), (12, 12), (13, 13), (14, 14), (15, 15), (16, 16), (17, 17), (18, 18), (19, 19), (20, 20), (21, 21), (22, 22), (23, 23), (24, 24), (25, 25), (26, 26), (27, 27), (28, 28), (29, 29), (30, 30), (31, 31), (32, 32), (33, 33), (34, 34), (35, 35), (36, 36), (37, 37), (38, 38), (39, 39), (40, 40), (41, 41), (42, 42), (43, 43), (44, 44), (45, 45), (46, 46), (47, 47), (48, 48), (49, 49), (50, 50);
+INSERT INTO `UserAccessibleTasks` VALUES (1, 51), (1, 52), (1, 53), (1, 54), (1, 55), (1, 56); 
+
+CREATE TABLE `Commits` (
+  `commitID` int(11) NOT NULL AUTO_INCREMENT,
+  `parentTaskID` int(11) NOT NULL,
+  `commitMessage` text,
+  `timeWorked` double,
+  `commitingUserID` int(11),
+  `commitTime` timestamp,
+  PRIMARY KEY (`commitID`),
+  FOREIGN KEY (`parentTaskID`) REFERENCES `Tasks` (`taskID`)
+);
+
+INSERT INTO `Commits` VALUES (1, 1, 'Added subtasks to project 1 so reduced project overhead time', -8, 1, '2021-01-020 2:19:03');
