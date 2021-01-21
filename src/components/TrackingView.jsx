@@ -17,6 +17,7 @@ class TrackingView extends React.Component {
     render() {
 	return (
         <div>
+			<h2><b>Tracking</b></h2>
 			<LegendView />
             <FlexibleXYPlot height = {500}
 			    xType = 'ordinal'

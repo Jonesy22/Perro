@@ -4,7 +4,7 @@ class DataView extends React.Component {
     render() {
         return (
             <div>
-                <h2>DataView</h2>
+                <h2><b>Data</b></h2>
             </div>
         )
     }
