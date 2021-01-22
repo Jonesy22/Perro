@@ -24,7 +24,7 @@ class DataView extends React.Component {
             <div>
                 <h2><b>{this.printName()}</b></h2>
                 <div>
-                        <u>Time Estimate (Days):</u> {this.printEstimate()}<br></br>
+                        <u>Time Estimate:</u> {this.printEstimate()}<br></br>
                         <u>Description:</u>  {this.printDescription()}
                 </div>
             </div>
