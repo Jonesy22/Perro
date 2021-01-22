@@ -22,11 +22,10 @@ class DataView extends React.Component {
     render() {
         return (
             <div>
-                <h2><b>Data</b></h2>
+                <h2><b>{this.printName()}</b></h2>
                 <div>
-                        Name: {this.printName()}
-                        Time Estimate: {this.printEstimate()},
-                        Description: {this.printDescription()}
+                        <u>Time Estimate (Days):</u> {this.printEstimate()}<br></br>
+                        <u>Description:</u>  {this.printDescription()}
                 </div>
             </div>
         )
