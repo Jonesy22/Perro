@@ -5,6 +5,7 @@ import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineMarkSeries, ChartLabel, D
 import { connect } from 'react-redux'
 import { addTimeEstimate } from '../data/actions'
 import { getAllChildTimeEstimates } from "../data/selectors";
+import { getSelectedTask } from "../data/selectors";
 
 const FlexibleXYPlot = makeVisFlexible(XYPlot);
 
@@ -12,12 +13,15 @@ class TrackingView extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {milestones: []};
+		this.printName = this.printName.bind(this);
     }
-    
+    printName() {
+        return (this.props.selectedTask.content.Name);
+    }
     render() {
 	return (
         <div>
-			<h2><b>Tracking</b></h2>
+			<h2><b>{this.printName()}</b></h2>
 			<LegendView />
             <FlexibleXYPlot height = {500}
 			    xType = 'ordinal'
@@ -68,6 +72,6 @@ class TrackingView extends React.Component {
 }
 
 export default connect(
-    state => ({ timeEstimateGraphData: getAllChildTimeEstimates(state) }),
+    state => ({ timeEstimateGraphData: getAllChildTimeEstimates(state), selectedTask: getSelectedTask(state) }),
     { addTimeEstimate }
   )(TrackingView)
