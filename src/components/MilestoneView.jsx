@@ -16,9 +16,16 @@ class MilestoneView extends React.Component {
         this.state = {milestones: [], addProjectModalShow: false, addTaskModalShow: false, showModal: false, deletedId: -1 };
     }
 
-    callback = (key) => {
+    /* callback = (key) => {
         console.log(parseInt(key[0]));
         this.props.setSelectedId(parseInt(key[0]));
+    } */
+    callback = (key) => {
+        console.log(parseInt(key[0]));
+        let selectedId = parseInt(key[0]);
+        if (!isNaN(selectedId)) {
+            this.props.setSelectedId(selectedId);
+        }
     }
 
     genAnotherPanel = (taskId) => (
