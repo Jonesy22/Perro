@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Collapse } from 'antd';
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux'
-import { addTask, setSelectedId, deleteTask } from '../data/actions'
+import { setSelectedId, deleteTask } from '../data/actions'
 import { getTaskHierarchy } from "../data/selectors";
 import InputModal from './InputModal';
 const { Panel } = Collapse;
@@ -60,12 +60,6 @@ class MilestoneView extends React.Component {
             </Panel>
         </Collapse>
     );
-
-    handleAddTask = (parentId) => {
-        // dispatches actions to add task
-        console.log("handling new task")
-        this.props.addTask({text: "test task name", time: 12, childIds: [], parentId: parentId})
-    }
 
     deleteModalClose = () => this.setState({showModal:false});
 
@@ -137,5 +131,5 @@ class MilestoneView extends React.Component {
 
 export default connect(
     state => ({ taskHierarchy: getTaskHierarchy(state) }),
-    { addTask, setSelectedId, deleteTask }
+    { setSelectedId, deleteTask }
   )(MilestoneView)

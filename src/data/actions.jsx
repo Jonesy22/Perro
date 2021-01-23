@@ -1,7 +1,7 @@
 import { ADD_TASK, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK } from "./actionTypes";
 
 
-let nextTaskId = 3;
+let nextTaskId = 5;
 let nextTimeEstimateId = 1;
 
 export const addTask = (content) => ({

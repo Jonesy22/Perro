@@ -4,8 +4,7 @@ import LegendView from './LegendView'
 import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineMarkSeries, ChartLabel, DiscreteColorLegend, makeVisFlexible} from 'react-vis';
 import { connect } from 'react-redux'
 import { addTimeEstimate } from '../data/actions'
-import { getAllChildTimeEstimates } from "../data/selectors";
-import { getSelectedTask } from "../data/selectors";
+import { getGraphDataForTask, getSelectedTask, getSelectedTaskId } from "../data/selectors";
 
 const FlexibleXYPlot = makeVisFlexible(XYPlot);
 
@@ -24,12 +23,17 @@ class TrackingView extends React.Component {
 			<h2><b>{this.printName()}</b></h2>
 			<LegendView />
             <FlexibleXYPlot height = {500}
-			    xType = 'ordinal'
-				margin={{bottom: 80, left: 50, right: 10}} >
+				xType = 'time-utc'
+				yDomain = {[0, Math.round(this.props.timeEstimateGraphData.estimate[this.props.timeEstimateGraphData.estimate.length - 1].y * 1.1)]}
+				xDomain = {[this.props.timeEstimateGraphData.estimate[0].x, this.props.timeEstimateGraphData.estimate[this.props.timeEstimateGraphData.estimate.length - 1].x]}
+				margin={{bottom: 110, left: 50, right: 10}} >
 					
   		 	<HorizontalGridLines />
             
-			<XAxis />
+			<XAxis tickFormat={function tickFormat(d){
+						return d.toISOString().substr(0, 10)
+					}}
+					tickLabelAngle={-90}/>
 			<YAxis />
             
             <ChartLabel
@@ -72,6 +76,6 @@ class TrackingView extends React.Component {
 }
 
 export default connect(
-    state => ({ timeEstimateGraphData: getAllChildTimeEstimates(state), selectedTask: getSelectedTask(state) }),
+    state => ({selectedTask: getSelectedTask(state), timeEstimateGraphData: getGraphDataForTask(state, getSelectedTaskId(state)) }),
     { addTimeEstimate }
   )(TrackingView)
