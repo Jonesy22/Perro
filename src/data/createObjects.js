@@ -1,9 +1,10 @@
 
 
-export function createTask(taskName, taskEstimate, taskSummary, taskDescription, parentId, childIds) {
+export function createTask(taskName, taskEstimate, dueDate, taskSummary, taskDescription, parentId, childIds) {
     return {
         Name: taskName,
         Estimate: taskEstimate, 
+        DueDate: dueDate,
         Summary: taskSummary, 
         Description: taskDescription,  
         parentId: parentId, 
