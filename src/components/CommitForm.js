@@ -1,15 +1,20 @@
 import { useForm } from "react-hook-form";
 import React, {Component, component, useState} from 'react';
 import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
+import { useDispatch } from 'react-redux'
+import { addCommit } from '../data/actions'
+import { createCommit } from '../data/createObjects.js';
 
 function CommitForm(props) {
     const { register, handleSubmit, errors } = useForm();
+    const dispatch = useDispatch();
     const [completedSwitch, setCompletedSwitch] = useState(false);
     
     const onSubmit = (data) => {
         console.log(data)
         console.log(completedSwitch);
 
+        dispatch(addCommit(createCommit(data.commitName, props.taskId, data.commitWorkCompleted, data.commitDescription, data.commitTimestamp, completedSwitch, data.commitReporter)))
         {props.onHide()}
     }
 
@@ -57,12 +62,13 @@ function CommitForm(props) {
                 </Col>
 
                 <Col sm={6}>
-                    <Form.Group controlId="commitTime">
+                    <Form.Group controlId="commitTimestamp">
                         <Form.Label>Commit Timestamp</Form.Label>
                             <Form.Control
                                 type="datetime-local" step="any"
                                 defaultValue={new Date().toISOString().substring(0,19)} 
-                                name="commitTime"
+                                name="commitTimestamp"
+                                ref={register({ required: true })}
                             />
                     </Form.Group>
                 </Col>

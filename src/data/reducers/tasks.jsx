@@ -1,4 +1,4 @@
-import { ADD_TASK, DELETE_TASK } from "../actionTypes.js";
+import { ADD_COMMIT, ADD_TASK, DELETE_TASK } from "../actionTypes.js";
 import {createTask} from '../createObjects.js';
 
 const initialState = {
@@ -28,6 +28,18 @@ const executeAction = function(state = initialState, action) {
           [id]: {
             content
           }
+        }
+      };
+    }
+
+    case ADD_COMMIT: {
+      const { content } = action.payload;
+      let updatedByIds = {...state.byIds};
+      updatedByIds[content.taskId].content.commits.push(content);
+      return {
+        ...state,
+        byIds: {
+          ...updatedByIds
         }
       };
     }
