@@ -3,6 +3,7 @@ import React, {Component, component} from 'react';
 import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
 import { connect } from 'react-redux'
 import { addTask } from '../data/actions'
+import {createTask} from '../data/createObjects.js';
 
 function InputForm(props) {
     const { register, handleSubmit, errors } = useForm();
@@ -10,11 +11,11 @@ function InputForm(props) {
         console.log(data)
         console.log(data.ProjectName)
         if(data.TaskName){
-            props.addTask({Name: data.TaskName, Estimate: (data.TaskEstimate), Summary: data.TaskSummary, Description: (data.TaskDescription),  parentId:props.taskId, childIds:[]})
+            props.addTask(createTask(data.TaskName, data.TaskEstimate, data.TaskSummary, data.TaskDescription,  props.taskId, []));
 
         }
         if(data.ProjectName){
-            props.addTask({Name: data.ProjectName, Estimate: (data.ProjectEstimate), Summary: data.ProjectSummary, Description: (data.ProjectDescription),  parentId:props.taskId, childIds:[]})
+            props.addTask(createTask(data.ProjectName, data.ProjectEstimate, data.ProjectSummary, data.ProjectDescription,  props.taskId, []));
         }
         {props.onHide()}
     }
