@@ -2,24 +2,21 @@ import React, {useState, useEffect, Component } from 'react';
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal';
 import { Collapse } from 'antd';
-import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
+import { PlusOutlined, CloseOutlined, EditOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux'
 import { addTask, setSelectedId, deleteTask } from '../data/actions'
 import { getTaskHierarchy } from "../data/selectors";
 import InputModal from './InputModal';
+import EditModal from './EditModal';
 const { Panel } = Collapse;
 
 class MilestoneView extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {milestones: [], addProjectModalShow: false, addTaskModalShow: false, showModal: false, deletedId: -1 };
+        this.state = {milestones: [], addProjectModalShow: false, addTaskModalShow: false, editProjectModalShow: false, editTaskModalShow: false, showModal: false, deletedId: -1 };
     }
 
-    /* callback = (key) => {
-        console.log(parseInt(key[0]));
-        this.props.setSelectedId(parseInt(key[0]));
-    } */
     callback = (key) => {
         console.log(parseInt(key[0]));
         let selectedId = parseInt(key[0]);
@@ -39,6 +36,14 @@ class MilestoneView extends React.Component {
                     event.stopPropagation();
                 }}
             />
+            <EditOutlined
+                onClick={event => {
+                    console.log("edit panel");
+                    this.setState({editTaskModalShow: true, taskId: taskId})
+                    event.stopPropagation();
+                }}
+            />
+
             <CloseOutlined
                 onClick={event => {
                     console.log("delete panel")
@@ -81,7 +86,9 @@ class MilestoneView extends React.Component {
 
     render() {
         let addProjectModalClose = () => this.setState({addProjectModalShow:false});
-        let addTaskModalClose = () => this.setState({addTaskModalShow:false})
+        let addTaskModalClose = () => this.setState({addTaskModalShow:false});
+        let editTaskModalClose = () => this.setState({editTaskModalShow:false});
+        let editProjectModalClose = () => this.setState({editProjectModalShow:false});
         return (
             <div>
                 <Button 
@@ -95,6 +102,17 @@ class MilestoneView extends React.Component {
                 taskId={this.state.taskId}
                 closeModalFunc = {this.closeModalFunc}
                 />
+
+
+                <EditModal
+                type= "Task"
+                show={this.state.editTaskModalShow}
+                onHide={editTaskModalClose}
+                taskId={this.state.taskId}
+                closeModalFunc = {this.closeModalFunc}
+                />
+
+
                 <InputModal
                 type= "Task"
                 show={this.state.addTaskModalShow}
@@ -114,7 +132,7 @@ class MilestoneView extends React.Component {
                     backdrop="static"
                     keyboard={false}
                 >
-                    <Modal.Header closeButton>
+                    <Modal.Header >
                     <Modal.Title>Delete Task</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
