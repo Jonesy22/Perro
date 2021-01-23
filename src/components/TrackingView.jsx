@@ -1,23 +1,29 @@
 import React, {useState, useEffect } from 'react'
 import MilestoneView from './MilestoneView'
 import LegendView from './LegendView'
-import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineMarkSeries, ChartLabel, DiscreteColorLegend} from 'react-vis';
+import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineMarkSeries, ChartLabel, DiscreteColorLegend, makeVisFlexible} from 'react-vis';
 import { connect } from 'react-redux'
 import { addTimeEstimate } from '../data/actions'
 import { getAllChildTimeEstimates } from "../data/selectors";
+import { getSelectedTask } from "../data/selectors";
 
+const FlexibleXYPlot = makeVisFlexible(XYPlot);
 
 class TrackingView extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {milestones: []};
+		this.printName = this.printName.bind(this);
     }
-    
+    printName() {
+        return (this.props.selectedTask.content.Name);
+    }
     render() {
 	return (
         <div>
+			<h2><b>{this.printName()}</b></h2>
 			<LegendView />
-            <XYPlot width={800} height={500}
+            <FlexibleXYPlot height = {500}
 			    xType = 'ordinal'
 				margin={{bottom: 80, left: 50, right: 10}} >
 					
@@ -59,14 +65,13 @@ class TrackingView extends React.Component {
 			/>
             
             
-			</XYPlot>	
+			</FlexibleXYPlot>	
         </div>
         )
     }
 }
 
-// export default TrackingView
 export default connect(
-    state => ({ timeEstimateGraphData: getAllChildTimeEstimates(state) }),
+    state => ({ timeEstimateGraphData: getAllChildTimeEstimates(state), selectedTask: getSelectedTask(state) }),
     { addTimeEstimate }
   )(TrackingView)

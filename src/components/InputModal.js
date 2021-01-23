@@ -35,9 +35,9 @@ class InputModal extends Component{
                 Create {this.props.type}
                 </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-                <InputForm {...this.props}/>
-            </Modal.Body>
+                <Modal.Body>
+                    <InputForm {...this.props}/>
+                </Modal.Body>
             </Modal>
         )
     }

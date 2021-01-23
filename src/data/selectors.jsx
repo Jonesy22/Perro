@@ -2,8 +2,11 @@ export const getTasksState = store => store.tasks;
 export const getTimeEstimatesState = store => store.timeEstimates;
 export const getAppDataState = store => store.appData;
 
-export const getSelectedTask = store => 
+export const getSelectedTaskId = store => 
 getAppDataState(store) ? getAppDataState(store).selectedId : 0;
+
+export const getSelectedTask = store => 
+getTaskById(store, getSelectedTaskId(store));
 
 export const getTaskIdList = store =>
   getTasksState(store) ? getTasksState(store).allIds : [];
@@ -54,6 +57,6 @@ export const getAllChildTimeEstimates = function(store) {
     // such that when clicking on a task it shows the time estimate for that task + its children
     // which would mean that adding a sub task will increase the time estimate/work for its parents.
     // We can do that summation here so that we don't have to add data to a parent task when adding time data to a child
-    console.log(getSelectedTask(store))
-    return getTaskTimeEstimateData(store, getSelectedTask(store))
+    console.log(getSelectedTaskId(store))
+    return getTaskTimeEstimateData(store, getSelectedTaskId(store))
 }

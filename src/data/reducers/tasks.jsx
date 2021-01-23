@@ -2,7 +2,7 @@ import { ADD_TASK, DELETE_TASK } from "../actionTypes.js";
 
 const initialState = {
   allIds: [0], // list of ids of all the tasks that are loaded
-  byIds: {0: {content: {Name: "Milestone 1", Estimate: 5, Summary: "Summary", Description: "Description",  parentId:-1, childIds:[]}}, }   // map of all tasks by id
+  byIds: {0: {content: {Name: "Milestone 1", Estimate: 5, Summary: "Summary Placeholder", Description: "Description",  parentId:-1, childIds:[]}}, }   // map of all tasks by id
 };
 
 const executeAction = function(state = initialState, action) {
