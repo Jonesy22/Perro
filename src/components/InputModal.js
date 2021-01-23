@@ -3,14 +3,21 @@ import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
 import { connect } from 'react-redux'
 import { addTask } from '../data/actions'
 import InputForm from './InputForm'
+import CommitForm from './CommitForm'
 
 class InputModal extends Component{
     constructor(props){
         super(props);
         //this.state = {takskId:-10};
     }
+
+    components = {
+        inputForm: InputForm,
+        commitForm: CommitForm
+    };
     
     render(){      
+        const TagName = this.components[this.props.inputForm || 'inputForm'] || this.components[0];
         return(
             <Modal
             {...this.props}
@@ -24,7 +31,7 @@ class InputModal extends Component{
                 </Modal.Title>
             </Modal.Header>
                 <Modal.Body>
-                    <InputForm {...this.props}/>
+                    <TagName {...this.props}/>
                 </Modal.Body>
             </Modal>
         )
