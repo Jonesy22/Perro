@@ -7,6 +7,7 @@ import { addTask } from '../data/actions'
 function InputForm(props) {
     const { register, handleSubmit, errors } = useForm();
     const onSubmit = (data) => {
+        console.log(data)
         console.log(data.ProjectName)
         if(data.TaskName){
             props.addTask({Name: data.TaskName, Estimate: (data.TaskEstimate), Summary: data.TaskSummary, Description: (data.TaskDescription),  parentId:props.taskId, childIds:[]})
@@ -70,7 +71,7 @@ return (
         </Row>
         <Form.Group controlId={`${props.type}Description`}>
             <Form.Label>{`${props.type} Description`}</Form.Label>
-            <Form.Control name={`${props.type}Desription`} as="textarea" rows={3} cols={20} ref={register} />
+            <Form.Control name={`${props.type}Description`} as="textarea" rows={3} cols={20} ref={register} />
         </Form.Group>
         <Form.Group>
         <Form.Label>Reporter</Form.Label>
