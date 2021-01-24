@@ -1,6 +1,7 @@
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Button from 'react-bootstrap/Button'
 import React, {useState, useEffect } from 'react'
+import {Tabs, Tab} from 'react-bootstrap'
 import { connect } from 'react-redux'
 import TrackingView from './TrackingView'
 import InputModal from './InputModal'
@@ -27,16 +28,15 @@ class RightProjectView extends React.Component {
         let commitModalClose = () => this.setState({commitModalShow:false})
         return(
             <div>                
-                <ButtonGroup aria-label="View Selector">
+                {/* <ButtonGroup aria-label="View Selector">
                     <Button variant="primary" onClick={()=>this.setView(0)}>Summary</Button>{' '}
                     <Button variant="primary" onClick={()=>this.setView(1)}>Data</Button>{' '}
                     <Button variant="primary" onClick={()=>this.setView(2)}>Tracking</Button>{' '}
-                </ButtonGroup>
+                </ButtonGroup> */}
 
-                
                 <Button variant="primary" onClick={()=>this.setState({commitModalShow: true})} style={{float: "right"}}>Commit Time</Button>{' '}
                 
-                {this.state.viewId === 0 &&
+                {/* {this.state.viewId === 0 &&
                     <SummaryView />
                 }
 
@@ -46,9 +46,20 @@ class RightProjectView extends React.Component {
 
                 {this.state.viewId === 2 &&
                     <TrackingView />
-                }
-                
-            
+                } */}
+
+                <Tabs defaultActiveKey="trackingView" id="right-side-view-tabs">
+                    <Tab eventKey="summaryView" title="Summary">
+                        <SummaryView />
+                    </Tab>
+                    <Tab eventKey="dataView" title="Data">
+                        <DataView />
+                    </Tab>
+                    <Tab eventKey="trackingView" title="Tracking">
+                        <TrackingView />
+                    </Tab>
+                </Tabs>
+
                 <InputModal
                     type= "Commit"
                     inputForm="commitForm"
