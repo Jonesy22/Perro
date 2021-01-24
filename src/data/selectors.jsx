@@ -120,3 +120,7 @@ export const getGraphDataForTask = function(store, id) {
 
     return { estimate: graphDataEstimate, actual: graphDataActual};
 }
+
+export const getCommitWithTaskId = function(store, taskId, commitId) {
+    return getSelectedTask(store, taskId).content.commits[commitId];
+}

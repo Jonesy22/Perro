@@ -1,20 +1,24 @@
 import { useForm } from "react-hook-form";
 import React, {Component, component, useState} from 'react';
 import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addCommit } from '../data/actions'
 import { createCommit } from '../data/createObjects.js';
+import { getCommitWithTaskId } from "../data/selectors";
 
 function CommitForm(props) {
     const { register, handleSubmit, errors } = useForm();
     const dispatch = useDispatch();
-    const [completedSwitch, setCompletedSwitch] = useState(false);
+
+    const selectedCommit = useSelector(state => props.loadFromSelectedCommitId ? getCommitWithTaskId(state, props.taskId, props.selectedCommitId) : createCommit(-1, "", props.taskId, null, "", null, false, ""));
+    const [completedSwitch, setCompletedSwitch] = useState(selectedCommit.commitCompleted);
     
     const onSubmit = (data) => {
         console.log(data)
         console.log(completedSwitch);
 
-        dispatch(addCommit(createCommit(-1, data.commitName, props.taskId, parseInt(data.commitWorkCompleted), data.commitDescription, data.commitTimestamp, completedSwitch, data.commitReporter)))
+        // selectedCommit.commitId will be -1 above if props.loadFromSelectedCommitId = false and thus will generate a new id in the action addCommit()
+        dispatch(addCommit(createCommit(selectedCommit.commitId, data.commitName, props.taskId, parseInt(data.commitWorkCompleted), data.commitDescription, data.commitTimestamp, completedSwitch, data.commitReporter)))
         {props.onHide()}
     }
 
@@ -34,6 +38,7 @@ function CommitForm(props) {
                         <div  style={{display: "flex", flexDirection: "col"}}>
                             <Form.Control
                                 style={{marginRight: "10px"}}
+                                defaultValue={selectedCommit.commitName}
                                 type="text"
                                 name="commitName"
                                 placeholder={`${props.type} Name`}
@@ -51,6 +56,7 @@ function CommitForm(props) {
                         <Form.Label>Work Completed</Form.Label>
                             <Form.Control
                                 type="text"
+                                defaultValue={selectedCommit.commitWorkCompleted}
                                 name="commitWorkCompleted"
                                 placeholder="Same Units as Task Estimation"
                                 ref={register({ required: true, pattern: /^[0-9]*$/g })}
@@ -66,7 +72,7 @@ function CommitForm(props) {
                         <Form.Label>Commit Timestamp</Form.Label>
                             <Form.Control
                                 type="datetime-local" step="any"
-                                defaultValue={new Date().toISOString().substring(0,19)} 
+                                defaultValue={selectedCommit.commitTimestamp || new Date().toISOString().substring(0,19)} 
                                 name="commitTimestamp"
                                 ref={register({ required: true })}
                             />
@@ -76,18 +82,18 @@ function CommitForm(props) {
 
             <Form.Group controlId="commitDescription">
                 <Form.Label>{"Commit Description"}</Form.Label>
-                <Form.Control name="commitDescription" as="textarea" rows={3} cols={20} ref={register} />
+                <Form.Control name="commitDescription" defaultValue={selectedCommit.commitDescription} as="textarea" rows={3} cols={20} ref={register} />
             </Form.Group>
 
             <Form.Group>
                 <Form.Label>Reporter</Form.Label>
-                <select name="commitReporter" ref={register({ required: true })} className="form-control required">
+                <select name="commitReporter" defaultValue={selectedCommit.commitReporter} ref={register({ required: true })} className="form-control required">
                     <option>Person1</option>
                 </select>
             </Form.Group>
 
             <Form.Group>
-                <Button variant="primary" type="submit">Create</Button>{' '}
+                <Button variant="primary" type="submit">{props.loadFromSelectedCommitId ? "Update" : "Create"}</Button>{' '}
                 <Button variant="danger" onClick={props.onHide}>Cancel</Button>
             </Form.Group>
         </Form>
