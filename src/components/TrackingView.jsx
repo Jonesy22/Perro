@@ -24,8 +24,8 @@ class TrackingView extends React.Component {
 			<LegendView />
             <FlexibleXYPlot height = {500}
 				xType = 'time-utc'
-				yDomain = {[0, Math.round(this.props.timeEstimateGraphData.estimate[this.props.timeEstimateGraphData.estimate.length - 1].y * 1.1)]}
-				xDomain = {[this.props.timeEstimateGraphData.estimate[0].x, this.props.timeEstimateGraphData.estimate[this.props.timeEstimateGraphData.estimate.length - 1].x]}
+				yDomain = {[0, Math.round(Math.max(this.props.timeEstimateGraphData.estimate[this.props.timeEstimateGraphData.estimate.length - 1].y, this.props.timeEstimateGraphData.actual.length > 0 ? this.props.timeEstimateGraphData.actual[this.props.timeEstimateGraphData.actual.length - 1].y : 0) * 1.1)]}
+				xDomain = {[Math.min(this.props.timeEstimateGraphData.estimate[0].x, this.props.timeEstimateGraphData.actual.length > 0 ? this.props.timeEstimateGraphData.actual[0].x : 0), Math.max(this.props.timeEstimateGraphData.estimate[this.props.timeEstimateGraphData.estimate.length - 1].x, this.props.timeEstimateGraphData.actual.length > 0 ? this.props.timeEstimateGraphData.actual[this.props.timeEstimateGraphData.actual.length - 1].x : 0)]}
 				margin={{bottom: 110, left: 50, right: 10}} >
 					
   		 	<HorizontalGridLines />
