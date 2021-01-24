@@ -29,7 +29,7 @@ class MilestoneView extends React.Component {
     }
 
     genAnotherPanel = (taskId) => (
-        <div>
+        <div style={{display: "flex", flexDirection: "row", flexWrap: "nowrap", marginLeft: "auto", paddingTop: "12px", paddingBottom: "12px"}}>
             <PlusOutlined
                 onClick={event => {
                     console.log("add a new panel");
@@ -52,8 +52,8 @@ class MilestoneView extends React.Component {
     );
 
     buildRecursivePanels = (parentTask) => (
-        <Collapse onChange={this.callback} key={parentTask.id} forceRender={true} ghost={true}>
-            <Panel header={parentTask.content.Name} key={parentTask.id} extra={this.genAnotherPanel(parentTask.id)}>
+        <Collapse key={parentTask.id} forceRender={true} ghost={false} bordered={false}>
+            <Panel header={<div onClick={(event) => {event.stopPropagation(); this.callback([parentTask.id]);}} style={{display: "flex", overflow:"hidden", flexGrow: "1" }}><div style={{display: "inline-block", whiteSpace: "nowrap", overflow:"hidden", textOverflow: "ellipsis", marginLeft: "41px", marginTop: "10px", marginBottom: "10px"}}>{parentTask.content.Name}</div>{this.genAnotherPanel(parentTask.id)}</div>} key={parentTask.id}>
                 {Object.entries(parentTask.content.children).map((value, index) => {
                     return this.buildRecursivePanels(value[1])
                 })}
