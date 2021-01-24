@@ -8,6 +8,9 @@ getAppDataState(store) ? getAppDataState(store).selectedId : 0;
 export const getSelectedTask = store => 
 getTaskById(store, getSelectedTaskId(store));
 
+export const getSelectedTaskCommits = store => 
+getSelectedTask(store).content.commits;
+
 export const getTaskIdList = store =>
   getTasksState(store) ? getTasksState(store).allIds : [];
 

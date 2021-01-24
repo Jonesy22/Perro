@@ -35,7 +35,7 @@ const executeAction = function(state = initialState, action) {
     case ADD_COMMIT: {
       const { content } = action.payload;
       let updatedByIds = {...state.byIds};
-      updatedByIds[content.taskId].content.commits.push(content);
+      updatedByIds[content.taskId].content.commits = [...updatedByIds[content.taskId].content.commits, content];
       return {
         ...state,
         byIds: {
