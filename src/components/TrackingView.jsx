@@ -5,6 +5,7 @@ import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineMarkSeries, ChartLabel, D
 import { connect } from 'react-redux'
 import { addTimeEstimate } from '../data/actions'
 import { getGraphDataForTask, getSelectedTask, getSelectedTaskId } from "../data/selectors";
+import CommitListView from "./CommitListView";
 
 const FlexibleXYPlot = makeVisFlexible(XYPlot);
 
@@ -25,7 +26,7 @@ class TrackingView extends React.Component {
             <FlexibleXYPlot height = {500}
 				xType = 'time-utc'
 				yDomain = {[0, Math.round(Math.max(this.props.timeEstimateGraphData.estimate[this.props.timeEstimateGraphData.estimate.length - 1].y, this.props.timeEstimateGraphData.actual.length > 0 ? this.props.timeEstimateGraphData.actual[this.props.timeEstimateGraphData.actual.length - 1].y : 0) * 1.1)]}
-				xDomain = {[Math.min(this.props.timeEstimateGraphData.estimate[0].x, this.props.timeEstimateGraphData.actual.length > 0 ? this.props.timeEstimateGraphData.actual[0].x : 0), Math.max(this.props.timeEstimateGraphData.estimate[this.props.timeEstimateGraphData.estimate.length - 1].x, this.props.timeEstimateGraphData.actual.length > 0 ? this.props.timeEstimateGraphData.actual[this.props.timeEstimateGraphData.actual.length - 1].x : 0)]}
+				xDomain = {[Math.min(this.props.timeEstimateGraphData.estimate[0].x, this.props.timeEstimateGraphData.actual.length > 0 ? this.props.timeEstimateGraphData.actual[0].x : Infinity), Math.max(this.props.timeEstimateGraphData.estimate[this.props.timeEstimateGraphData.estimate.length - 1].x, this.props.timeEstimateGraphData.actual.length > 0 ? this.props.timeEstimateGraphData.actual[this.props.timeEstimateGraphData.actual.length - 1].x : 0)]}
 				margin={{bottom: 110, left: 50, right: 10}} >
 					
   		 	<HorizontalGridLines />
@@ -70,6 +71,8 @@ class TrackingView extends React.Component {
             
             
 			</FlexibleXYPlot>	
+
+            <CommitListView></CommitListView>
         </div>
         )
     }
