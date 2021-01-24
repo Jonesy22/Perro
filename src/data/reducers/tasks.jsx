@@ -33,9 +33,9 @@ const executeAction = function(state = initialState, action) {
     }
 
     case ADD_COMMIT: {
-      const { content } = action.payload;
+      const { id, content } = action.payload;
       let updatedByIds = {...state.byIds};
-      updatedByIds[content.taskId].content.commits = [...updatedByIds[content.taskId].content.commits, content];
+      updatedByIds[content.taskId].content.commits = {...updatedByIds[content.taskId].content.commits, [id]: {...content, "commitId": id}};
       return {
         ...state,
         byIds: {
@@ -58,7 +58,7 @@ const executeAction = function(state = initialState, action) {
         // list that will contain the id for byIds of ALL children/grandchildren of deleted task
         var listOfIdsToDelete = [id];
 
-        // recursivley get grandchildren down the list
+        // recursively get grandchildren down the list
         for(var i = 0; i < listOfIdsToDelete.length; i++) {
           var parentIdToCheck = listOfIdsToDelete[i];
           for (var j = 0; j < updatedByIds[parentIdToCheck].content.childIds.length; j++) {

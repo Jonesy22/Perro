@@ -14,7 +14,7 @@ function CommitForm(props) {
         console.log(data)
         console.log(completedSwitch);
 
-        dispatch(addCommit(createCommit(data.commitName, props.taskId, data.commitWorkCompleted, data.commitDescription, data.commitTimestamp, completedSwitch, data.commitReporter)))
+        dispatch(addCommit(createCommit(-1, data.commitName, props.taskId, parseInt(data.commitWorkCompleted), data.commitDescription, data.commitTimestamp, completedSwitch, data.commitReporter)))
         {props.onHide()}
     }
 

@@ -3,6 +3,7 @@ import { ADD_TASK, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT }
 
 let nextTaskId = 5;
 let nextTimeEstimateId = 1;
+let nextCommitId = 0;
 
 export const addTask = (content) => ({
   type: ADD_TASK,
@@ -15,6 +16,7 @@ export const addTask = (content) => ({
 export const addCommit = (content) => ({
   type: ADD_COMMIT,
   payload: {
+    id: content.commitId !== -1? content.commitId : ++nextCommitId,
     content
   }
 })
