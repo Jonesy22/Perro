@@ -5,8 +5,11 @@ import { addTask } from '../data/actions'
 import EditForm from './EditForm'
 
 class EditModal extends Component{
-    constructor(props){
-        super(props);
+        constructor(props){
+            super(props);
+        this.state = {
+            selectedEditId: 0,
+        };
     }
 
     handleSubmit = (event) => {
@@ -28,6 +31,9 @@ class EditModal extends Component{
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
+            type="EditTask"
+            inputForm="editForm"
+            selectedEditId={this.state.selectedEditId}
             >
             <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">

@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import React, {Component, component} from 'react';
 import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux'
 import { connect } from 'react-redux'
 import { addTask } from '../data/actions'
 
