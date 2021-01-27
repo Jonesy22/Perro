@@ -1,7 +1,8 @@
-import { SET_SELECTED_ID } from "../actionTypes.js";
+import { SET_SELECTED_ID, SET_USER_PROFILE } from "../actionTypes.js";
 
 const initialState = {
     selectedId: 0,
+    userProfile: {},
 }
 
 const executeAction = function(state = initialState, action) {
@@ -13,6 +14,15 @@ const executeAction = function(state = initialState, action) {
               selectedId: selectedId
             };
         }
+        case SET_USER_PROFILE: {
+            console.log('setting user profile in appData. Here: ', action.payload);
+            const { userProfile } = action.payload;
+            return {
+                ...state,
+                userProfile: userProfile
+            };
+        }
+
         default:
             return state;
     }

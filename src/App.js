@@ -9,6 +9,7 @@ import { Container } from 'react-bootstrap';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './components/LandingPage';
+import LoginPage from './components/LoginPage';
 import {
   BrowserRouter as Router,
   Switch,
@@ -22,6 +23,7 @@ class App extends React.Component {
           <Switch>
             <Route path="/" exact component={() => <LandingPage />}/>
             <Route path="/tracking" exact component={TrackingView}/>
+            <Route path="/auth/login" exact component={LoginPage}/>
           </Switch>
       </Router>
 

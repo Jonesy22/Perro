@@ -6,6 +6,7 @@ import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux'
 import { addTask, setSelectedId, deleteTask } from '../data/actions'
 import { getTaskHierarchy } from "../data/selectors";
+import { getUserProfile } from "../data/selectors";
 import InputModal from './InputModal';
 const { Panel } = Collapse;
 
@@ -80,6 +81,7 @@ class MilestoneView extends React.Component {
     }
 
     render() {
+        console.log("userProfile: ", this.props.userProfile);
         let addProjectModalClose = () => this.setState({addProjectModalShow:false});
         let addTaskModalClose = () => this.setState({addTaskModalShow:false})
         return (
@@ -136,6 +138,6 @@ class MilestoneView extends React.Component {
 }
 
 export default connect(
-    state => ({ taskHierarchy: getTaskHierarchy(state) }),
+    state => ({ taskHierarchy: getTaskHierarchy(state), userProfile: getUserProfile(state) }),
     { addTask, setSelectedId, deleteTask }
   )(MilestoneView)
