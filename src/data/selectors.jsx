@@ -122,5 +122,5 @@ export const getGraphDataForTask = function(store, id) {
 }
 
 export const getCommitWithTaskId = function(store, taskId, commitId) {
-    return getSelectedTask(store, taskId).content.commits[commitId];
+    return getSelectedTask(store, taskId).content.commits[commitId] ? getSelectedTask(store, taskId).content.commits[commitId] : {};
 }

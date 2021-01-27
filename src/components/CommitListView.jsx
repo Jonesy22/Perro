@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { ListGroup, Button, Row } from 'react-bootstrap'
 import { getSelectedTaskCommits, getSelectedTaskId } from "../data/selectors";
+import { deleteCommit } from "../data/actions";
 import InputModal from "./InputModal";
 
 class CommitListView extends React.Component {
@@ -40,6 +41,11 @@ class CommitListView extends React.Component {
                     taskId={this.props.selectedTaskId}
                     selectedCommitId={this.state.selectedCommitId}
                     loadFromSelectedCommitId={true}
+                    clickDeleteCommitButton={() => {
+                        console.log(this.state.selectedCommitId);
+                        commitEditModalClose()
+                        this.props.deleteCommit({ commitId: this.state.selectedCommitId, taskId: this.props.selectedTaskId})
+                    }}
                 />
             </div>
         )
@@ -48,5 +54,5 @@ class CommitListView extends React.Component {
 
 export default connect(
     state => ({ taskCommits: getSelectedTaskCommits(state), selectedTaskId: getSelectedTaskId(state) }),
-    {}
+    { deleteCommit }
   )(CommitListView)

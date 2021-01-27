@@ -1,5 +1,5 @@
 import React, {Component, component} from 'react';
-import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
+import {Modal, Button, Row, Col} from 'react-bootstrap';
 import { connect } from 'react-redux'
 import { addTask } from '../data/actions'
 import InputForm from './InputForm'
@@ -29,6 +29,7 @@ class InputModal extends Component{
                 <Modal.Title id="contained-modal-title-vcenter">
                 Create {this.props.type}
                 </Modal.Title>
+                {this.props.loadFromSelectedCommitId && <Button onClick={this.props.clickDeleteCommitButton} variant='danger'>Delete</Button>}
             </Modal.Header>
                 <Modal.Body>
                     <TagName {...this.props}/>

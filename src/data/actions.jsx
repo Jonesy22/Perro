@@ -1,4 +1,4 @@
-import { ADD_TASK, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT } from "./actionTypes";
+import { ADD_TASK, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT, DELETE_COMMIT } from "./actionTypes";
 
 
 let nextTaskId = 5;
@@ -17,6 +17,14 @@ export const addCommit = (content) => ({
   type: ADD_COMMIT,
   payload: {
     id: content.commitId !== -1? content.commitId : ++nextCommitId,
+    content
+  }
+})
+
+export const deleteCommit = (content) => ({
+  type: DELETE_COMMIT,
+  payload: {
+    id: content.commitId,
     content
   }
 })
