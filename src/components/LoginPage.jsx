@@ -7,7 +7,8 @@ import { GoogleLogin } from 'react-google-login'
 import { connect } from 'react-redux'
 import { setUserProfile } from '../data/actions'
 import { getUserProfile } from "../data/selectors";
-import GoogleLoginButton from "./GoogleLoginButton"
+import GoogleLoginButton from "./GoogleLoginButton";
+import GoogleLogoutButton from "./GoogleLogoutButton";
 
 
 
@@ -17,7 +18,6 @@ class LoginPage extends React.Component {
         super(props);
         this.state = { userProfile: {} };
     }
-
 
     render() {
         return (
@@ -35,6 +35,7 @@ class LoginPage extends React.Component {
                         </div>
                     </form>
                     <GoogleLoginButton />
+                    <GoogleLogoutButton />
                 </div>
                 
                 <Footer />

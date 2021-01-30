@@ -1,4 +1,23 @@
-const Header = () => {
+import GoogleLoginButton from "./GoogleLoginButton";
+import GoogleLogoutButton from "./GoogleLogoutButton";
+import { setUserProfile } from '../data/actions';
+import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { getUserProfile } from "../data/selectors";
+
+
+
+
+const Header = (props) => {
+
+    //const getDataFromLogin = this.getDataFromLogin.bind(this);
+
+    // const getDataFromLogin = (data) => {
+    //     console.log('data: ', data);
+    //     props.setUserProfile(data);
+    //     console.log('USERPROFILE NOW: ', props.userProfile);
+    // }
+
     return(
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <a className="navbar-brand" href="/">Perro</a>
@@ -9,12 +28,15 @@ const Header = () => {
             <ul className="navbar-nav mr-auto">
             </ul>
             <form className="form-inline my-2 my-lg-0">
-                <li><a href="/auth/login">Login</a></li>
-                <li><a href="/auth/logout">Logout</a></li>
+                <li><GoogleLoginButton/></li>
+                <li><GoogleLogoutButton/></li>
             </form>
             </div>
         </nav>
     );
-};
+}
 
-export default Header;
+export default connect(
+    state => ({ userProfile: getUserProfile(state) }),
+    { setUserProfile }
+  )(Header);

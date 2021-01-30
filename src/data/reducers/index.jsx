@@ -10,5 +10,5 @@ const createRootReducer = (history) => combineReducers({
     timeEstimates: timeEstimates, 
     appData: appData
   })
-  export default createRootReducer
+export default createRootReducer
 
