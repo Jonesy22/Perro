@@ -10,14 +10,6 @@ import { getUserProfile } from "../data/selectors";
 
 const Header = (props) => {
 
-    //const getDataFromLogin = this.getDataFromLogin.bind(this);
-
-    // const getDataFromLogin = (data) => {
-    //     console.log('data: ', data);
-    //     props.setUserProfile(data);
-    //     console.log('USERPROFILE NOW: ', props.userProfile);
-    // }
-
     return(
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <a className="navbar-brand" href="/">Perro</a>

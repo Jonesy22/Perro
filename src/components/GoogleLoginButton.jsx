@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getUserProfile } from "../data/selectors";
 import { GoogleLogin } from 'react-google-login';
 import { useHistory } from "react-router-dom";
+// import { credentials } from '../config/client'
 
 
 
@@ -13,16 +14,6 @@ const GoogleLoginButton = (props) => {
     const clientSecret = "z4Hvx0y5lHI38vPDx9KOuVaM";
 
     let history = useHistory();
-
-    // constructor(props) {
-    //     super(props);
-    //     this.state = { userProfile: {} };
-    //     this.onSuccess = this.onSuccess.bind(this);
-    //     this.onFailure = this.onFailure.bind(this);
-    // }
-
-    // const onSuccess = this.onSuccess.bind(this);
-
 
     const onSuccess = (res) => {
         // res returns object with information on account
