@@ -41,7 +41,7 @@ return (
                     type="text"
                     name={`Name`}
                     placeholder={`Name`}
-                    value={selectedEdit.TaskName}
+                    defaultValue={selectedEdit.TaskName}
                     ref={register({ required: true })}
                 />
                 {errors.Name && <p style={pStyle}> {reqFieldError}</p>}
@@ -52,6 +52,7 @@ return (
                     type="text"
                     name={`Summary`}
                     placeholder={`Summary`}
+                    defaultValue={selectedEdit.Summary}
                     ref={register({ required: true })}
                 />
                 {errors.Summary && <p style={pStyle}> {reqFieldError}</p>}
@@ -63,6 +64,7 @@ return (
                     type="text"
                     name={`Estimate`}
                     placeholder="In Hours"
+                    defaultValue={selectedEdit.Estimate}
                     ref={register({ required: true, pattern: /^[0-9]*$/g })}
                 />
                 {console.log(errors)}
@@ -72,7 +74,7 @@ return (
         </Row>
         <Form.Group controlId={`Description`}>
             <Form.Label>{`Description`}</Form.Label>
-            <Form.Control name={`Description`} as="textarea" rows={3} cols={20} ref={register} />
+            <Form.Control name={`Description`} as="textarea" rows={3} cols={20} ref={register}  defaultValue={selectedEdit.Description}/>
         </Form.Group>
         <Form.Group>
         <Form.Label>Reporter</Form.Label>

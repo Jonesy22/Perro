@@ -88,7 +88,6 @@ class MilestoneView extends React.Component {
         let addProjectModalClose = () => this.setState({addProjectModalShow:false});
         let addTaskModalClose = () => this.setState({addTaskModalShow:false});
         let editTaskModalClose = () => this.setState({editTaskModalShow:false});
-        let editProjectModalClose = () => this.setState({editProjectModalShow:false});
         return (
             <div>
                 <Button 
@@ -104,12 +103,12 @@ class MilestoneView extends React.Component {
                 />
 
 
-                <EditModal
+                <InputModal
                 type= "Task"
+                inputForm="editForm"
                 show={this.state.editTaskModalShow}
                 onHide={editTaskModalClose}
                 taskId={this.state.taskId}
-                closeModalFunc = {this.closeModalFunc}
                 />
 
 
