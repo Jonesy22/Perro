@@ -1,4 +1,4 @@
-import { ADD_TASK, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK } from "./actionTypes";
+import { ADD_TASK, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, UPDATE_TASK } from "./actionTypes";
 
 
 let nextTaskId = 3;
@@ -8,6 +8,14 @@ export const addTask = (content) => ({
   type: ADD_TASK,
   payload: {
     id: ++nextTaskId,
+    content
+  }
+});
+
+export const updateTask = (content, id) => ({
+  type: UPDATE_TASK,
+  payload: {
+    id: id,
     content
   }
 });

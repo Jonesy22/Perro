@@ -1,4 +1,4 @@
-import { ADD_TASK, DELETE_TASK } from "../actionTypes.js";
+import { ADD_TASK, DELETE_TASK, UPDATE_TASK } from "../actionTypes.js";
 
 const initialState = {
   allIds: [0], // list of ids of all the tasks that are loaded
@@ -16,6 +16,20 @@ const executeAction = function(state = initialState, action) {
       return {
         ...state,
         allIds: [...state.allIds, id],
+        byIds: {
+          ...updatedByIds,
+          [id]: {
+            content
+          }
+        }
+      };
+    }
+
+    case UPDATE_TASK: {
+      const { id, content } = action.payload;
+      var updatedByIds = state.byIds
+      return {
+        ...state,
         byIds: {
           ...updatedByIds,
           [id]: {

@@ -2,28 +2,24 @@ import { useForm } from "react-hook-form";
 import React, {Component, component} from 'react';
 import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { addTask } from '../data/actions';
+import { updateTask } from '../data/actions';
 import { getTaskById } from "../data/selectors";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { createTask } from '../data/createObjects.js';
 
 function EditForm(props) {
     const { register, handleSubmit, errors } = useForm();
-    const selectedEdit = useSelector(state =>  getTaskById(state, props.selectedEditId));
+    const dispatch = useDispatch();
+    const selectedEdit = useSelector(state =>  getTaskById(state, props.taskId)).content;
+    console.log(selectedEdit);
     const onSubmit = (data) => {
         console.log(data);
         console.log(data.ProjectName);
-
-        if(data.TaskName){
-            props.addTask({Name: data.TaskName, Estimate: (data.TaskEstimate), Summary: data.TaskSummary, Description: (data.TaskDescription),  parentId:props.taskId, childIds:[]})
-
-        }
-        if(data.ProjectName){
-            props.addTask({Name: data.ProjectName, Estimate: (data.ProjectEstimate), Summary: data.ProjectSummary, Description: (data.ProjectDescription),  parentId:props.taskId, childIds:[]})
-        }
+        //dispatch(updateTask({Name: data.TaskName, Estimate: (data.TaskEstimate), Summary: data.TaskSummary, Description: (data.TaskDescription),  parentId:props.taskId, childIds:[]}, props.taskId));
+        dispatch(updateTask(createTask(data.Name, data.Estimate, null, data.Summary, data.Description, selectedEdit.parentId, selectedEdit.childIds, selectedEdit.commits), props.taskId));
         {props.onHide()}
     }
-
+    
     const pStyle = {
         color: 'red',
     };
@@ -41,7 +37,7 @@ return (
                     type="text"
                     name={`Name`}
                     placeholder={`Name`}
-                    defaultValue={selectedEdit.TaskName}
+                    defaultValue={selectedEdit.Name}
                     ref={register({ required: true })}
                 />
                 {errors.Name && <p style={pStyle}> {reqFieldError}</p>}
