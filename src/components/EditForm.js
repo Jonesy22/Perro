@@ -15,7 +15,6 @@ function EditForm(props) {
     const onSubmit = (data) => {
         console.log(data);
         console.log(data.ProjectName);
-        //dispatch(updateTask({Name: data.TaskName, Estimate: (data.TaskEstimate), Summary: data.TaskSummary, Description: (data.TaskDescription),  parentId:props.taskId, childIds:[]}, props.taskId));
         dispatch(updateTask(createTask(data.Name, data.Estimate, null, data.Summary, data.Description, selectedEdit.parentId, selectedEdit.childIds, selectedEdit.commits), props.taskId));
         {props.onHide()}
     }
