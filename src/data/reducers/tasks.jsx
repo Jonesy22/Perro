@@ -1,16 +1,23 @@
 import { ADD_TASK, DELETE_TASK } from "../actionTypes.js";
+import {createTask} from '../createObjects.js';
 
 const initialState = {
-  allIds: [0], // list of ids of all the tasks that are loaded
-  byIds: {0: {content: {Name: "Milestone 1", Estimate: 5, Summary: "Summary Placeholder", Description: "Description",  parentId:-1, childIds:[]}}, }   // map of all tasks by id
+  allIds: [0, 1, 2, 3, 4], // list of ids of all the tasks that are loaded
+  byIds: {
+    0: {content: createTask("Milestone 1", 5, "2021-01-31", "Summary Placeholder", "Description for milestone 1",  -1, [1, 3])}, 
+    1: {content: createTask("Task 1", 3, "2021-01-27", "Summary for task 1", "Description for task 1",  0, [2, 4])}, 
+    2: {content: createTask("Subtask 1", 1, "2021-01-28", "Summary subtask 1", "Description subtask 1",  1, [])}, 
+    3: {content: createTask("Task 2", 4, "2021-01-29", "Summary for task 2", "Description for task 2",  0, [])}, 
+    4: {content: createTask("Subtask 2", 1.5, "2021-01-30", "Summary subtask 2", "Description subtask 2",  1, [])}, 
+  }   // map of all tasks by id
 };
 
 const executeAction = function(state = initialState, action) {
   switch (action.type) {
     case ADD_TASK: {
       const { id, content } = action.payload;
-      var updatedByIds = state.byIds
-      if(content.parentId != -1){
+      var updatedByIds = {...state.byIds}
+      if(content.parentId !== -1){
         updatedByIds[content.parentId].content.childIds.push(id)
       }
       return {
@@ -27,8 +34,8 @@ const executeAction = function(state = initialState, action) {
 
     case DELETE_TASK: {
       const { id, content } = action.payload;
-      var updatedByIds = state.byIds
-      var updatedAllIds = state.allIds
+      var updatedByIds = {...state.byIds}
+      var updatedAllIds = {...state.allIds}
 
       // remove the deletedId from the parents list of childIds
       let childIdToDelete = updatedByIds[updatedByIds[id].content.parentId].content.childIds.indexOf(id)

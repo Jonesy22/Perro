@@ -20,8 +20,8 @@ const Header = (props) => {
             <ul className="navbar-nav mr-auto">
             </ul>
             <form className="form-inline my-2 my-lg-0">
-                <li><GoogleLoginButton/></li>
-                <li><GoogleLogoutButton/></li>
+                <GoogleLoginButton/>
+                <GoogleLogoutButton/>
             </form>
             </div>
         </nav>

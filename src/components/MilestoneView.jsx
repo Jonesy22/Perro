@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Collapse } from 'antd';
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux'
-import { addTask, setSelectedId, deleteTask } from '../data/actions'
+import { setSelectedId, deleteTask } from '../data/actions'
 import { getTaskHierarchy } from "../data/selectors";
 import { getUserProfile } from "../data/selectors";
 import InputModal from './InputModal';
@@ -30,7 +30,7 @@ class MilestoneView extends React.Component {
     }
 
     genAnotherPanel = (taskId) => (
-        <div>
+        <div style={{display: "flex", flexDirection: "row", flexWrap: "nowrap", marginLeft: "auto", paddingTop: "12px", paddingBottom: "12px"}}>
             <PlusOutlined
                 onClick={event => {
                     console.log("add a new panel");
@@ -53,20 +53,14 @@ class MilestoneView extends React.Component {
     );
 
     buildRecursivePanels = (parentTask) => (
-        <Collapse onChange={this.callback} key={parentTask.id} forceRender={true} ghost={true}>
-            <Panel header={parentTask.content.Name} key={parentTask.id} extra={this.genAnotherPanel(parentTask.id)}>
+        <Collapse key={parentTask.id} forceRender={true} ghost={false} bordered={false}>
+            <Panel header={<div onClick={(event) => {event.stopPropagation(); this.callback([parentTask.id]);}} style={{display: "flex", overflow:"hidden", flexGrow: "1" }}><div style={{display: "inline-block", whiteSpace: "nowrap", overflow:"hidden", textOverflow: "ellipsis", marginLeft: "41px", marginTop: "10px", marginBottom: "10px"}}>{parentTask.content.Name}</div>{this.genAnotherPanel(parentTask.id)}</div>} key={parentTask.id}>
                 {Object.entries(parentTask.content.children).map((value, index) => {
                     return this.buildRecursivePanels(value[1])
                 })}
             </Panel>
         </Collapse>
     );
-
-    handleAddTask = (parentId) => {
-        // dispatches actions to add task
-        console.log("handling new task")
-        this.props.addTask({text: "test task name", time: 12, childIds: [], parentId: parentId})
-    }
 
     deleteModalClose = () => this.setState({showModal:false});
 
@@ -81,7 +75,6 @@ class MilestoneView extends React.Component {
     }
 
     render() {
-        console.log("userProfile: ", this.props.userProfile);
         let addProjectModalClose = () => this.setState({addProjectModalShow:false});
         let addTaskModalClose = () => this.setState({addTaskModalShow:false})
         return (
@@ -139,5 +132,5 @@ class MilestoneView extends React.Component {
 
 export default connect(
     state => ({ taskHierarchy: getTaskHierarchy(state), userProfile: getUserProfile(state) }),
-    { addTask, setSelectedId, deleteTask }
+    { setSelectedId, deleteTask }
   )(MilestoneView)

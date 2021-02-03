@@ -15,7 +15,6 @@ const executeAction = function(state = initialState, action) {
             };
         }
         case SET_USER_PROFILE: {
-            console.log('setting user profile in appData. Here: ', action.payload);
             const { userProfile } = action.payload;
             return {
                 ...state,
