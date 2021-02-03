@@ -1,7 +1,8 @@
-import { ADD_TASK, DELETE_TASK } from "../actionTypes.js";
+import { ADD_TASK, DELETE_TASK, UPDATE_TASK } from "../actionTypes.js";
 import {createTask} from '../createObjects.js';
 
 const initialState = {
+  emptyTask: {content: createTask("", 0, null, "" , "", -1, [])},
   allIds: [0, 1, 2, 3, 4], // list of ids of all the tasks that are loaded
   byIds: {
     0: {content: createTask("Milestone 1", 5, "2021-01-31", "Summary Placeholder", "Description for milestone 1",  -1, [1, 3])}, 
@@ -32,16 +33,32 @@ const executeAction = function(state = initialState, action) {
       };
     }
 
+    case UPDATE_TASK: {
+      const { id, content } = action.payload;
+      var updatedByIds = state.byIds
+      return {
+        ...state,
+        byIds: {
+          ...updatedByIds,
+          [id]: {
+            content
+          }
+        }
+      };
+    }
+
     case DELETE_TASK: {
       const { id, content } = action.payload;
       var updatedByIds = {...state.byIds}
-      var updatedAllIds = {...state.allIds}
+      var updatedAllIds = [...state.allIds]
 
       // remove the deletedId from the parents list of childIds
-      let childIdToDelete = updatedByIds[updatedByIds[id].content.parentId].content.childIds.indexOf(id)
-      updatedByIds[updatedByIds[id].content.parentId].content.childIds.splice(childIdToDelete, 1)
-      delete updatedByIds[updatedByIds[id].content.parentId].content.children[id]
-
+      if(updatedByIds[id].content.parentId !== -1) {
+        let childIdToDelete = updatedByIds[updatedByIds[id].content.parentId].content.childIds.indexOf(id)
+        updatedByIds[updatedByIds[id].content.parentId].content.childIds.splice(childIdToDelete, 1)
+        delete updatedByIds[updatedByIds[id].content.parentId].content.children[id]
+      }
+      
       if (content.mode === 0) {    // mode 0 means deleting all subtasks
         // list that will contain the id for byIds of ALL children/grandchildren of deleted task
         var listOfIdsToDelete = [id];
@@ -69,7 +86,9 @@ const executeAction = function(state = initialState, action) {
         // and add its id to the childIds of its new parent
         for (var i = 0; i < updatedByIds[id].content.childIds.length; i++) {
           updatedByIds[updatedByIds[id].content.childIds[i]].content.parentId = newParentId
-          updatedByIds[newParentId].content.childIds.push(updatedByIds[id].content.childIds[i])
+          if(newParentId !== -1) {
+            updatedByIds[newParentId].content.childIds.push(updatedByIds[id].content.childIds[i])
+          }
         }
         // remove the deleted task
         delete updatedByIds[id]
