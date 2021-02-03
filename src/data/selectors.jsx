@@ -3,10 +3,11 @@ export const getTimeEstimatesState = store => store.timeEstimates;
 export const getAppDataState = store => store.appData;
 
 export const getSelectedTaskId = store => 
-getAppDataState(store) ? getAppDataState(store).selectedId : 0;
+getAppDataState(store) ? getAppDataState(store).selectedId : -1;
 
-export const getSelectedTask = store => 
-getTaskById(store, getSelectedTaskId(store));
+export const getSelectedTask = store => {
+    return getTaskById(store, getSelectedTaskId(store)) || {};
+}
 
 export const getSelectedTaskCommits = store => 
 getSelectedTask(store).content.commits;
@@ -14,8 +15,19 @@ getSelectedTask(store).content.commits;
 export const getTaskIdList = store =>
   getTasksState(store) ? getTasksState(store).allIds : [];
 
-export const getTaskById = (store, id) =>
-getTasksState(store) ? { ...getTasksState(store).byIds[id], id } : {};
+export const getTaskById = (store, id) => {
+    if(id !== -1) {
+        return getTasksState(store) ? { ...getTasksState(store).byIds[id], id } : {};
+    } else {
+        return getTasksState(store) ? { ...getTasksState(store).emptyTask, id } : {};
+    }
+}
+
+export const getUserProfile = function(store) {
+    
+    return getAppDataState(store) ? getAppDataState(store).userProfile : {};
+
+}
 
 /**
  * example of a slightly more complex selector

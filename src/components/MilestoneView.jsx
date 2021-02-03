@@ -2,24 +2,21 @@ import React, {useState, useEffect, Component } from 'react';
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal';
 import { Collapse } from 'antd';
-import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
+import { PlusOutlined, CloseOutlined, EditOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux'
 import { setSelectedId, deleteTask } from '../data/actions'
-import { getTaskHierarchy } from "../data/selectors";
+import { getSelectedTaskId, getTaskHierarchy, getUserProfile, getSelectedTask } from "../data/selectors";
 import InputModal from './InputModal';
+import EditModal from './EditModal';
 const { Panel } = Collapse;
 
 class MilestoneView extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {milestones: [], addProjectModalShow: false, addTaskModalShow: false, showModal: false, deletedId: -1 };
+        this.state = {milestones: [], addProjectModalShow: false, addTaskModalShow: false, editProjectModalShow: false, editTaskModalShow: false, showModal: false, deletedId: -1 };
     }
 
-    /* callback = (key) => {
-        console.log(parseInt(key[0]));
-        this.props.setSelectedId(parseInt(key[0]));
-    } */
     callback = (key) => {
         console.log(parseInt(key[0]));
         let selectedId = parseInt(key[0]);
@@ -29,7 +26,7 @@ class MilestoneView extends React.Component {
     }
 
     genAnotherPanel = (taskId) => (
-        <div>
+        <div style={{display: "flex", flexDirection: "row", flexWrap: "nowrap", marginLeft: "auto", paddingTop: "12px", paddingBottom: "12px"}}>
             <PlusOutlined
                 onClick={event => {
                     console.log("add a new panel");
@@ -39,6 +36,14 @@ class MilestoneView extends React.Component {
                     event.stopPropagation();
                 }}
             />
+            <EditOutlined
+                onClick={event => {
+                    console.log("edit panel");
+                    this.setState({editTaskModalShow: true, taskId: taskId})
+                    event.stopPropagation();
+                }}
+            />
+
             <CloseOutlined
                 onClick={event => {
                     console.log("delete panel")
@@ -52,8 +57,8 @@ class MilestoneView extends React.Component {
     );
 
     buildRecursivePanels = (parentTask) => (
-        <Collapse onChange={this.callback} key={parentTask.id} forceRender={true} ghost={true}>
-            <Panel header={parentTask.content.Name} key={parentTask.id} extra={this.genAnotherPanel(parentTask.id)}>
+        <Collapse key={parentTask.id} forceRender={true} ghost={false} bordered={false}>
+            <Panel header={<div onClick={(event) => {event.stopPropagation(); this.callback([parentTask.id]);}} style={{display: "flex", overflow:"hidden", flexGrow: "1" }}><div style={{display: "inline-block", whiteSpace: "nowrap", overflow:"hidden", textOverflow: "ellipsis", marginLeft: "41px", marginTop: "10px", marginBottom: "10px"}}>{parentTask.content.Name}</div>{this.genAnotherPanel(parentTask.id)}</div>} key={parentTask.id}>
                 {Object.entries(parentTask.content.children).map((value, index) => {
                     return this.buildRecursivePanels(value[1])
                 })}
@@ -65,17 +70,24 @@ class MilestoneView extends React.Component {
 
     deleteSubtasks = () => {
         this.deleteModalClose()
+        if(this.props.selectedId === this.state.deletedId) {
+            this.props.setSelectedId(this.props.selectedTask.content.parentId)
+        }
         this.props.deleteTask({id: this.state.deletedId, mode: 0})      // mode 0 means deleting all subtasks
     }
 
     moveSubtasksUp = () => {
         this.deleteModalClose()
+        if(this.props.selectedId === this.state.deletedId) {
+            this.props.setSelectedId(this.props.selectedTask.content.parentId)
+        }
         this.props.deleteTask({id: this.state.deletedId, mode: 1})      // mode 1 means shifting all subtasks
     }
 
     render() {
         let addProjectModalClose = () => this.setState({addProjectModalShow:false});
-        let addTaskModalClose = () => this.setState({addTaskModalShow:false})
+        let addTaskModalClose = () => this.setState({addTaskModalShow:false});
+        let editTaskModalClose = () => this.setState({editTaskModalShow:false});
         return (
             <div>
                 <Button 
@@ -89,6 +101,17 @@ class MilestoneView extends React.Component {
                 taskId={this.state.taskId}
                 closeModalFunc = {this.closeModalFunc}
                 />
+
+
+                <InputModal
+                type= "Task"
+                inputForm="editForm"
+                show={this.state.editTaskModalShow}
+                onHide={editTaskModalClose}
+                taskId={this.state.taskId}
+                />
+
+
                 <InputModal
                 type= "Task"
                 show={this.state.addTaskModalShow}
@@ -108,7 +131,7 @@ class MilestoneView extends React.Component {
                     backdrop="static"
                     keyboard={false}
                 >
-                    <Modal.Header closeButton>
+                    <Modal.Header >
                     <Modal.Title>Delete Task</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -130,6 +153,6 @@ class MilestoneView extends React.Component {
 }
 
 export default connect(
-    state => ({ taskHierarchy: getTaskHierarchy(state) }),
+    state => ({ taskHierarchy: getTaskHierarchy(state), userProfile: getUserProfile(state), selectedId: getSelectedTaskId(state), selectedTask: getSelectedTask(state) }),
     { setSelectedId, deleteTask }
   )(MilestoneView)

@@ -1,9 +1,10 @@
-import React, {Component, component} from 'react';
+import React, {Component} from 'react';
 import {Modal, Button, Row, Col} from 'react-bootstrap';
 import { connect } from 'react-redux'
 import { addTask } from '../data/actions'
 import InputForm from './InputForm'
 import CommitForm from './CommitForm'
+import EditForm from './EditForm';
 
 class InputModal extends Component{
     constructor(props){
@@ -13,7 +14,8 @@ class InputModal extends Component{
 
     components = {
         inputForm: InputForm,
-        commitForm: CommitForm
+        commitForm: CommitForm,
+        editForm: EditForm
     };
     
     render(){      

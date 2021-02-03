@@ -1,5 +1,3 @@
-
-
 export function createTask(taskName, taskEstimate, dueDate, taskSummary, taskDescription, parentId, childIds, commits = {}) {
     return {
         Name: taskName,

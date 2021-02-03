@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import React, {Component, component} from 'react';
 import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux'
 import { connect } from 'react-redux'
 import { addTask } from '../data/actions'
 import {createTask} from '../data/createObjects.js';
@@ -9,7 +10,6 @@ function InputForm(props) {
     const { register, handleSubmit, errors } = useForm();
     const onSubmit = (data) => {
         console.log(data)
-        console.log(data.ProjectName)
         if(data.TaskName){
             props.addTask(createTask(data.TaskName, parseInt(data.TaskEstimate), data.DueDate, data.TaskSummary, data.TaskDescription,  props.taskId, []));
 
