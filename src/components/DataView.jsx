@@ -1,6 +1,7 @@
 import React, {useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { getSelectedTask } from "../data/selectors";
+import CommitListView from "./CommitListView";
 
 class DataView extends React.Component {
     constructor(props) {
@@ -27,7 +28,10 @@ class DataView extends React.Component {
                         <u>Time Estimate:</u> {this.printEstimate()}<br></br>
                         <u>Description:</u>  {this.printDescription()}
                 </div>
+
+                <CommitListView></CommitListView>
             </div>
+
         )
     }
 }

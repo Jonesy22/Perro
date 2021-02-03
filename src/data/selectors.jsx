@@ -9,6 +9,9 @@ export const getSelectedTask = store => {
     return getTaskById(store, getSelectedTaskId(store)) || {};
 }
 
+export const getSelectedTaskCommits = store => 
+getSelectedTask(store).content.commits;
+
 export const getTaskIdList = store =>
   getTasksState(store) ? getTasksState(store).allIds : [];
 
@@ -73,7 +76,7 @@ export const getAllChildTimeEstimates = function(store) {
     return getTaskTimeEstimateData(store, getSelectedTaskId(store))
 }
 
-export const getTimeEstimatesRecursivley = function(store, id) {
+export const getTimeEstimatesRecursively = function(store, id) {
     var taskTimeEstimate = {};
     var parents = [id];
     while(parents.length > 0) {
@@ -89,8 +92,24 @@ export const getTimeEstimatesRecursivley = function(store, id) {
     return taskTimeEstimate
 }
 
+export const getCommitsRecursively = function(store, id) {
+    var commits = {};
+    var parents = [id];
+    while(parents.length > 0) {
+        let task = getTaskById(store, parents[0])
+        if (task.content.childIds.length > 0) {
+            for(var i = 0; i < task.content.childIds.length; i++) {
+                parents.push(task.content.childIds[i])
+            }
+        }
+        commits = {...commits, ...task.content.commits};
+        parents.shift();
+    }
+    return commits
+}
+
 export const getGraphDataForTask = function(store, id) {
-    let taskTimeEstimate = getTimeEstimatesRecursivley(store, id);
+    let taskTimeEstimate = getTimeEstimatesRecursively(store, id);
     let graphDataEstimate = [];
     let sum = 0;
     Object.keys(taskTimeEstimate)
@@ -100,5 +119,20 @@ export const getGraphDataForTask = function(store, id) {
           graphDataEstimate.push({x: new Date(key), y: sum})
        });
 
-    return { estimate: graphDataEstimate, actual: []};
+    let commits = getCommitsRecursively(store, id);
+    let graphDataActual = [];
+    let actualSum = 0;
+
+    Object.entries(commits)
+      .sort((a,b) => (a[1].commitTimestamp > b[1].commitTimestamp) - (a[1].commitTimestamp < b[1].commitTimestamp))
+      .forEach(function(value, i) {
+        actualSum += value[1].commitWorkCompleted;
+        graphDataActual.push({x: new Date(value[1].commitTimestamp), y: actualSum})
+       });
+
+    return { estimate: graphDataEstimate, actual: graphDataActual};
+}
+
+export const getCommitWithTaskId = function(store, taskId, commitId) {
+    return getSelectedTask(store, taskId).content.commits[commitId] ? getSelectedTask(store, taskId).content.commits[commitId] : {};
 }
