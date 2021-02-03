@@ -7,30 +7,16 @@ const { Content } = Layout
 
 class LandingPage extends React.Component {
 
-
-
-
-
+    
     render() {
         return (
             <div>
+                <Header />
                 <div>
                     <h1 class="display-1 text-center">Welcome to Perro</h1>
                     <p class="mb-0 text-center">Perro: Simplify the Workflow</p>
                     <footer class="blockquote-footer text-center"><cite title="Source Title">Anonymous</cite></footer>
-                    <form>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Username</label>
-                            <input type="email" class="form-control form-control-lg w-50" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"></input>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control form-control-lg w-50 center" id="exampleInputPassword1" placeholder="Password"></input>
-                        </div>
-                    </form>
-                    <LoginButton />
                 </div>
-                
                 <Footer />
             </div>
         )
@@ -42,7 +28,7 @@ const LoginButton = withRouter(({ history }) => (
     <button 
         type="button" 
         class="btn btn-primary" 
-        onClick={() => { history.push('/tracking')}}>
+        onClick={() => { history.push('/auth/login')}}>
             Login
     </button>
 ))

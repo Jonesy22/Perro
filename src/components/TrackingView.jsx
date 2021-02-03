@@ -9,6 +9,7 @@ import { getGraphDataForTask, getSelectedTask, getSelectedTaskId } from "../data
 const FlexibleXYPlot = makeVisFlexible(XYPlot);
 
 class TrackingView extends React.Component {
+
 	constructor(props) {
 		super(props);
 		this.state = {milestones: []};

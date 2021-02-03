@@ -3,6 +3,7 @@ const path = require('path');
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
+const passport = require('passport');
 
 const port = process.env.PORT || 5000;
 
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 
 const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
+
 
 app.get('/ping', (req, res) => {
     return res.send('pong');

@@ -14,6 +14,12 @@ export const getTaskIdList = store =>
 export const getTaskById = (store, id) =>
 getTasksState(store) ? { ...getTasksState(store).byIds[id], id } : {};
 
+export const getUserProfile = function(store) {
+    
+    return getAppDataState(store) ? getAppDataState(store).userProfile : {};
+
+}
+
 /**
  * example of a slightly more complex selector
  * select from store combining information from multiple reducers

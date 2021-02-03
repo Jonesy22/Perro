@@ -6,6 +6,7 @@ import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux'
 import { setSelectedId, deleteTask } from '../data/actions'
 import { getTaskHierarchy } from "../data/selectors";
+import { getUserProfile } from "../data/selectors";
 import InputModal from './InputModal';
 const { Panel } = Collapse;
 
@@ -130,6 +131,6 @@ class MilestoneView extends React.Component {
 }
 
 export default connect(
-    state => ({ taskHierarchy: getTaskHierarchy(state) }),
+    state => ({ taskHierarchy: getTaskHierarchy(state), userProfile: getUserProfile(state) }),
     { setSelectedId, deleteTask }
   )(MilestoneView)
