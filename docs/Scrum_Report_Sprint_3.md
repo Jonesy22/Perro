@@ -20,3 +20,6 @@ The meeting consisted of talking about what we had accomplished in the last week
 
 ### Meeting 1/22:
 In this meeting we reviewed what we were working on since our last meeting with Taj where we specified the backlog tasks. Kyler is planning on working on the form validation when a user adds a task with the modal. Daniel made a couple of pull requests for the summary button that is able to print out a summary on the right for the task. He mentioned we might want to consider adding a reporter section into the Data view on the right as well. We could also add sections for teams which would incorporate Taj's idea of sharing tasks. Trevor was able to get a test database up and will continue working on Redux to implement frontend data. Matthew is planning on setting up OAuth 2 and serving some new APIs.
+
+### Meeting 1/25:
+This meeting we discussed the new database we have on the Oregon State server. We are planning to import some test data into this. Everyone else is working on their tasks from the previous meeting as well. We also talked about some more tasks we can add to the backlog including a way to view teams.

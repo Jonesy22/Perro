@@ -1,7 +1,18 @@
-const Header = () => {
+import GoogleLoginButton from "./GoogleLoginButton";
+import GoogleLogoutButton from "./GoogleLogoutButton";
+import { setUserProfile } from '../data/actions';
+import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { getUserProfile } from "../data/selectors";
+
+
+
+
+const Header = (props) => {
+
     return(
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a className="navbar-brand" href="#">Perro</a>
+            <a className="navbar-brand" href="/">Perro</a>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
@@ -9,11 +20,15 @@ const Header = () => {
             <ul className="navbar-nav mr-auto">
             </ul>
             <form className="form-inline my-2 my-lg-0">
-                <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Log In</button>
+                <GoogleLoginButton/>
+                <GoogleLogoutButton/>
             </form>
             </div>
         </nav>
     );
-};
+}
 
-export default Header;
+export default connect(
+    state => ({ userProfile: getUserProfile(state) }),
+    { setUserProfile }
+  )(Header);

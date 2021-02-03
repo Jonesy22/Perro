@@ -3,16 +3,28 @@ export const getTimeEstimatesState = store => store.timeEstimates;
 export const getAppDataState = store => store.appData;
 
 export const getSelectedTaskId = store => 
-getAppDataState(store) ? getAppDataState(store).selectedId : 0;
+getAppDataState(store) ? getAppDataState(store).selectedId : -1;
 
-export const getSelectedTask = store => 
-getTaskById(store, getSelectedTaskId(store));
+export const getSelectedTask = store => {
+    return getTaskById(store, getSelectedTaskId(store)) || {};
+}
 
 export const getTaskIdList = store =>
   getTasksState(store) ? getTasksState(store).allIds : [];
 
-export const getTaskById = (store, id) =>
-getTasksState(store) ? { ...getTasksState(store).byIds[id], id } : {};
+export const getTaskById = (store, id) => {
+    if(id !== -1) {
+        return getTasksState(store) ? { ...getTasksState(store).byIds[id], id } : {};
+    } else {
+        return getTasksState(store) ? { ...getTasksState(store).emptyTask, id } : {};
+    }
+}
+
+export const getUserProfile = function(store) {
+    
+    return getAppDataState(store) ? getAppDataState(store).userProfile : {};
+
+}
 
 /**
  * example of a slightly more complex selector
@@ -59,4 +71,34 @@ export const getAllChildTimeEstimates = function(store) {
     // We can do that summation here so that we don't have to add data to a parent task when adding time data to a child
     console.log(getSelectedTaskId(store))
     return getTaskTimeEstimateData(store, getSelectedTaskId(store))
+}
+
+export const getTimeEstimatesRecursivley = function(store, id) {
+    var taskTimeEstimate = {};
+    var parents = [id];
+    while(parents.length > 0) {
+        let task = getTaskById(store, parents[0])
+        if (task.content.childIds.length > 0) {
+            for(var i = 0; i < task.content.childIds.length; i++) {
+                parents.push(task.content.childIds[i])
+            }
+        }
+        taskTimeEstimate[task.content.DueDate] = (taskTimeEstimate[task.content.DueDate] || 0) + task.content.Estimate;
+        parents.shift();
+    }
+    return taskTimeEstimate
+}
+
+export const getGraphDataForTask = function(store, id) {
+    let taskTimeEstimate = getTimeEstimatesRecursivley(store, id);
+    let graphDataEstimate = [];
+    let sum = 0;
+    Object.keys(taskTimeEstimate)
+      .sort()
+      .forEach(function(key, i) {
+          sum += taskTimeEstimate[key]
+          graphDataEstimate.push({x: new Date(key), y: sum})
+       });
+
+    return { estimate: graphDataEstimate, actual: []};
 }

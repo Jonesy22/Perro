@@ -15,7 +15,7 @@ function EditForm(props) {
     const onSubmit = (data) => {
         console.log(data);
         console.log(data.ProjectName);
-        dispatch(updateTask(createTask(data.Name, data.Estimate, null, data.Summary, data.Description, selectedEdit.parentId, selectedEdit.childIds, selectedEdit.commits), props.taskId));
+        dispatch(updateTask(createTask(data.Name, parseInt(data.Estimate), data.DueDate, data.Summary, data.Description, selectedEdit.parentId, selectedEdit.childIds, selectedEdit.commits), props.taskId));
         {props.onHide()}
     }
     
@@ -53,19 +53,31 @@ return (
                 {errors.Summary && <p style={pStyle}> {reqFieldError}</p>}
                 </Form.Group>   
             </Col>
-            <Form.Group controlId={`${props.type}Estimate`}>
-                <Form.Label>Time Estimate</Form.Label>
-                <Form.Control
-                    type="text"
-                    name={`Estimate`}
-                    placeholder="In Hours"
-                    defaultValue={selectedEdit.Estimate}
-                    ref={register({ required: true, pattern: /^[0-9]*$/g })}
-                />
-                {console.log(errors)}
-                {errors.Estimate && errors.Estimate.type === "pattern" && <p style={pStyle}>Estimate must be a numerical value</p>}
-                {errors.Estimate && errors.Estimate.type === "required" && <p style={pStyle}> {reqFieldError}</p>}
-            </Form.Group>
+            <Col>
+                <Form.Group controlId={`${props.type}Estimate`}>
+                    <Form.Label>Time Estimate</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name={`Estimate`}
+                        placeholder="In Hours"
+                        defaultValue={selectedEdit.Estimate}
+                        ref={register({ required: true, pattern: /^[0-9]*$/g })}
+                    />
+                    {console.log(errors)}
+                    {errors.Estimate && errors.Estimate.type === "pattern" && <p style={pStyle}>Estimate must be a numerical value</p>}
+                    {errors.Estimate && errors.Estimate.type === "required" && <p style={pStyle}> {reqFieldError}</p>}
+                </Form.Group>
+                        
+                <Form.Group controlId={"DueDate"}>
+                    <Form.Label>Due Date</Form.Label>
+                        <Form.Control
+                            type="date" 
+                            defaultValue={selectedEdit.DueDate || new Date().toISOString().substr(0, 10)} 
+                            name={"DueDate"}
+                            ref={register({ required: true })}
+                        />
+                </Form.Group>
+            </Col>
         </Row>
         <Form.Group controlId={`Description`}>
             <Form.Label>{`Description`}</Form.Label>

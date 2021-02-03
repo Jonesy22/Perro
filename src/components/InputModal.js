@@ -59,19 +59,7 @@ class InputModal extends Component{
         super(props);
         //this.state = {takskId:-10};
     }
-
-    handleSubmit = (event) => {
-        event.preventDefault();
-        if(event.target.TaskName){
-            this.props.addTask({Name: event.target.TaskName.value, Estimate: (event.target.TaskEstimate.value), Summary: event.target.TaskSummary.value, Description: (event.target.TaskDescription.value),  parentId:this.props.taskId, childIds:[]})
-
-
-        }
-        if(event.target.ProjectName){
-            this.props.addTask({Name: event.target.ProjectName.value, Estimate: (event.target.ProjectEstimate.value), Summary: event.target.ProjectSummary.value, Description: (event.target.ProjectDescription.value),  parentId:this.props.taskId, childIds:[]})
-        }
-        
-    }
+    
     render(){      
         return(
             <Modal

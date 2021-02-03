@@ -1,7 +1,7 @@
-import { ADD_TASK, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, UPDATE_TASK } from "./actionTypes";
+import { ADD_TASK, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, UPDATE_TASK, SET_USER_PROFILE } from "./actionTypes";
 
 
-let nextTaskId = 3;
+let nextTaskId = 5;
 let nextTimeEstimateId = 1;
 
 export const addTask = (content) => ({
@@ -28,6 +28,13 @@ export const addTimeEstimate = (content) => ({
     content
   }
 });
+
+export const setUserProfile = (content) => ({
+  type: SET_USER_PROFILE,
+  payload: {
+    userProfile: content
+  }
+})
 
 export const setSelectedId = (content) => ({
   type: SET_SELECTED_ID,
