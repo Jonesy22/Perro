@@ -23,3 +23,10 @@ export function createCommit(commitId, commitName, taskId, commitWorkCompleted, 
         commitReporter: commitReporter, 
     }
 }
+
+export function createTeam(teamName,teamLead){
+    return {
+        teamName:teamName,
+        teamLead:teamLead
+    }
+}

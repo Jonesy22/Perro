@@ -1,9 +1,10 @@
-import { ADD_TASK, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT, DELETE_COMMIT, UPDATE_TASK, SET_USER_PROFILE } from "./actionTypes";
+import { ADD_TASK, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT, DELETE_COMMIT, UPDATE_TASK, SET_USER_PROFILE, ADD_TEAM } from "./actionTypes";
 
 
 let nextTaskId = 5;
 let nextTimeEstimateId = 1;
 let nextCommitId = 0;
+let nextTeamId=1;
 
 export const addTask = (content) => ({
   type: ADD_TASK,
@@ -64,6 +65,14 @@ export const deleteTask = (content) => ({
   type: DELETE_TASK,
   payload: {
     id: content.id,
+    content
+  }
+});
+
+export const addTeam = (content) => ({
+  type: ADD_TEAM,
+  payload: {
+    id: nextTeamId++,
     content
   }
 });

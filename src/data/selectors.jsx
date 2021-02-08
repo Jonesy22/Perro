@@ -1,4 +1,5 @@
 export const getTasksState = store => store.tasks;
+export const getTeamState = store => store.teams;
 export const getTimeEstimatesState = store => store.timeEstimates;
 export const getAppDataState = store => store.appData;
 
@@ -136,3 +137,6 @@ export const getGraphDataForTask = function(store, id) {
 export const getCommitWithTaskId = function(store, taskId, commitId) {
     return getSelectedTask(store, taskId).content.commits[commitId] ? getSelectedTask(store, taskId).content.commits[commitId] : {};
 }
+
+export const getAllTeams = store =>
+  getTeamState(store) ? getTeamState(store).byIds : {};
