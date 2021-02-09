@@ -4,14 +4,16 @@ import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTeam } from '../data/actions';
 import {createTeam} from '../data/createObjects';
+import { getUserProfile } from "../data/selectors";
 
 function CreateTeamForm(props) {
     const { register, handleSubmit, errors } = useForm();
+    const userProfile = useSelector(state =>  getUserProfile(state));
     const dispatch = useDispatch();
     
     const onSubmit = (data) => {
         console.log(data)
-        dispatch(addTeam(createTeam(data.teamName, "Current User")))
+        dispatch(addTeam(createTeam(data.teamName, userProfile.sd)))
         {props.onHide()}
     }
 

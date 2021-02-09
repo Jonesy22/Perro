@@ -1,19 +1,33 @@
 import GoogleLoginButton from "./GoogleLoginButton";
 import GoogleLogoutButton from "./GoogleLogoutButton";
 import { setUserProfile } from '../data/actions';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import React, { useState } from 'react';
 import { getUserProfile } from "../data/selectors";
 import { useHistory } from "react-router-dom";
 
 
 const Header = (props) => {
+
+    const userProfile = useSelector(state =>  getUserProfile(state));
+    console.log("User profile state =:")
+    console.log(userProfile)
+
     let history = useHistory();
-    function settingsClick() {
+
+    function settingsClick() { 
+        console.log("settings click")
         history.push('/settings')
     };
     function trackingClick() {
-        history.push('/tracking')
+            if (Object.entries(userProfile).length === 0) {
+                console.log("else")
+                history.push('/')
+            }
+            else {
+                console.log("if statement")
+                history.push('/tracking')
+            }
     };
     
     const navButton = {
@@ -28,20 +42,19 @@ const Header = (props) => {
     }
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a className="navbar-brand" href="/"><span style={{fontFamily:"Roboto"}}>Perro</span></a>
-            <button type="button"class="btn btn-primary" style={navButton} onClick={trackingClick}>Tracking</button>
+            <a className="navbar-brand" onClick={trackingClick}><span style={{fontFamily:"Roboto"}}>Perro</span></a>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
             </ul>
-            <button type="button" style={navButton} class="btn btn-primary" onClick={settingsClick}>Settings</button>
+            {Object.entries(userProfile).length != 0 && <button type="button" style={navButton} class="btn btn-primary" onClick={settingsClick}>Settings</button>}
             <div style={{marginRight:5, marginLeft:5}}>    
-                <GoogleLoginButton/>
+                {Object.entries(userProfile).length === 0 && <GoogleLoginButton/>}
             </div>
             <div>
-                <GoogleLogoutButton/>
+            {Object.entries(userProfile).length != 0 && <GoogleLogoutButton/>}
             </div>
             </div>
         </nav>

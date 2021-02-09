@@ -124,7 +124,7 @@ class SettingsView extends React.Component {
                         });
                     }}
                 />
-
+                
                 <Footer />
             </div>
         );
