@@ -4,15 +4,12 @@ import { connect } from 'react-redux';
 import { getUserProfile } from "../data/selectors";
 import { GoogleLogin } from 'react-google-login';
 import { useHistory } from "react-router-dom";
-import credentials from '../config/client'
 
 
 
 
 
 const GoogleLoginButton = (props) => {
-    
-    const clientID = credentials.clientID;
 
     let history = useHistory();
 
@@ -35,6 +32,7 @@ const GoogleLoginButton = (props) => {
           }
         })
         const data = await responseFromGoogle.json();
+        if (data.error) throw new Error(data.error)
         
         console.log("data from user: ", data);
 
@@ -51,7 +49,7 @@ const GoogleLoginButton = (props) => {
     return (
         <div>
         <GoogleLogin
-            clientId={clientID}
+            clientId={process.env.REACT_APP_CLIENT_ID}
             buttonText="Login"
             onSuccess={onSuccess}
             onFailure={onFailure}

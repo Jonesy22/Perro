@@ -4,17 +4,19 @@ import { connect } from 'react-redux';
 import { getUserProfile } from "../data/selectors";
 import { GoogleLogout } from 'react-google-login';
 import { useHistory } from "react-router-dom";
-import credentials from '../config/client'
 
 
 
 const GoogleLogoutButton = () => {
 
-    const clientID = credentials.clientID;
-
     let history = useHistory();
 
-    const logout = (res) => {
+    const logout = async (res) => {
+
+        await fetch("/api/v1/auth/logout", {
+            method: "DELETE"
+        })
+
         console.log('Logout success!:');
         history.push('/');
     };
@@ -23,7 +25,7 @@ const GoogleLogoutButton = () => {
     return (
         <div>
         <GoogleLogout
-            clientId={clientID}
+            clientId={process.env.CLIENT_ID}
             buttonText="Logout"
             onLogoutSuccess={logout}
             cookiePolicy={'single_host_origin'}

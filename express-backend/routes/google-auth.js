@@ -3,6 +3,7 @@ const client = new OAuth2Client('135401201253-5dd1qt8cqq3qh4h3jfnibkcclkrs8l2g.a
 const mariadb = require('mariadb');
 const pool = mariadb.createPool({
      host: 'classmysql.engr.oregonstate.edu', 
+     database: 'capstone_2021_group60',
      user:'capstone_2021_group60', 
      password: 'Perro109*',
      connectionLimit: 5
@@ -15,11 +16,9 @@ router.post("/", async (req, res) => {
     const { token }  = req.body
     console.log("token: ", req.body);
 
-
-
     const ticket = await client.verifyIdToken({
         idToken: token,
-        audience: '135401201253-5dd1qt8cqq3qh4h3jfnibkcclkrs8l2g.apps.googleusercontent.com'
+        audience: process.env.REACT_APP_CLIENT_ID,
     });
     const { name, email, picture } = ticket.getPayload(); 
     let conn;
@@ -38,10 +37,12 @@ router.post("/", async (req, res) => {
         if (conn) return conn.end();
     }
 
-    req.session.userId = user.id;
+    req.session.userId = user.userID;
     
     res.status(201);
     res.json(user);
 })
+
+router.delete("/")
 
 module.exports = router;
