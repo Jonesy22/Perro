@@ -8,17 +8,38 @@ import credentials from '../config/client'
 
 
 
+
+
 const GoogleLoginButton = (props) => {
     
     const clientID = credentials.clientID;
 
     let history = useHistory();
 
-    const onSuccess = (res) => {
+    const onSuccess = async (res) => {
         // res returns object with information on account
+        // console.log("res: ", res);
+        var id_token = res.getAuthResponse().id_token;
+
         history.push('/tracking');
         var userProfile = res.getBasicProfile();
         props.setUserProfile(userProfile);
+
+        const responseFromGoogle = await fetch("http://localhost:5000/api/v1/auth/google", {
+            method: "POST",
+            body: JSON.stringify({
+            token: id_token
+          }),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+        const data = await responseFromGoogle.json();
+        
+        console.log("data from user: ", data);
+
+        history.push('/tracking');
+
         console.log('Login success!:', props.userProfile);
     };
 

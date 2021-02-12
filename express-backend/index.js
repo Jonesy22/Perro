@@ -15,6 +15,9 @@ app.use(bodyParser.json());
 const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
 
+const googleAuthRouter = require("./routes/google-auth");
+app.use("/api/v1/auth/google", googleAuthRouter);
+
 
 app.get('/ping', (req, res) => {
     return res.send('pong');
