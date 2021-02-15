@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
-import React, {Component, component} from 'react';
-import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
-import { connect } from 'react-redux';
+import React from 'react';
+import {Button, Row, Col, Form} from 'react-bootstrap';
 import { updateTask } from '../data/actions';
 import { getTaskById } from "../data/selectors";
 import { useSelector, useDispatch } from 'react-redux';
@@ -16,7 +15,7 @@ function EditForm(props) {
         console.log(data);
         console.log(data.ProjectName);
         dispatch(updateTask(createTask(data.Name, parseInt(data.Estimate), data.DueDate, data.Summary, data.Description, selectedEdit.parentId, selectedEdit.childIds, selectedEdit.commits), props.taskId));
-        {props.onHide()}
+        props.onHide()
     }
     
     const pStyle = {

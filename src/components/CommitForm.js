@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
-import React, {Component, component, useState} from 'react';
-import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
+import React, {useState} from 'react';
+import {Button, Row, Col, Form} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
 import { addCommit } from '../data/actions'
 import { createCommit } from '../data/createObjects.js';
@@ -19,7 +19,7 @@ function CommitForm(props) {
 
         // selectedCommit.commitId will be -1 above if props.loadFromSelectedCommitId = false and thus will generate a new id in the action addCommit()
         dispatch(addCommit(createCommit(selectedCommit.commitId, data.commitName, props.taskId, parseInt(data.commitWorkCompleted), data.commitDescription, data.commitTimestamp, completedSwitch, data.commitReporter)))
-        {props.onHide()}
+        props.onHide()
     }
 
     const pStyle = {

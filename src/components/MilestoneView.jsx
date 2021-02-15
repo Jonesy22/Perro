@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Component } from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal';
 import { Collapse } from 'antd';
@@ -7,7 +7,6 @@ import { connect } from 'react-redux'
 import { setSelectedId, deleteTask } from '../data/actions'
 import { getSelectedTaskId, getTaskHierarchy, getUserProfile, getSelectedTask } from "../data/selectors";
 import InputModal from './InputModal';
-import EditModal from './EditModal';
 const { Panel } = Collapse;
 
 class MilestoneView extends React.Component {

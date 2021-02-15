@@ -1,9 +1,6 @@
 import { useForm } from "react-hook-form";
-import React, {Component, component} from 'react';
-import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux'
-import { connect } from 'react-redux'
-import { addTask } from '../data/actions'
+import React from 'react';
+import {Button, Row, Col, Form} from 'react-bootstrap';
 import {createTask} from '../data/createObjects.js';
 
 function InputForm(props) {
@@ -17,7 +14,7 @@ function InputForm(props) {
         if(data.ProjectName){
             props.addTask(createTask(data.ProjectName, parseInt(data.ProjectEstimate), data.DueDate, data.ProjectSummary, data.ProjectDescription,  props.taskId, []));
         }
-        {props.onHide()}
+        props.onHide()
     }
 
     const pStyle = {

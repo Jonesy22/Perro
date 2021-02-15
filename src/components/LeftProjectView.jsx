@@ -1,6 +1,4 @@
-import ButtonGroup from 'react-bootstrap/ButtonGroup'
-import Button from 'react-bootstrap/Button'
-import React, {useState, useEffect } from 'react'
+import React from 'react'
 import MilestoneView from './MilestoneView'
 
 class LeftProjectView extends React.Component {

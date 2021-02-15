@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Modal, Button, Row, Col} from 'react-bootstrap';
+import {Modal, Button} from 'react-bootstrap';
 import { connect } from 'react-redux'
 import { addTask } from '../data/actions'
 import InputForm from './InputForm'
@@ -7,10 +7,6 @@ import CommitForm from './CommitForm'
 import EditForm from './EditForm';
 
 class InputModal extends Component{
-    constructor(props){
-        super(props);
-        //this.state = {takskId:-10};
-    }
 
     components = {
         inputForm: InputForm,

@@ -2,7 +2,7 @@ import GoogleLoginButton from "./GoogleLoginButton";
 import GoogleLogoutButton from "./GoogleLogoutButton";
 import { setUserProfile } from '../data/actions';
 import { connect } from 'react-redux';
-import React, { useState } from 'react';
+import React from 'react';
 import { getUserProfile } from "../data/selectors";
 
 
