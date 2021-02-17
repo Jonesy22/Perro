@@ -3,7 +3,7 @@ import LegendView from './LegendView'
 import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineMarkSeries, ChartLabel, makeVisFlexible} from 'react-vis';
 import { connect } from 'react-redux'
 import { addTimeEstimate } from '../data/actions'
-import { getGraphDataForTask, getSelectedTask, getSelectedTaskId } from "../data/selectors";
+import { getCommitWithTaskId, getGraphDataForTask, getSelectedTask, getSelectedTaskCommits, getSelectedTaskId } from "../data/selectors";
 import CommitListView from "./CommitListView";
 
 const FlexibleXYPlot = makeVisFlexible(XYPlot);
@@ -68,31 +68,22 @@ class TrackingView extends React.Component {
             //Black line
 			   color="#000000"
     			data={this.props.timeEstimateGraphData.estimate}
-				onValueMouseOver={(data, event)=>{
-					console.log(this.props.timeEstimateGraphData.name)
-				  }}
+				
 			/>
-			{this.props.selectedTask && (
-			<Hint value={this.props.selectedTask}>
-              <div background={seriesColors['series1']}>
-                <div>Name 1:</div>
-                <div>${this.state.hoverValue1.y}</div>
-              </div>
-</Hint>
-)}
+		
   		 	<LineMarkSeries
                //Blue line
 			   color="#41BAFB"
     			data={this.props.timeEstimateGraphData.actual}
-				onValueMouseOver={(data, event)=>{
-					console.log(this.props.selectedTask.content.name)
-				  }}
+				onValueMouseOver={() => {
+					console.log(getCommitWithTaskId(this.props.selectedTask));
+				}}
+				
 			/>
             
             
 			</FlexibleXYPlot>	
-
-            <CommitListView></CommitListView>
+			<CommitListView></CommitListView>
         </div>
         )
     }
