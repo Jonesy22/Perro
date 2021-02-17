@@ -5,17 +5,17 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Provider } from 'react-redux'
-import { ConnectedRouter } from 'connected-react-router';
 import configureStore, { history } from './data/configureStore';
+import { Router } from 'react-router-dom';
 
 const store = configureStore();
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
     <Provider store={store}>
-      <ConnectedRouter history={history}>
+      <Router history={history}>
         <App />
-      </ConnectedRouter>
+      </Router>
     </Provider>,
   rootElement
 );
