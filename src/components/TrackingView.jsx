@@ -66,13 +66,27 @@ class TrackingView extends React.Component {
 			
             <LineMarkSeries
             //Black line
-			   color="#41BAFB"
+			   color="#000000"
     			data={this.props.timeEstimateGraphData.estimate}
+				onValueMouseOver={(data, event)=>{
+					console.log(this.props.timeEstimateGraphData.name)
+				  }}
 			/>
+			{this.props.selectedTask && (
+			<Hint value={this.props.selectedTask}>
+              <div background={seriesColors['series1']}>
+                <div>Name 1:</div>
+                <div>${this.state.hoverValue1.y}</div>
+              </div>
+</Hint>
+)}
   		 	<LineMarkSeries
                //Blue line
-			   color="#000000"
+			   color="#41BAFB"
     			data={this.props.timeEstimateGraphData.actual}
+				onValueMouseOver={(data, event)=>{
+					console.log(this.props.selectedTask.content.name)
+				  }}
 			/>
             
             
