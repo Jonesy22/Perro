@@ -136,3 +136,51 @@ export const getGraphDataForTask = function(store, id) {
 export const getCommitWithTaskId = function(store, taskId, commitId) {
     return getSelectedTask(store, taskId).content.commits[commitId] ? getSelectedTask(store, taskId).content.commits[commitId] : {};
 }
+
+export const getTaskChildrenList = function (store, taskId) {
+    var task = getTaskById(store, taskId)
+    var list = []
+    list.push(task)
+    if (task.content.childIds.length > 0) {
+        for(var i = 0; i < task.content.childIds.length; i++) {
+            console.log(task.content.childIds)
+            list = list.concat(getTaskChildrenList(store, task.content.childIds[i]))
+            console.log(list)
+        }
+    }
+    return list
+}
+
+
+export const getTaskDataByDate = function(store, taskId) {
+    let taskList = getTaskChildrenList(store, taskId);
+    var taskLookup = {};
+    for (let i = 0; i < taskList.length; i++) {
+        let task = taskList[i];
+        if (taskLookup[task.content.DueDate]){
+            taskLookup[task.content.DueDate].push(task)
+        }
+        else {
+            taskLookup[task.content.DueDate] = [task]
+        }
+        
+    }
+    console.log(taskLookup)
+    console.log(taskList)
+    return taskLookup
+}
+
+export const getCommitDataByDate = function(store, taskId) {
+    let commitList = getCommitsRecursively(store, taskId);
+    var commitLookup = {};
+    for (let i = 0; i < commitList.length; i++) {
+        let commit = commitList[i];
+        if (commitLookup[commit.content.commitTimestamp]){
+            commitLookup[commit.content.commitTimestamp].push(commit)
+        }
+        else {
+            commitLookup[commit.content.commitTimestamp] = [commit]
+        }
+    }
+    return commitLookup
+}

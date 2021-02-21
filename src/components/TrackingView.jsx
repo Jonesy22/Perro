@@ -1,9 +1,10 @@
 import React from 'react'
+import {useState, useRef} from 'react';
 import LegendView from './LegendView'
-import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineMarkSeries, ChartLabel, makeVisFlexible} from 'react-vis';
+import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineMarkSeries, ChartLabel, makeVisFlexible, Hint, LineSeries} from 'react-vis';
 import { connect } from 'react-redux'
 import { addTimeEstimate } from '../data/actions'
-import { getCommitWithTaskId, getGraphDataForTask, getSelectedTask, getSelectedTaskCommits, getSelectedTaskId } from "../data/selectors";
+import { getCommitWithTaskId, getGraphDataForTask, getSelectedTask, getSelectedTaskCommits, getSelectedTaskId, getTaskDataByDate } from "../data/selectors";
 import CommitListView from "./CommitListView";
 
 const FlexibleXYPlot = makeVisFlexible(XYPlot);
@@ -12,7 +13,11 @@ class TrackingView extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {milestones: []};
+		this.state = {milestones: [], hoveredPoint: {
+			x: 0,
+			y: 0,
+			}, 
+			isHoveringOverLine: [false, false]};
 		this.printName = this.printName.bind(this);
     }
     printName() {
@@ -63,24 +68,86 @@ class TrackingView extends React.Component {
 					textAnchor: 'end'
 				}}
 			/>
-			
-            <LineMarkSeries
-            //Black line
-			   color="#000000"
-    			data={this.props.timeEstimateGraphData.estimate}
-				
-			/>
 		
-  		 	<LineMarkSeries
-               //Blue line
-			   color="#41BAFB"
-    			data={this.props.timeEstimateGraphData.actual}
-				onValueMouseOver={() => {
-					console.log(getCommitWithTaskId(this.props.selectedTask));
+
+			<LineMarkSeries
+			color="#00000"
+				key={0}
+				onSeriesMouseOver={(e) => {
+					let newHovering = this.state.isHoveringOverLine;
+					newHovering[0] = true;
+					this.setState({isHoveringOverLine: newHovering})
 				}}
-				
+				onSeriesMouseOut={(e) => {
+					let newHovering = this.state.isHoveringOverLine;
+					newHovering[0] = false;
+					this.setState({isHoveringOverLine: newHovering})
+				}}
+				onNearestXY={(e, { index }) => {
+				if (this.state.isHoveringOverLine[0]) {
+					const hoveredLine = this.props.timeEstimateGraphData.estimate[index];
+					this.setState({hoveredPoint: {
+					x: hoveredLine.x,
+					y: hoveredLine.y,
+					}});
+				}
+				}}
+				data={this.props.timeEstimateGraphData.estimate}
 			/>
-            
+
+			{this.state.hoveredPoint && this.state.isHoveringOverLine[0] && (this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && (this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && <Hint value={this.state.hoveredPoint}>
+						  <div style={{background: 'purple'}}>
+						  {this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)].map((value, index) => {
+                   				 return  <div>
+										<p>{value.content.Name}</p>
+										<p>{value.content.Description}</p>
+										<p>{value.content.DueDate}</p>
+									</div>
+                			})}
+							<p>{this.state.hoveredPoint.y}</p>
+						</div>
+					</Hint>}
+
+
+  		 	<LineMarkSeries
+			   color="#41BAFB"
+				   key={1}
+				   onSeriesMouseOver={(e) => {
+					   let newHovering = this.state.isHoveringOverLine;
+					   newHovering[1] = true;
+					   this.setState({isHoveringOverLine: newHovering})
+				   }}
+				   onSeriesMouseOut={(e) => {
+					   let newHovering = this.state.isHoveringOverLine;
+					   newHovering[1] = false;
+					   this.setState({isHoveringOverLine: newHovering})
+				   }}
+				   onNearestXY={(e, { index }) => {
+				   if (this.state.isHoveringOverLine[1]) {
+					    const hoveredLine = this.props.timeEstimateGraphData.actual[index];
+					   this.setState({hoveredPoint: {
+					   x: hoveredLine.x,
+					   y: hoveredLine.y,
+					   }});
+				   }
+				   }}
+				   data={this.props.timeEstimateGraphData.actual}
+			   />
+
+			   
+			{this.state.hoveredPoint && (this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && (this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && <Hint value={this.state.hoveredPoint}>
+						  <div style={{background: 'purple'}}>
+						  {this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)].map((value, index) => {
+                   				 return  <div>
+										<p>{value.content.Name}</p>
+										<p>{value.content.Description}</p>
+										<p>{value.content.DueDate}</p>
+									</div>
+                			})}
+							<p>{this.state.hoveredPoint.y}</p>
+						</div>
+					</Hint>}
+        
             
 			</FlexibleXYPlot>	
 			<CommitListView></CommitListView>
@@ -90,6 +157,61 @@ class TrackingView extends React.Component {
 }
 
 export default connect(
-    state => ({selectedTask: getSelectedTask(state), timeEstimateGraphData: getGraphDataForTask(state, getSelectedTaskId(state)) }),
+    state => ({selectedTask: getSelectedTask(state), timeEstimateGraphData: getGraphDataForTask(state, getSelectedTaskId(state)), taskByDate: getTaskDataByDate(state, getSelectedTaskId(state)) }),
     { addTimeEstimate }
-  )(TrackingView)
+  )(TrackingView) 
+
+/* function TrackingView() {
+    const data = [
+      [
+        { x: 1, y: 10 },
+        { x: 2, y: 5 },
+        { x: 3, y: 15 },
+      ],
+      [
+        { x: 2, y: 10 },
+        { x: 3, y: 5 },
+        { x: 4, y: 15 },
+      ],
+    ];
+    const isHoveringOverLine = useRef({});
+    const [hoveredPoint, setHoveredPoint] = useState();
+  
+    return (
+      <FlexibleXYPlot width={800} height={500}>
+        {data.map((lineData, lineIndex) => (
+          <LineMarkSeries
+            key={lineIndex}
+            // onValueMouseOver={(e) => {
+            //   console.log("hello");
+            // }}
+             onSeriesMouseOver={(e) => {
+              isHoveringOverLine.current[lineIndex] = true;
+            }} 
+           onSeriesMouseOut={(e) => {
+              isHoveringOverLine.current[lineIndex] = false;
+            }}
+            onNearestXY={(e, { index }) => {
+              if (isHoveringOverLine.current[lineIndex]) {
+                const hoveredLine = lineData[index];
+                setHoveredPoint({
+                  x: hoveredLine.x,
+                  y: hoveredLine.y,
+                });
+              }
+            }}
+            data={lineData}
+          />
+        ))}
+{hoveredPoint && <Hint value={hoveredPoint}>
+            <div style={{background: 'purple'}}>
+                <h3>Value of hint</h3>
+                <p>{hoveredPoint.x}</p>
+                <p>{hoveredPoint.y}</p>
+            </div>
+        </Hint>}
+      </FlexibleXYPlot>
+    );
+  }
+
+  export default TrackingView; */
