@@ -25,5 +25,5 @@ Trevor:
 
 ## __Scrum record:__ 
 
-### Meeting 1/29:
-
+### Meeting 2/22:
+We met today to talk about what we have done so far and what we are going to be working on this week. Some of us have been busy with another course as an assignment was due this Monday, but were still able to get some work completed. Daniel is working on the tooltip for the graph that displays info about each project/task/subtask. Trevor helped Daniel immensely with completing this, as well working on backend server calls. Matthew is working on the backend as well and hasn't noted any roadblocks currently, and Kyler is working on the team management page so that a employee or manager can add new people to the project and change who has access to the project. Will be meeting Wednesday with our project partner Taj.
