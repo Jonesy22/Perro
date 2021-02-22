@@ -96,15 +96,18 @@ class TrackingView extends React.Component {
 			/>
 
 			{this.state.hoveredPoint && this.state.isHoveringOverLine[0] && (this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && (this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && <Hint value={this.state.hoveredPoint}>
-						  <div style={{background: 'purple'}}>
+						  <div style={{backgroundColor: '#b3b6c7', color: 'black',
+						  				 border: '2px solid black',
+										 borderRadius: 5, padding: '5px',
+										 fontSize: '14px'}}>
 						  {this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)].map((value, index) => {
                    				 return  <div>
-										<p>{value.content.Name}</p>
-										<p>{value.content.Description}</p>
-										<p>{value.content.DueDate}</p>
+										<p><b>Name</b>: {value.content.Name}</p>
+										<p><b>Description</b>: {value.content.Description}</p>
+										<p><b>Due</b>: {value.content.DueDate}</p>
 									</div>
                 			})}
-							<p>{this.state.hoveredPoint.y}</p>
+							<p><b>Story points</b>: {this.state.hoveredPoint.y}</p>
 						</div>
 					</Hint>}
 
@@ -135,8 +138,8 @@ class TrackingView extends React.Component {
 			   />
 
 			   
-			{this.state.hoveredPoint && (this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && (this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && <Hint value={this.state.hoveredPoint}>
-						  <div style={{background: 'purple'}}>
+			{/* {this.state.hoveredPoint && (this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && (this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && <Hint value={this.state.hoveredPoint}>
+						  <div style={{background: 'blue', fontSize: '2px'}}>
 						  {this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)].map((value, index) => {
                    				 return  <div>
 										<p>{value.content.Name}</p>
@@ -146,7 +149,7 @@ class TrackingView extends React.Component {
                 			})}
 							<p>{this.state.hoveredPoint.y}</p>
 						</div>
-					</Hint>}
+					</Hint>} */}
         
             
 			</FlexibleXYPlot>	
@@ -154,64 +157,10 @@ class TrackingView extends React.Component {
         </div>
         )
     }
+	
 }
 
 export default connect(
     state => ({selectedTask: getSelectedTask(state), timeEstimateGraphData: getGraphDataForTask(state, getSelectedTaskId(state)), taskByDate: getTaskDataByDate(state, getSelectedTaskId(state)) }),
     { addTimeEstimate }
   )(TrackingView) 
-
-/* function TrackingView() {
-    const data = [
-      [
-        { x: 1, y: 10 },
-        { x: 2, y: 5 },
-        { x: 3, y: 15 },
-      ],
-      [
-        { x: 2, y: 10 },
-        { x: 3, y: 5 },
-        { x: 4, y: 15 },
-      ],
-    ];
-    const isHoveringOverLine = useRef({});
-    const [hoveredPoint, setHoveredPoint] = useState();
-  
-    return (
-      <FlexibleXYPlot width={800} height={500}>
-        {data.map((lineData, lineIndex) => (
-          <LineMarkSeries
-            key={lineIndex}
-            // onValueMouseOver={(e) => {
-            //   console.log("hello");
-            // }}
-             onSeriesMouseOver={(e) => {
-              isHoveringOverLine.current[lineIndex] = true;
-            }} 
-           onSeriesMouseOut={(e) => {
-              isHoveringOverLine.current[lineIndex] = false;
-            }}
-            onNearestXY={(e, { index }) => {
-              if (isHoveringOverLine.current[lineIndex]) {
-                const hoveredLine = lineData[index];
-                setHoveredPoint({
-                  x: hoveredLine.x,
-                  y: hoveredLine.y,
-                });
-              }
-            }}
-            data={lineData}
-          />
-        ))}
-{hoveredPoint && <Hint value={hoveredPoint}>
-            <div style={{background: 'purple'}}>
-                <h3>Value of hint</h3>
-                <p>{hoveredPoint.x}</p>
-                <p>{hoveredPoint.y}</p>
-            </div>
-        </Hint>}
-      </FlexibleXYPlot>
-    );
-  }
-
-  export default TrackingView; */
