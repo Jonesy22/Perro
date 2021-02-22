@@ -13,9 +13,9 @@ finishing some of the functionality that allows users to actually use this softw
 ## __Member tasks:__ 
 Kyler: Team management page. Ensuring that a user in the team can view their own team, and that it works as intended.
 
-Matthew: Backend server management. Making sure the Google Login feature is working as intended and that the user in the back end can 
+Matthew: Backend server management. Making sure the Google Login feature is working as intended and working on the routes.
 
-Daniel: 
+Daniel: Graph tool tip. Hovering over a point in the line which marks a task, will pull up information from that task, or from that commit. Handling edge cases where a commit and estimate are plotted at the same point.
 
 Trevor: 
 
