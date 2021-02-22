@@ -5,19 +5,15 @@ Our goal for this sprint is to finish up our Minimal Viable Product (MVP), so we
 finishing some of the functionality that allows users to actually use this software for a project.
 
 ## __Product log:__ 
-- Create user authentication sessions on backend server
-- Create sql queries to get data by inserting userID from user session
-- Document how to handle edge cases on graph and implement solution
-- Create separate page for displaying teams and related functionality
-- Create teams table in db and define required data
-- Improve api requests to get and send data to backend using async requests with a callback to update data in redux on successful db updates.
-- Implement teams into authenticated routes for getting data such that a user has access to all project associated with teams they are on (stretch goal for this sprint)
-- Hookup task creation user dropdown to pull from teams/users on existing projects (stretch goal for this sprint)
-
+- Create user entity in the backend that can then be used in the team management page
+- Connect this user entity to the task modal so that a user can be assigned a task
+- Connect Redux with the backend so we can store user information and easily pull from there
+- Polish / Edit data visualization
+- Finish graph tool tip when hovering over points on the graph
 ## __Member tasks:__ 
-Kyler: 
+Kyler: Team management page. Ensuring that a user in the team can view their own team, and that it works as intended.
 
-Matthew: 
+Matthew: Backend server management. Making sure the Google Login feature is working as intended and that the user in the back end can 
 
 Daniel: 
 
