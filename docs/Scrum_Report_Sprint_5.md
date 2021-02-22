@@ -17,7 +17,7 @@ Matthew: Backend server management. Making sure the Google Login feature is work
 
 Daniel: Graph tool tip. Hovering over a point in the line which marks a task, will pull up information from that task, or from that commit. Handling edge cases where a commit and estimate are plotted at the same point.
 
-Trevor: 
+Trevor: Ability to link to tasks, async api requests from components that update redux on return.
 
 ## __Scrum record:__ 
 
