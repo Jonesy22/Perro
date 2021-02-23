@@ -27,8 +27,14 @@ app.use(session({
 
 const port = process.env.PORT || 5000;
 
+var corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true
+}
+
 app.use(express.static(path.join(__dirname, 'build')));
-app.options('*', cors());
+// app.options('*', cors());
+app.use(cors(corsOptions))
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

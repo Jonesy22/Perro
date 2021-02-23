@@ -32,15 +32,27 @@ router.post("/google", async (req, res) => {
         console.log("after query");
 
     } catch (err) {
+        console.log(err)
         throw err;
     } finally {
+
+        req.session.cookie.userId = user.userID;
+        console.log(req.session)    
+        console.log(req.sessionID)
+
+        res.status(201);
+        res.json(user);
+
         if (conn) return conn.end();
     }
+})
 
-    req.session.userId = user.userID;
-    
+// test route that prints out the session for testing
+router.post("/test", async(req, res) => {
+    console.log("--------------------------")
+    console.log(req.session)   
+    console.log(req.sessionID)
     res.status(201);
-    res.json(user);
 })
 
 router.delete("/logout", async (req, res) => {

@@ -14,8 +14,17 @@ const GoogleLogoutButton = () => {
     const logout = async (res) => {
 
         const responseFromGoogle = await fetch("http://localhost:5000/api/v1/auth/logout", {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Headers": "true"
+            }
         })
+        const data = await responseFromGoogle.json();
+        if (data.error) throw new Error(data.error)
+        
+        console.log("data from user: ", data);
 
         console.log('Logout success!:');
         history.push('/');
@@ -25,7 +34,7 @@ const GoogleLogoutButton = () => {
     return (
         <div>
         <GoogleLogout
-            clientId={process.env.CLIENT_ID}
+            clientId={process.env.REACT_APP_CLIENT_ID}
             buttonText="Logout"
             onLogoutSuccess={logout}
             cookiePolicy={'single_host_origin'}
