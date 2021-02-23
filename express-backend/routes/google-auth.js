@@ -12,7 +12,7 @@ const pool = mariadb.createPool({
 const express = require("express");
 const router = express.Router();
 
-router.post("/", async (req, res) => {
+router.post("/google", async (req, res) => {
     const { token }  = req.body
     console.log("token: ", req.body);
 
@@ -43,6 +43,12 @@ router.post("/", async (req, res) => {
     res.json(user);
 })
 
-router.delete("/")
+router.delete("/logout", async (req, res) => {
+    await req.session.destroy()
+    res.status(200)
+    res.json({
+        message: "Logged out successfully"
+    })
+})
 
 module.exports = router;

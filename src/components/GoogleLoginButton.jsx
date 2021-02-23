@@ -18,6 +18,7 @@ const GoogleLoginButton = (props) => {
         // console.log("res: ", res);
         var id_token = res.getAuthResponse().id_token;
 
+        console.log("id: ", process.env.REACT_APP_CLIENT_ID);
         history.push('/tracking');
         var userProfile = res.getBasicProfile();
         props.setUserProfile(userProfile);
@@ -28,9 +29,11 @@ const GoogleLoginButton = (props) => {
             token: id_token
           }),
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "true"
           }
-        })
+        });
         const data = await responseFromGoogle.json();
         if (data.error) throw new Error(data.error)
         

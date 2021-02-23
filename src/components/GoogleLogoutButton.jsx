@@ -13,7 +13,7 @@ const GoogleLogoutButton = () => {
 
     const logout = async (res) => {
 
-        await fetch("/api/v1/auth/logout", {
+        const responseFromGoogle = await fetch("http://localhost:5000/api/v1/auth/logout", {
             method: "DELETE"
         })
 
