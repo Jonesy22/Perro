@@ -36,7 +36,7 @@ router.post("/google", async (req, res) => {
         throw err;
     } finally {
 
-        req.session.cookie.userId = user.userID;
+        req.session.cookie.userId = user.userID
         console.log(req.session)    
         console.log(req.sessionID)
 

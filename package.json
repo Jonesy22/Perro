@@ -2,7 +2,6 @@
   "name": "perro",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3000",
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
     "@reduxjs/toolkit": "^1.4.0",

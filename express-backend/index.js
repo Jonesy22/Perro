@@ -7,17 +7,8 @@ const passport = require('passport');
 const mariadb = require('mariadb');
 var session = require('express-session')
 
-let sessionOptions = {
-    secret: process.env.REACT_APP_CLIENT_SECRET,
-    cookie: {
-      maxAge:269999999999
-    },
-    saveUninitialized: true,
-    resave:true
-};
-
 app.use(session({
-    secret: process.env.REACT_APP_CLIENT_SECRET,
+    secret: 'secretidhere',
     cookie: {
       maxAge:269999999999
     },
@@ -34,7 +25,7 @@ var corsOptions = {
 
 app.use(express.static(path.join(__dirname, 'build')));
 // app.options('*', cors());
-app.use(cors(corsOptions))
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
