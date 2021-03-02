@@ -20,13 +20,15 @@ router.post("/google", async (req, res) => {
         idToken: token,
         audience: process.env.REACT_APP_CLIENT_ID,
     });
-    const { name, email, picture } = ticket.getPayload(); 
+    // const { name, email, picture } = ticket.getPayload(); 
+    // console.log(ticket.getPayload());
+    // console.log(ticket.getUserId());
     let conn;
     let user;
     try {
         conn = await pool.getConnection();
         console.log("after conn")
-        user = await conn.query("INSERT INTO `Users` VALUES (NULL, 'fname000','lname000','user000@email.com')", [1, "mariadb"]);
+        user = await conn.query("INSERT INTO `Users` VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `sessionID`=?", [ticket.getUserId(), req.body.token, req.sessionID, ticket.getPayload().given_name, ticket.getPayload().family_name, ticket.getPayload().email, req.sessionID]);
         console.log(user); // { affectedRows: 1, insertId: 1, warningStatus: 0 }
 
         console.log("after query");
@@ -37,8 +39,8 @@ router.post("/google", async (req, res) => {
     } finally {
 
         req.session.cookie.userId = user.userID;
-        console.log(req.session)    
-        console.log(req.sessionID)
+        // console.log(req.session)    
+        console.log("sessionID: ", req.sessionID)
 
         res.status(201);
         res.json(user);
@@ -50,7 +52,6 @@ router.post("/google", async (req, res) => {
 // test route that prints out the session for testing
 router.post("/test", async(req, res) => {
     console.log("--------------------------")
-    console.log(req.session)   
     console.log(req.sessionID)
     res.status(201);
 })

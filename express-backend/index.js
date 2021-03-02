@@ -6,6 +6,7 @@ const app = express();
 const passport = require('passport');
 const mariadb = require('mariadb');
 var session = require('express-session')
+require('dotenv').config()
 
 let sessionOptions = {
     secret: process.env.REACT_APP_CLIENT_SECRET,

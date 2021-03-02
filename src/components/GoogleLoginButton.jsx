@@ -18,8 +18,7 @@ const GoogleLoginButton = (props) => {
         // console.log("res: ", res);
         var id_token = res.getAuthResponse().id_token;
 
-        console.log("id: ", process.env.REACT_APP_CLIENT_ID);
-        history.push('/tracking');
+        // history.push('/tracking');
         var userProfile = res.getBasicProfile();
         props.setUserProfile(userProfile);
 
@@ -40,25 +39,26 @@ const GoogleLoginButton = (props) => {
         
         console.log("data from user: ", data);
         
+
+        console.log('Login success!:', userProfile);
+        // console.log('Login success!:', props.userProfile);
         history.push('/tracking');
 
-        console.log('Login success!:', props.userProfile);
-
         // testing code, will send another request to /api/v1/auth/test to check if the sessionID is the same
-        const responseFromGoogle2 = await fetch("http://localhost:5000/api/v1/auth/test", {
-            method: "POST",
-            credentials: "include",
-            body: JSON.stringify({
-            token: id_token
-          }),
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "true"
-          }
-        });
-        const data2 = await responseFromGoogle2.json();
-        console.log(data2)
+        // const responseFromGoogle2 = await fetch("http://localhost:5000/api/v1/auth/test", {
+        //     method: "POST",
+        //     credentials: "include",
+        //     body: JSON.stringify({
+        //     token: id_token
+        //   }),
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     "Access-Control-Allow-Origin": "*",
+        //     "Access-Control-Allow-Headers": "true"
+        //   }
+        // });
+        // const data2 = await responseFromGoogle2.json();
+        // console.log(data2)
     };
 
     const onFailure = (res) => {
