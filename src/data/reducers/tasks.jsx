@@ -1,4 +1,4 @@
-import { ADD_COMMIT, ADD_TASK, DELETE_TASK, DELETE_COMMIT, UPDATE_TASK } from "../actionTypes.js";
+import { ADD_COMMIT, ADD_TASK, DELETE_TASK, DELETE_COMMIT, UPDATE_TASK, ADD_TASK_LIST } from "../actionTypes.js";
 import {createTask} from '../createObjects.js';
 
 const initialState = {
@@ -18,7 +18,7 @@ const executeAction = function(state = initialState, action) {
     case ADD_TASK: {
       const { id, content } = action.payload;
       var updatedByIds = {...state.byIds}
-      if(content.parentId !== -1){
+      if(content.parentId !== -1 || content.parentId !== null){
         updatedByIds[content.parentId].content.childIds.push(id)
       }
       return {
@@ -29,6 +29,25 @@ const executeAction = function(state = initialState, action) {
           [id]: {
             content
           }
+        }
+      };
+    }
+
+    case ADD_TASK_LIST: {
+      const { allIds, byIds } = action.payload;
+      var updatedByIds = {...state.byIds}
+      for(let idx in allIds) {
+        let taskIdx = allIds[idx];
+        updatedByIds[taskIdx] = {content: byIds[taskIdx]};
+        if(byIds[taskIdx].parentId !== -1 && byIds[taskIdx].parentId !== null){
+          updatedByIds[byIds[taskIdx].parentId].content.childIds.push(taskIdx)
+        }
+      }
+      return {
+        ...state,
+        allIds: [...state.allIds, ...allIds],
+        byIds: {
+          ...updatedByIds
         }
       };
     }

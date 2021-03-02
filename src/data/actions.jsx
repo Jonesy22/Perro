@@ -1,5 +1,5 @@
-import { ADD_TASK, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT, DELETE_COMMIT, UPDATE_TASK, SET_USER_PROFILE } from "./actionTypes";
-
+import { ADD_TASK, ADD_TASK_LIST, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT, DELETE_COMMIT, UPDATE_TASK, SET_USER_PROFILE } from "./actionTypes";
+import {createTask} from './createObjects';
 
 let nextTaskId = 5;
 let nextTimeEstimateId = 1;
@@ -10,6 +10,14 @@ export const addTask = (content) => ({
   payload: {
     id: ++nextTaskId,
     content
+  }
+});
+
+export const addTaskList = (allIds, byIds) => ({
+  type: ADD_TASK_LIST,
+  payload: {
+    byIds: byIds,
+    allIds: allIds
   }
 });
 
@@ -67,3 +75,30 @@ export const deleteTask = (content) => ({
     content
   }
 });
+
+export async function fetchTasks(dispatch, getState) {
+  console.log("hello");
+  const tasksResponse = await fetch("http://localhost:5000/tasks/get", {
+      method: "GET",
+      credentials: "include",
+      body: JSON.stringify(
+        getState().userProfile
+      ),
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "true"
+    }
+  });
+  const data = await tasksResponse.json();
+  if (data.error) throw new Error(data.error)
+  
+  console.log("data from tasks: ", data);
+  let allIds = [];
+  let byIds = {};
+  for(let taskIdx in data) {
+    allIds.push(data[taskIdx].taskID)
+    byIds[data[taskIdx].taskID] = createTask(data[taskIdx].tname, data[taskIdx].timeEstimate, data[taskIdx].dueDate, data[taskIdx].summary, data[taskIdx].description, data[taskIdx].parentID, []);
+  }
+  dispatch(addTaskList(allIds, byIds));
+}
