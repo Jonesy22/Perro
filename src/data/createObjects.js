@@ -24,7 +24,7 @@ export function createCommit(commitId, commitName, taskId, commitWorkCompleted, 
     }
 }
 
-export function createTeam(teamName,teamLead, teamMembers = []){
+export function createTeam(teamName,teamLead,teamMembers = []){
     return {
         teamName:teamName,
         teamLead:teamLead,

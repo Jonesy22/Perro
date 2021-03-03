@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import React, { Component, component, useState } from "react";
 import { Modal, Button, Row, Col, Form, Table, Dropdown, FormControl,Toast } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { addTeam } from "../data/actions";
+import { addTeam, addMember } from "../data/actions";
 import { createTeam } from "../data/createObjects";
 import { getIdByEmail, getUserProfile } from "../data/selectors";
 import {  Combobox,  ComboboxInput,  ComboboxPopover,  ComboboxList,  ComboboxOption,  ComboboxOptionText,} from "@reach/combobox";
@@ -30,9 +30,10 @@ function EditTeamForm(props) {
     const onSubmit = () => {
         console.log("Inviting team member");
         console.log(term);
-        console.log("userbyID :"+  invitedUserId);
+        //console.log("userbyID :"+  invitedUserId);
         //call useSelectHook with the email
-        findIdByEmail(term);
+        var userId = findIdByEmail(term);
+        dispatch(addMember(userId, props.teamId));
         setShow(true);
         setShowStatus(true);
         setTerm("")
@@ -40,22 +41,24 @@ function EditTeamForm(props) {
     };
 
     function findIdByEmail (term) {
+        var value = -1;
         Object.entries(props.users).map(
             (user) => {
                 if (user[1].content.email == term){
                     console.log("user found! Email ("+user[1].content.email+") ID ("+user[0]+")")
-                    return user[0];
+                    console.log("findIdByEmail return: " + user[0]);
+                    value = user[0];
                 }
-                
             })
+            return value;
     }
     const [term, setTerm] = React.useState("");
     const [show, setShow] = useState(false);
-    const [test, setTest] = useState("")
+    const [test, setTest] = useState("");
     const [showStatus, setShowStatus] = useState(false);
     const results = useNameMatch(term);
     const handleChange = (event) => {setTerm(event.target.value); setTest(event.target.value);setShowStatus(false);}
-    const invitedUserId = useSelector(state => getIdByEmail(state, term));
+    // const invitedUserId = useSelector(state => getIdByEmail(state, term));
     
 	console.log(props.teamId);
 
@@ -146,15 +149,31 @@ function EditTeamForm(props) {
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-									<tr>
-										<td>test</td>
-										<td>
-											<Button variant="primary" onClick={()=>console.log(props.teamId)}>
-                				test
-            					</Button></td>
-									</tr>
-                </tbody>
+                {/* <tbody>
+                {Object.entries(this.props.teams[props.teamId]).map(
+                                (team, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{team[1].content.teamName}</td>
+                                            <td>{team[1].content.teamLead}</td>
+                                            <td>
+                                                <Button
+                                                    onClick={() => {
+                                                        this.setState({
+                                                            editTeamModalShow: true,
+                                                            teamId: team[0],
+                                                        });
+                                                    }}
+                                                    variant="outline-secondary"
+                                                >
+                                                    Edit
+                                                </Button>
+                                            </td>
+                                        </tr>
+                                    );
+                                }
+                            )}
+                </tbody> */}
             </Table>
             <Button variant="danger" onClick={props.onHide}>
                 Cancel

@@ -111,9 +111,9 @@ class SettingsView extends React.Component {
                 show={this.state.editTeamModalShow}
                 onHide={editTeamModalClose}
                 teamId={this.state.teamId}
+                teams={this.props.teams}
                 users={this.props.users}
-                />
-                
+                />               
                 <Footer />
             </div>
         );
