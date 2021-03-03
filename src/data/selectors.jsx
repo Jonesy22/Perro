@@ -16,7 +16,7 @@ export const getTaskIdList = store =>
   getTasksState(store) ? getTasksState(store).allIds : [];
 
 export const getTaskById = (store, id) => {
-    if(id !== -1) {
+    if(id !== -1 && getTasksState(store).byIds[id]) {
         return getTasksState(store) ? { ...getTasksState(store).byIds[id], id } : {};
     } else {
         return getTasksState(store) ? { ...getTasksState(store).emptyTask, id } : {};

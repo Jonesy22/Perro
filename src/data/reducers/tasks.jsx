@@ -3,13 +3,13 @@ import {createTask} from '../createObjects.js';
 
 const initialState = {
   emptyTask: {content: createTask("", 0, null, "" , "", -1, [])},
-  allIds: [0, 1, 2, 3, 4], // list of ids of all the tasks that are loaded
+  allIds: [/*0, 1, 2, 3, 4*/], // list of ids of all the tasks that are loaded
   byIds: {
-    0: {content: createTask("Milestone 1", 5, "2021-01-31", "Summary Placeholder", "Description for milestone 1",  -1, [1, 3])}, 
-    1: {content: createTask("Task 1", 3, "2021-01-27", "Summary for task 1", "Description for task 1",  0, [2, 4])}, 
-    2: {content: createTask("Subtask 1", 1, "2021-01-28", "Summary subtask 1", "Description subtask 1",  1, [])}, 
-    3: {content: createTask("Task 2", 4, "2021-01-29", "Summary for task 2", "Description for task 2",  0, [])}, 
-    4: {content: createTask("Subtask 2", 1.5, "2021-01-30", "Summary subtask 2", "Description subtask 2",  1, [])}, 
+    // 0: {content: createTask("Milestone 1", 5, "2021-01-31", "Summary Placeholder", "Description for milestone 1",  -1, [1, 3])}, 
+    // 1: {content: createTask("Task 1", 3, "2021-01-27", "Summary for task 1", "Description for task 1",  0, [2, 4])}, 
+    // 2: {content: createTask("Subtask 1", 1, "2021-01-28", "Summary subtask 1", "Description subtask 1",  1, [])}, 
+    // 3: {content: createTask("Task 2", 4, "2021-01-29", "Summary for task 2", "Description for task 2",  0, [])}, 
+    // 4: {content: createTask("Subtask 2", 1.5, "2021-01-30", "Summary subtask 2", "Description subtask 2",  1, [])}, 
   }   // map of all tasks by id
 };
 
