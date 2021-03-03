@@ -25,6 +25,7 @@ class TrackingView extends React.Component {
     render() {
 		if(this.props.timeEstimateGraphData.actual.length + this.props.timeEstimateGraphData.estimate.length <= 1) {
 			var xDomain = [new Date().setDate(Math.min(this.props.timeEstimateGraphData.estimate[0].x.getDate(), new Date().getDate()) - 7), new Date().setDate(Math.max(this.props.timeEstimateGraphData.estimate[0].x.getDate(), new Date().getDate()) + 7)];
+			console.log(xDomain)
 		} else {
 			 xDomain = [Math.min(this.props.timeEstimateGraphData.estimate[0].x, this.props.timeEstimateGraphData.actual.length > 0 ? this.props.timeEstimateGraphData.actual[0].x : Infinity), Math.max(this.props.timeEstimateGraphData.estimate[this.props.timeEstimateGraphData.estimate.length - 1].x, this.props.timeEstimateGraphData.actual.length > 0 ? this.props.timeEstimateGraphData.actual[this.props.timeEstimateGraphData.actual.length - 1].x : 0)];
 		}
@@ -91,12 +92,15 @@ class TrackingView extends React.Component {
 						y: hoveredLine.y,
 						}});
 					}
+					else {
+						this.props.timeEstimateGraphData.estimate = {}
+					}
 				}
 				}}
 				data={this.props.timeEstimateGraphData.estimate}
 			/>
 
-			{this.state.hoveredPoint && this.state.isHoveringOverLine[0] && (this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && (this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && <Hint value={this.state.hoveredPoint}>
+			{this.props.timeEstimateGraphData.estimate && this.state.hoveredPoint && this.state.isHoveringOverLine[0] && (this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && (this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && <Hint value={this.state.hoveredPoint}>
 						  <div style={{backgroundColor: '#b3b6c7', color: 'black',
 						  				 border: '2px solid black',
 										 borderRadius: 5, padding: '5px',
@@ -113,7 +117,7 @@ class TrackingView extends React.Component {
 					</Hint>}
 
 
-			{this.props.timeEstimateGraphData.actual && <LineMarkSeries
+			{this.props.timeEstimateGraphData.actual.length > 0 && <LineMarkSeries
 			   color="#41BAFB"
 				   key={1}
 				   onSeriesMouseOver={(e) => {
@@ -128,21 +132,19 @@ class TrackingView extends React.Component {
 				   }}
 				   onNearestXY={(e, { index }) => {
 				   if (this.state.isHoveringOverLine[1]) {
-					   if (this.props.timeEstimateGraphData.actual) {
-							const hoveredLine = this.props.timeEstimateGraphData.actual[index];
-							this.setState({hoveredPoint: {
-								x: hoveredLine.x,
-								y: hoveredLine.y,
-								}});
-					   }
+						const hoveredLine = this.props.timeEstimateGraphData.actual[index];
+						this.setState({hoveredPoint: {
+							x: hoveredLine.x,
+							y: hoveredLine.y,
+							}});
 				   }
 				   }}
-				   //This is null at intialization because we have no commits
 				  data={this.props.timeEstimateGraphData.actual}
 			   />}
 
 			   
-			 {this.state.hoveredPoint && this.state.isHoveringOverLine[0] && (this.props.commitByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && (this.props.commitByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && <Hint value={this.state.hoveredPoint}>
+{console.log(new Date(this.state.hoveredPoint.x).toISOString().substr(0,10))  && this.props.timeEstimateGraphData.actual && this.state.hoveredPoint && this.state.isHoveringOverLine[1] && <Hint value={this.state.hoveredPoint}>
+	
 							 <div style={{backgroundColor: '#b3b6c7', color: 'black',									
 						  				 border: '2px solid black',
 										 borderRadius: 5, padding: '5px',
@@ -166,8 +168,8 @@ class TrackingView extends React.Component {
     }
 	
 }
-//commitByDate :getCommitDataByDate(state, getSelectedCommitId(state))
+
 export default connect(
-    state => ({selectedTask: getSelectedTask(state), timeEstimateGraphData: getGraphDataForTask(state, getSelectedTaskId(state)), taskByDate: getTaskDataByDate(state, getSelectedTaskId(state)), commitByDate :getCommitDataByDate(state, getSelectedCommitId(state)) }),
+    state => ({selectedTask: getSelectedTask(state), timeEstimateGraphData: getGraphDataForTask(state, getSelectedTaskId(state)), taskByDate: getTaskDataByDate(state, getSelectedTaskId(state)), commitByDate :getCommitDataByDate(state, getSelectedTaskId(state)) }),
     { addTimeEstimate }
   )(TrackingView) 
