@@ -8,7 +8,7 @@ let nextCommitId = 0;
 export const addTask = (content) => ({
   type: ADD_TASK,
   payload: {
-    id: ++nextTaskId,
+    id: content.taskId !== null ? content.taskId : ++nextTaskId,
     content
   }
 });
@@ -44,10 +44,10 @@ export const deleteCommit = (content) => ({
   }
 })
 
-export const updateTask = (content, id) => ({
+export const updateTask = (content) => ({
   type: UPDATE_TASK,
   payload: {
-    id: id,
+    id: content.taskId,
     content
   }
 });
@@ -130,7 +130,7 @@ export async function fetchCommits(dispatch, getState) {
 
 export function uploadCommit(commit) {
   return async function uploadCommitThunk(dispatch, getState) {
-    const tasksResponse = await fetch("http://localhost:5000/commits/create", {
+    const commitResponse = await fetch("http://localhost:5000/commits/create", {
         method: "POST",
         credentials: "include",
         body: JSON.stringify(commit),
@@ -140,7 +140,7 @@ export function uploadCommit(commit) {
         "Access-Control-Allow-Headers": "true"
       }
     });
-    const data = await tasksResponse.json();
+    const data = await commitResponse.json();
     if (data.error) throw new Error(data.error)
     
     console.log("data from new commit: ", data);
@@ -148,4 +148,36 @@ export function uploadCommit(commit) {
     dispatch(addCommit(commit));
   }
 }
+
+export function uploadTask(task) {
+  let newTask = false;
+  if (!task.taskId) {
+    task.taskId = null;
+    newTask = true;
+  } 
+
+  return async function uploadTaskThunk(dispatch, getState) {
+    const taskResponse = await fetch("http://localhost:5000/tasks/create", {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(task),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "true"
+      }
+    });
+    const data = await taskResponse.json();
+    if (data.error) throw new Error(data.error)
+    
+    console.log("data from new task: ", data);
+    task.taskId = data.insertId;
+    if(newTask) {
+      dispatch(addTask(task));
+    } else {
+      dispatch(updateTask(task));
+    }
+  }
+}
+
 

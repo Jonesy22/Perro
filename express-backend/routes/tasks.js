@@ -38,4 +38,31 @@ router.get("/get", async (req, res) => {
     }
 });
 
+router.post("/create", async (req, res) => {
+
+    let conn;
+    let task;
+    let uat;
+    try {
+        conn = await pool.getConnection();
+        console.log("after conn")
+        user = await conn.query("SELECT `userID` FROM `Users` WHERE `sessionID`=?", [req.sessionID]);
+        task = await conn.query("INSERT INTO `Tasks` VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `parentID`=VALUES(`parentID`), `tname`=VALUES(`tname`), `timeEstimate`=VALUES(`timeEstimate`), `summary`=VALUES(`summary`), `description`=VALUES(`description`), `dueDate`=VALUES(`dueDate`)", [req.body.taskId, req.body.parentId, req.body.Name, req.body.Estimate, req.body.Summary, req.body.Description, req.body.DueDate])
+        if(!req.body.taskId) {
+            // uat = await conn.query("INSERT INTO `UserAccessibleTasks` VALUES (?, ?)", [user[0].userID, task.insertId])
+            uat = await conn.query("INSERT INTO `UserAccessibleTasks` VALUES (?, ?)", [1, task.insertId])
+        }
+        console.log("after query");
+
+    } catch (err) {
+        console.log(err)
+        throw err;
+    } finally {
+        res.status(201);
+        res.json(task);
+
+        if (conn) return conn.end();
+    }
+});
+
 module.exports = router;

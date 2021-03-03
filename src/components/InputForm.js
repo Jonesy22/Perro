@@ -3,19 +3,21 @@ import React, {Component, component} from 'react';
 import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
 import { connect } from 'react-redux'
-import { addTask } from '../data/actions'
+import { uploadTask } from '../data/actions'
 import {createTask} from '../data/createObjects.js';
 
 function InputForm(props) {
     const { register, handleSubmit, errors } = useForm();
+    const dispatch = useDispatch();
+
     const onSubmit = (data) => {
         console.log(data)
         if(data.TaskName){
-            props.addTask(createTask(data.TaskName, parseInt(data.TaskEstimate), data.DueDate, data.TaskSummary, data.TaskDescription,  props.taskId, []));
+            dispatch(uploadTask(createTask(data.TaskName, parseInt(data.TaskEstimate), data.DueDate, data.TaskSummary, data.TaskDescription,  props.taskId, [])));
 
         }
         if(data.ProjectName){
-            props.addTask(createTask(data.ProjectName, parseInt(data.ProjectEstimate), data.DueDate, data.ProjectSummary, data.ProjectDescription,  props.taskId, []));
+            dispatch(uploadTask(createTask(data.ProjectName, parseInt(data.ProjectEstimate), data.DueDate, data.ProjectSummary, data.ProjectDescription,  props.taskId, [])));
         }
         {props.onHide()}
     }

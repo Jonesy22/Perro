@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import React, {Component, component} from 'react';
 import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { updateTask } from '../data/actions';
+import { uploadTask } from '../data/actions';
 import { getTaskById } from "../data/selectors";
 import { useSelector, useDispatch } from 'react-redux';
 import { createTask } from '../data/createObjects.js';
@@ -15,7 +15,9 @@ function EditForm(props) {
     const onSubmit = (data) => {
         console.log(data);
         console.log(data.ProjectName);
-        dispatch(updateTask(createTask(data.Name, parseInt(data.Estimate), data.DueDate, data.Summary, data.Description, selectedEdit.parentId, selectedEdit.childIds, selectedEdit.commits), props.taskId));
+        let updatedTask = createTask(data.Name, parseInt(data.Estimate), data.DueDate, data.Summary, data.Description, selectedEdit.parentId, selectedEdit.childIds, selectedEdit.commits);
+        updatedTask.taskId = props.taskId;
+        dispatch(uploadTask(updatedTask));
         {props.onHide()}
     }
     
@@ -72,7 +74,7 @@ return (
                     <Form.Label>Due Date</Form.Label>
                         <Form.Control
                             type="date" 
-                            defaultValue={selectedEdit.DueDate || new Date().toISOString().substr(0, 10)} 
+                            defaultValue={selectedEdit ? selectedEdit.DueDate.substr(0, 10) : new Date().toISOString().substr(0, 10)} 
                             name={"DueDate"}
                             ref={register({ required: true })}
                         />
