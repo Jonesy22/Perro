@@ -65,6 +65,9 @@ function EditTeamForm(props) {
     const pStyle = {
         color: "red",
     };
+    const pending = {
+        color: "yellow",
+    };
     
     function useNameMatch(term) {
         const throttledTerm = useThrottle(term, 100);
@@ -79,6 +82,21 @@ function EditTeamForm(props) {
         );
     }
 
+    function displayName(id, status){
+        console.log(status)
+        if(status){
+            return (
+                <div > {props.users[id].content.fname} {props.users[id].content.lname}  </div>
+            )
+        }
+        else{
+            return (
+                <div style={{color:"#F39803"}}> {id}</div>
+            )
+        }
+
+    }
+
     const createButton = {
         backgroundColor: "white",
         color: "rgba(0, 0, 0, 0.54)",
@@ -89,7 +107,6 @@ function EditTeamForm(props) {
         fontFamily: "Roboto, sans-serif",
         fontSize: "14px",
     };
-
     const reqFieldError = "This is a required field";
     return (
         <div className="container">
@@ -149,20 +166,15 @@ function EditTeamForm(props) {
                         <th>Action</th>
                     </tr>
                 </thead>
-                {/* <tbody>
-                {Object.entries(this.props.teams[props.teamId]).map(
-                                (team, index) => {
+                <tbody>
+                {Object.entries(props.teams[props.teamId].content.teamMembers).map(
+                                (member, index) => {
                                     return (
                                         <tr key={index}>
-                                            <td>{team[1].content.teamName}</td>
-                                            <td>{team[1].content.teamLead}</td>
+                                            <td>{displayName(member[1].userId, member[1].teamStatus)}</td>
                                             <td>
                                                 <Button
                                                     onClick={() => {
-                                                        this.setState({
-                                                            editTeamModalShow: true,
-                                                            teamId: team[0],
-                                                        });
                                                     }}
                                                     variant="outline-secondary"
                                                 >
@@ -173,7 +185,7 @@ function EditTeamForm(props) {
                                     );
                                 }
                             )}
-                </tbody> */}
+                </tbody>
             </Table>
             <Button variant="danger" onClick={props.onHide}>
                 Cancel

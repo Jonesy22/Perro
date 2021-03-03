@@ -45,7 +45,7 @@ const executeAction = function(state = initialState, action) {
             else{
                 if (userId < 0){
                     console.log("creating newUserId")
-                    teams[teamId].content.teamMembers.push({userId: nextUserId, teamStatus: true})
+                    teams[teamId].content.teamMembers.push({userId: nextUserId, teamStatus: false})
                 }
                 else{
                     console.log("Teams : "+ JSON.stringify(teams));
