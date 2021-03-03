@@ -184,11 +184,13 @@ export const getCommitDataByDate = function(store, taskId) {
     }
     for (const i in commitList) {
         let commit = commitList[i];
-        if (commitLookup[commit.commitTimestamp]){
-            commitLookup[commit.commitTimestamp].push(commit)
+        let correctCommitTimeStamp = new Date(commit.commitTimestamp).toISOString()
+
+        if (commitLookup[correctCommitTimeStamp]){
+            commitLookup[correctCommitTimeStamp].push(commit)
         }
         else {
-            commitLookup[commit.commitTimestamp] = [commit]
+            commitLookup[correctCommitTimeStamp] = [commit]
         }
     }
 

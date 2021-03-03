@@ -142,18 +142,18 @@ class TrackingView extends React.Component {
 			   />}
 
 				   																								
-{this.props.timeEstimateGraphData.actual && this.state.hoveredPoint.x !== 0 && this.state.isHoveringOverLine[1]  && console.log(this.props.commitByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && this.props.commitByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)] && <Hint value={this.state.hoveredPoint}>
+{this.props.timeEstimateGraphData.actual && this.state.hoveredPoint.x !== 0 && this.state.isHoveringOverLine[1]  && this.props.commitByDate[new Date(this.state.hoveredPoint.x).toISOString()] && <Hint value={this.state.hoveredPoint}>
 
 							 <div style={{backgroundColor: '#b3b6c7', color: 'black',									
 						  				 border: '2px solid black',
 										 borderRadius: 5, padding: '5px',
 										 fontSize: '14px'}}>
-						  {this.props.commitByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)].map((value, index) => {
+						  {this.props.commitByDate[new Date(this.state.hoveredPoint.x).toISOString()].map((value, index) => {
                    				 return  <div>
 											
 											<p><b>Name</b>: {value.commitName}</p>
 											<p><b>Description</b>: {value.commitDescription}</p>
-											<p><b>Commit Date</b>: {value.commitTimestamp} </p>
+											<p><b>Commit Time</b>: {(value.commitTimestamp.substr(0,19).replace('T', ' '))} </p>
 										</div>
                 			})}
 						</div>
