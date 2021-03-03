@@ -26,7 +26,7 @@ const executeAction = function(state = initialState, action) {
             };
         }
         case ADD_MEMBER: {
-            const {userId, teamId, nextUserId,email} = action.payload;
+            const {userId, teamId, nextUserId, email} = action.payload;
             let teams = {...state.byIds}
             let dupCheck = false;
 
@@ -54,10 +54,9 @@ const executeAction = function(state = initialState, action) {
                 }
             }
             return {
-            ...state,
-            byIds: {...teams}
-        };
-
+                ...state,
+                byIds: {...teams}
+            };
         }
         default:
             return state;

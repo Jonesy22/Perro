@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import React, { Component, component, useState } from "react";
 import { Modal, Button, Row, Col, Form, Table, Dropdown, FormControl,Toast } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { addTeam, addMember } from "../data/actions";
+import { addTeam, addMember,addTeamToUser } from "../data/actions";
 import { createTeam } from "../data/createObjects";
 import { getIdByEmail, getUserProfile } from "../data/selectors";
 import {  Combobox,  ComboboxInput,  ComboboxPopover,  ComboboxList,  ComboboxOption,  ComboboxOptionText,} from "@reach/combobox";
@@ -34,6 +34,7 @@ function EditTeamForm(props) {
         //call useSelectHook with the email
         var userId = findIdByEmail(term);
         dispatch(addMember(userId, props.teamId));
+        dispatch(addTeamToUser(userId, props.teamId));
         setShow(true);
         setShowStatus(true);
         setTerm("")
