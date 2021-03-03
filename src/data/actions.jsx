@@ -78,7 +78,7 @@ export const setSelectedId = (content) => ({
 export const deleteTask = (content) => ({
   type: DELETE_TASK,
   payload: {
-    id: content.id,
+    id: content.taskId,
     content
   }
 });
@@ -180,4 +180,42 @@ export function uploadTask(task) {
   }
 }
 
+export function removeCommitDB(commit) {
+  return async function removeCommitDBThunk(dispatch, getState) {
+    const commitResponse = await fetch("http://localhost:5000/commits/delete", {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify({commitId: commit.commitId}),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "true"
+      }
+    });
+    const data = await commitResponse.json();
+    if (data.error) throw new Error(data.error)
+    
+    console.log("data from deleted commit: ", data);
+    dispatch(deleteCommit(commit));
+  }
+}
 
+export function removeTaskDB(task) {
+  return async function removeTaskDBThunk(dispatch, getState) {
+    const taskResponse = await fetch("http://localhost:5000/tasks/delete", {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify({taskId: task.taskId}),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "true"
+      }
+    });
+    const data = await taskResponse.json();
+    if (data.error) throw new Error(data.error)
+    
+    console.log("data from deleted task: ", data);
+    dispatch(deleteTask(task));
+  }
+}

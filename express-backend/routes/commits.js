@@ -60,4 +60,27 @@ router.post("/create", async (req, res) => {
     }
 });
 
+router.post("/delete", async (req, res) => {
+
+    let conn;
+    let commit;
+    try {
+        conn = await pool.getConnection();
+        console.log("after conn")
+        user = await conn.query("SELECT `userID` FROM `Users` WHERE `sessionID`=?", [req.sessionID]);
+        console.log("DELETING COMMIT USER ID: ", user[0].userID);
+        commit = await conn.query("DELETE FROM `Commits` WHERE `commitID`=?", [req.body.commitId])
+        console.log("after query");
+
+    } catch (err) {
+        console.log(err)
+        throw err;
+    } finally {
+        res.status(201);
+        res.json(commit);
+
+        if (conn) return conn.end();
+    }
+});
+
 module.exports = router;

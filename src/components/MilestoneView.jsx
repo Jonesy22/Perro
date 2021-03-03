@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Collapse } from 'antd';
 import { PlusOutlined, CloseOutlined, EditOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux'
-import { setSelectedId, deleteTask } from '../data/actions'
+import { setSelectedId, removeTaskDB } from '../data/actions'
 import { getSelectedTaskId, getTaskHierarchy, getUserProfile, getSelectedTask } from "../data/selectors";
 import InputModal from './InputModal';
 import EditModal from './EditModal';
@@ -73,7 +73,7 @@ class MilestoneView extends React.Component {
         if(this.props.selectedId === this.state.deletedId) {
             this.props.setSelectedId(this.props.selectedTask.content.parentId)
         }
-        this.props.deleteTask({id: this.state.deletedId, mode: 0})      // mode 0 means deleting all subtasks
+        this.props.removeTaskDB({taskId: this.state.deletedId, mode: 0})      // mode 0 means deleting all subtasks
     }
 
     moveSubtasksUp = () => {
@@ -81,7 +81,7 @@ class MilestoneView extends React.Component {
         if(this.props.selectedId === this.state.deletedId) {
             this.props.setSelectedId(this.props.selectedTask.content.parentId)
         }
-        this.props.deleteTask({id: this.state.deletedId, mode: 1})      // mode 1 means shifting all subtasks
+        this.props.removeTaskDB({taskId: this.state.deletedId, mode: 1})      // mode 1 means shifting all subtasks
     }
 
     render() {
@@ -154,5 +154,5 @@ class MilestoneView extends React.Component {
 
 export default connect(
     state => ({ taskHierarchy: getTaskHierarchy(state), userProfile: getUserProfile(state), selectedId: getSelectedTaskId(state), selectedTask: getSelectedTask(state) }),
-    { setSelectedId, deleteTask }
+    { setSelectedId, removeTaskDB }
   )(MilestoneView)

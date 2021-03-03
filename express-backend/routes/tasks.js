@@ -65,4 +65,27 @@ router.post("/create", async (req, res) => {
     }
 });
 
+router.post("/delete", async (req, res) => {
+
+    let conn;
+    let task;
+    try {
+        conn = await pool.getConnection();
+        console.log("after conn")
+        user = await conn.query("SELECT `userID` FROM `Users` WHERE `sessionID`=?", [req.sessionID]);
+        console.log("DELETING TASK USER ID: ", user[0].userID);
+        task = await conn.query("DELETE FROM `Tasks` WHERE `taskID`=?", [req.body.taskId])
+        console.log("after query");
+
+    } catch (err) {
+        console.log(err)
+        throw err;
+    } finally {
+        res.status(201);
+        res.json(task);
+
+        if (conn) return conn.end();
+    }
+});
+
 module.exports = router;
