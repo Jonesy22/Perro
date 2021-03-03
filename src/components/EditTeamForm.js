@@ -4,7 +4,7 @@ import { Modal, Button, Row, Col, Form, Table, Dropdown, FormControl,Toast } fro
 import { useDispatch, useSelector } from "react-redux";
 import { addTeam } from "../data/actions";
 import { createTeam } from "../data/createObjects";
-import { getUserProfile } from "../data/selectors";
+import { getIdByEmail, getUserProfile } from "../data/selectors";
 import {  Combobox,  ComboboxInput,  ComboboxPopover,  ComboboxList,  ComboboxOption,  ComboboxOptionText,} from "@reach/combobox";
 import "@reach/combobox/styles.css";
 import {matchSorter} from 'match-sorter'
@@ -28,23 +28,37 @@ function EditTeamForm(props) {
     const { register, handleSubmit, errors, reset } = useForm();
     const dispatch = useDispatch();
     const onSubmit = () => {
+        console.log("Inviting team member");
         console.log(term);
-        // dispatch(addTeam(createTeam(data.teamName, "Current User")))
-        {
-            // props.onHide();
-        }
+        console.log("userbyID :"+  invitedUserId);
+        //call useSelectHook with the email
+        findIdByEmail(term);
         setShow(true);
         setShowStatus(true);
         setTerm("")
         setTest("")
     };
+
+    function findIdByEmail (term) {
+        Object.entries(props.users).map(
+            (user) => {
+                if (user[1].content.email == term){
+                    console.log("user found! Email ("+user[1].content.email+") ID ("+user[0]+")")
+                    return user[0];
+                }
+                
+            })
+    }
     const [term, setTerm] = React.useState("");
     const [show, setShow] = useState(false);
     const [test, setTest] = useState("")
     const [showStatus, setShowStatus] = useState(false);
     const results = useNameMatch(term);
     const handleChange = (event) => {setTerm(event.target.value); setTest(event.target.value);setShowStatus(false);}
+    const invitedUserId = useSelector(state => getIdByEmail(state, term));
     
+	console.log(props.teamId);
+
     const pStyle = {
         color: "red",
     };
@@ -79,7 +93,7 @@ function EditTeamForm(props) {
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <Row>
                     <div style={{marginTop: "0px"}}>
-                        <Button type="submit" variant="primary" style={{marginBottom:"10px", marginLeft:"15px"}}>Invite</Button>
+                        <Button type="submit" variant="primary" style={{marginBottom:"10px", marginLeft:"15px"}} >Invite</Button>
                     </div> 
                     <Col>         
                         <div style={{marginTop:"4px"}}>                              
@@ -133,38 +147,13 @@ function EditTeamForm(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Kyler Jacobson</td>
-                        <td>
-                            <Button variant="danger" onClick={props.onHide}>
-                                Remove
-                            </Button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Trevor Jones</td>
-                        <td>
-                            <Button variant="danger" onClick={props.onHide}>
-                                Remove
-                            </Button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Daniel Jones</td>
-                        <td>
-                            <Button variant="danger" onClick={props.onHide}>
-                                Remove
-                            </Button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Matthew Levis</td>
-                        <td>
-                            <Button variant="danger" onClick={props.onHide}>
-                                Remove
-                            </Button>
-                        </td>
-                    </tr>
+									<tr>
+										<td>test</td>
+										<td>
+											<Button variant="primary" onClick={()=>console.log(props.teamId)}>
+                				test
+            					</Button></td>
+									</tr>
                 </tbody>
             </Table>
             <Button variant="danger" onClick={props.onHide}>

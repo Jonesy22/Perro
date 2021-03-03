@@ -7,3 +7,5 @@ export const DELETE_COMMIT = "DELETE_COMMIT";
 export const UPDATE_TASK = "UPDATE_TASK"
 export const SET_USER_PROFILE = "SET_USER_PROFILE";
 export const ADD_TEAM = "ADD_TEAM";
+export const ADD_MEMBER = "ADD_MEMBER"
+export const ADD_USER = "ADD_USER";

@@ -1,5 +1,6 @@
 export const getTasksState = store => store.tasks;
 export const getTeamState = store => store.teams;
+export const getUserState = store => store.users;
 export const getTimeEstimatesState = store => store.timeEstimates;
 export const getAppDataState = store => store.appData;
 
@@ -140,3 +141,14 @@ export const getCommitWithTaskId = function(store, taskId, commitId) {
 
 export const getAllTeams = store =>
   getTeamState(store) ? getTeamState(store).byIds : {};
+
+export const getAllUsers = store =>
+  getUserState(store) ? getUserState(store).byIds : {};
+
+
+  export const getIdByEmail = function (store, email) {
+  let users = getUserState(store).byIds;
+  return users;
+  //logic to parse users looking for email
+} 
+

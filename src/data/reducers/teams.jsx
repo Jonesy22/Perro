@@ -1,10 +1,11 @@
-import { ADD_TEAM} from "../actionTypes.js";
+import { ADD_TEAM, ADD_MEMBER} from "../actionTypes.js";
 import { createTeam } from "../createObjects.js";
 
 const initialState = {
     allIds: [0], // list of ids of all the tasks that are loaded
     byIds: {
-        0: {content :createTeam("Perro",0,"Default User")}, 
+        // array should be an array of objects (essenetially tuples with a userId and a accepted boolean)
+        0: {content :createTeam("Perro",0,"Default User", [])}, 
     }
 }
 
@@ -22,6 +23,23 @@ const executeAction = function(state = initialState, action) {
                     }
                 }
             };
+        }
+        //Want to 
+        case ADD_MEMBER: {
+            const { teamId, userId, content } = action.payload;
+            let teams = {...state.byIds}
+            teams[teamId].content.teams.push(userId)
+            return {
+            ...state,
+            allIds: [...state.allIds, id],
+            byIds: {
+                ...state.byIds,
+                [id]: {
+                content
+                }
+            }
+        };
+
         }
         default:
             return state;

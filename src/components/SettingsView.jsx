@@ -6,7 +6,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Table from "react-bootstrap/Table";
 import InputModal from "./InputModal";
-import { getAllTeams } from "../data/selectors";
+import { getAllTeams, getAllUsers } from "../data/selectors";
 import { ListGroup, Row } from "react-bootstrap";
 
 class SettingsView extends React.Component {
@@ -15,13 +15,13 @@ class SettingsView extends React.Component {
         this.state = {
             teamCreateModalShow: false,
             editTeamModalShow: false,
+            teamId: -1,
+            users:{},
         };
     }
-
     //Object.entries(OBJECT).forEach(([key, value]) => ...)
 
     render() {
-        // console.log(this.props.teams)
         // console.log(typeof(this.props.teams))
 
         let teamCreateModalClose = () =>{
@@ -83,6 +83,7 @@ class SettingsView extends React.Component {
                                                     onClick={() => {
                                                         this.setState({
                                                             editTeamModalShow: true,
+                                                            teamId: team[0],
                                                         });
                                                     }}
                                                     variant="outline-secondary"
@@ -99,30 +100,18 @@ class SettingsView extends React.Component {
                 </div>
 
                 <InputModal
-                    type="Team"
-                    inputForm="createTeamForm"
-                    show={this.state.teamCreateModalShow}
-                    onHide={teamCreateModalClose}
-                    clickDeleteCommitButton={() => {
-                        teamCreateModalClose();
-                        this.props.deleteCommit({
-                            commitId: this.state.selectedCommitId,
-                            taskId: this.props.selectedTaskId,
-                        });
-                    }}
+                type="Team"
+                inputForm="createTeamForm"
+                show={this.state.teamCreateModalShow}
+                onHide={teamCreateModalClose}
                 />
                 <InputModal
-                    type="Team Changes"
-                    inputForm="editTeamForm"
-                    show={this.state.editTeamModalShow}
-                    onHide={editTeamModalClose}
-                    clickDeleteCommitButton={() => {
-                        editTeamModalClose();
-                        this.props.deleteCommit({
-                            commitId: this.state.selectedCommitId,
-                            taskId: this.props.selectedTaskId,
-                        });
-                    }}
+                type="Team Changes"
+                inputForm="editTeamForm"
+                show={this.state.editTeamModalShow}
+                onHide={editTeamModalClose}
+                teamId={this.state.teamId}
+                users={this.props.users}
                 />
                 
                 <Footer />
@@ -133,6 +122,6 @@ class SettingsView extends React.Component {
 
 export default connect(
     //takes states and returns => an object with the properties
-    (state) => ({ teams: getAllTeams(state) }),
+    (state) => ({ teams: getAllTeams(state), users: getAllUsers(state) }),
     {}
 )(SettingsView);
