@@ -14,8 +14,6 @@ function CommitForm(props) {
     const [completedSwitch, setCompletedSwitch] = useState(selectedCommit.commitCompleted);
     
     const onSubmit = (data) => {
-        console.log(data)
-        console.log(completedSwitch);
 
         // selectedCommit.commitId will be -1 above if props.loadFromSelectedCommitId = false and thus will generate a new id in the action addCommit()
         dispatch(addCommit(createCommit(selectedCommit.commitId, data.commitName, props.taskId, parseInt(data.commitWorkCompleted), data.commitDescription, data.commitTimestamp, completedSwitch, data.commitReporter)))

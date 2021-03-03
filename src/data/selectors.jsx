@@ -191,5 +191,6 @@ export const getCommitDataByDate = function(store, taskId) {
             commitLookup[commit.commitTimestamp] = [commit]
         }
     }
+
     return commitLookup
 }

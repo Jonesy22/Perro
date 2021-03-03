@@ -25,7 +25,6 @@ class TrackingView extends React.Component {
     render() {
 		if(this.props.timeEstimateGraphData.actual.length + this.props.timeEstimateGraphData.estimate.length <= 1) {
 			var xDomain = [new Date().setDate(Math.min(this.props.timeEstimateGraphData.estimate[0].x.getDate(), new Date().getDate()) - 7), new Date().setDate(Math.max(this.props.timeEstimateGraphData.estimate[0].x.getDate(), new Date().getDate()) + 7)];
-			console.log(xDomain)
 		} else {
 			 xDomain = [Math.min(this.props.timeEstimateGraphData.estimate[0].x, this.props.timeEstimateGraphData.actual.length > 0 ? this.props.timeEstimateGraphData.actual[0].x : Infinity), Math.max(this.props.timeEstimateGraphData.estimate[this.props.timeEstimateGraphData.estimate.length - 1].x, this.props.timeEstimateGraphData.actual.length > 0 ? this.props.timeEstimateGraphData.actual[this.props.timeEstimateGraphData.actual.length - 1].x : 0)];
 		}
@@ -142,9 +141,9 @@ class TrackingView extends React.Component {
 				  data={this.props.timeEstimateGraphData.actual}
 			   />}
 
-			   
-{console.log(new Date(this.state.hoveredPoint.x).toISOString().substr(0,10))  && this.props.timeEstimateGraphData.actual && this.state.hoveredPoint && this.state.isHoveringOverLine[1] && <Hint value={this.state.hoveredPoint}>
-	
+				   																								
+{this.props.timeEstimateGraphData.actual && this.state.hoveredPoint.x !== 0 && this.state.isHoveringOverLine[1]  && console.log(this.props.commitByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && this.props.commitByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)] && <Hint value={this.state.hoveredPoint}>
+
 							 <div style={{backgroundColor: '#b3b6c7', color: 'black',									
 						  				 border: '2px solid black',
 										 borderRadius: 5, padding: '5px',
@@ -152,9 +151,9 @@ class TrackingView extends React.Component {
 						  {this.props.commitByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)].map((value, index) => {
                    				 return  <div>
 											
-											<p><b>Name</b>: </p>
-											<p><b>Description</b>: </p>
-											<p><b>Due</b>:</p>
+											<p><b>Name</b>: {value.commitName}</p>
+											<p><b>Description</b>: {value.commitDescription}</p>
+											<p><b>Commit Date</b>: {value.commitTimestamp} </p>
 										</div>
                 			})}
 						</div>
