@@ -18,7 +18,7 @@ const executeAction = function(state = initialState, action) {
     case ADD_TASK: {
       const { id, content } = action.payload;
       var updatedByIds = {...state.byIds}
-      if(content.parentId !== -1 || content.parentId !== null){
+      if(content.parentId != -1 && content.parentId != null){
         updatedByIds[content.parentId].content.childIds.push(id)
       }
       return {
