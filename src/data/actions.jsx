@@ -1,5 +1,5 @@
-import { ADD_TASK, ADD_TASK_LIST, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT, DELETE_COMMIT, UPDATE_TASK, SET_USER_PROFILE } from "./actionTypes";
-import {createTask} from './createObjects';
+import { ADD_TASK, ADD_TASK_LIST, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT, ADD_COMMIT_LIST, DELETE_COMMIT, UPDATE_TASK, SET_USER_PROFILE } from "./actionTypes";
+import {createTask, createCommit} from './createObjects';
 
 let nextTaskId = 5;
 let nextTimeEstimateId = 1;
@@ -26,6 +26,13 @@ export const addCommit = (content) => ({
   payload: {
     id: content.commitId !== -1? content.commitId : ++nextCommitId,
     content
+  }
+})
+
+export const addCommitList = (commits) => ({
+  type: ADD_COMMIT_LIST,
+  payload: {
+    commits: commits
   }
 })
 
@@ -77,13 +84,9 @@ export const deleteTask = (content) => ({
 });
 
 export async function fetchTasks(dispatch, getState) {
-  console.log("hello");
   const tasksResponse = await fetch("http://localhost:5000/tasks/get", {
       method: "GET",
       credentials: "include",
-      body: JSON.stringify(
-        getState().userProfile
-      ),
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
@@ -101,4 +104,26 @@ export async function fetchTasks(dispatch, getState) {
     byIds[data[taskIdx].taskID] = createTask(data[taskIdx].tname, data[taskIdx].timeEstimate, data[taskIdx].dueDate, data[taskIdx].summary, data[taskIdx].description, data[taskIdx].parentID, []);
   }
   dispatch(addTaskList(allIds, byIds));
+  dispatch(fetchCommits);
+}
+
+export async function fetchCommits(dispatch, getState) {
+  const tasksResponse = await fetch("http://localhost:5000/commits/get", {
+      method: "GET",
+      credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "true"
+    }
+  });
+  const data = await tasksResponse.json();
+  if (data.error) throw new Error(data.error)
+  
+  console.log("data from commits: ", data);
+  let commits = {};
+  for(let idx in data) {
+    commits[data[idx].commitID] = createCommit(data[idx].commitID, data[idx].commitName, data[idx].parentTaskID, data[idx].timeWorked, data[idx].commitMessage, data[idx].commitTime, data[idx].commitCompleted, data[idx].commitingUserID)
+  }
+  dispatch(addCommitList(commits));
 }

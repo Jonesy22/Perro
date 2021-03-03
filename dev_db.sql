@@ -42,13 +42,15 @@ INSERT INTO `UserAccessibleTasks` VALUES (1, 51), (1, 52), (1, 53), (1, 54), (1,
 
 CREATE TABLE `Commits` (
   `commitID` int(11) NOT NULL AUTO_INCREMENT,
+  `commitName` varchar(255),
   `parentTaskID` int(11) NOT NULL,
   `commitMessage` text,
   `timeWorked` double,
-  `commitingUserID` int(11),
+  `committingUserID` varchar(21),
+  `commitCompleted` boolean,
   `commitTime` timestamp,
   PRIMARY KEY (`commitID`),
   FOREIGN KEY (`parentTaskID`) REFERENCES `Tasks` (`taskID`)
 );
 
-INSERT INTO `Commits` VALUES (1, 1, 'Added subtasks to project 1 so reduced project overhead time', -8, 1, '2021-01-020 2:19:03');
+INSERT INTO `Commits` VALUES (1, 'Test commit', 1, 'Added subtasks to project 1 so reduced project overhead time', -8, 1, 0, '2021-01-020 2:19:03');

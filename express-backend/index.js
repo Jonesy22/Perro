@@ -36,6 +36,9 @@ app.use("/users", usersRouter);
 const tasksRouter = require("./routes/tasks");
 app.use("/tasks/", tasksRouter);
 
+const commitsRouter = require("./routes/commits");
+app.use("/commits/", commitsRouter);
+
 const googleAuthRouter = require("./routes/google-auth");
 app.use("/api/v1/auth/", googleAuthRouter);
 

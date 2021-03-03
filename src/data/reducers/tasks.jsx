@@ -1,4 +1,4 @@
-import { ADD_COMMIT, ADD_TASK, DELETE_TASK, DELETE_COMMIT, UPDATE_TASK, ADD_TASK_LIST } from "../actionTypes.js";
+import { ADD_COMMIT, ADD_TASK, DELETE_TASK, DELETE_COMMIT, UPDATE_TASK, ADD_TASK_LIST, ADD_COMMIT_LIST } from "../actionTypes.js";
 import {createTask} from '../createObjects.js';
 
 const initialState = {
@@ -56,6 +56,20 @@ const executeAction = function(state = initialState, action) {
       const { id, content } = action.payload;
       let updatedByIds = {...state.byIds};
       updatedByIds[content.taskId].content.commits = {...updatedByIds[content.taskId].content.commits, [id]: {...content, "commitId": id}};
+      return {
+        ...state,
+        byIds: {
+          ...updatedByIds
+        }
+      };
+    }
+
+    case ADD_COMMIT_LIST: {
+      const { commits } = action.payload;
+      let updatedByIds = {...state.byIds};
+      for(const idx in commits) {
+        updatedByIds[commits[idx].taskId].content.commits = {...updatedByIds[commits[idx].taskId].content.commits, [commits[idx].commitId]: commits[idx]};
+      }
       return {
         ...state,
         byIds: {
