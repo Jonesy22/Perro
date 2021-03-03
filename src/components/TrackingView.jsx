@@ -1,10 +1,9 @@
 import React from 'react'
-import {useState, useRef} from 'react';
 import LegendView from './LegendView'
-import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineMarkSeries, ChartLabel, makeVisFlexible, Hint, LineSeries} from 'react-vis';
+import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineMarkSeries, ChartLabel, makeVisFlexible, Hint} from 'react-vis';
 import { connect } from 'react-redux'
 import { addTimeEstimate } from '../data/actions'
-import { getCommitWithTaskId, getGraphDataForTask, getSelectedTask, getSelectedTaskCommits, getSelectedTaskId, getTaskDataByDate } from "../data/selectors";
+import { getCommitDataByDate, getGraphDataForTask, getSelectedCommitId, getSelectedTask, getSelectedTaskId, getTaskDataByDate } from "../data/selectors";
 import CommitListView from "./CommitListView";
 
 const FlexibleXYPlot = makeVisFlexible(XYPlot);
@@ -85,11 +84,13 @@ class TrackingView extends React.Component {
 				}}
 				onNearestXY={(e, { index }) => {
 				if (this.state.isHoveringOverLine[0]) {
-					const hoveredLine = this.props.timeEstimateGraphData.estimate[index];
-					this.setState({hoveredPoint: {
-					x: hoveredLine.x,
-					y: hoveredLine.y,
-					}});
+					if (this.props.timeEstimateGraphData.estimate) {
+						const hoveredLine = this.props.timeEstimateGraphData.estimate[index];
+						this.setState({hoveredPoint: {
+						x: hoveredLine.x,
+						y: hoveredLine.y,
+						}});
+					}
 				}
 				}}
 				data={this.props.timeEstimateGraphData.estimate}
@@ -112,7 +113,7 @@ class TrackingView extends React.Component {
 					</Hint>}
 
 
-  		 	<LineMarkSeries
+			{this.props.timeEstimateGraphData.actual && <LineMarkSeries
 			   color="#41BAFB"
 				   key={1}
 				   onSeriesMouseOver={(e) => {
@@ -127,29 +128,35 @@ class TrackingView extends React.Component {
 				   }}
 				   onNearestXY={(e, { index }) => {
 				   if (this.state.isHoveringOverLine[1]) {
-					    const hoveredLine = this.props.timeEstimateGraphData.actual[index];
-					   this.setState({hoveredPoint: {
-					   x: hoveredLine.x,
-					   y: hoveredLine.y,
-					   }});
+					   if (this.props.timeEstimateGraphData.actual) {
+							const hoveredLine = this.props.timeEstimateGraphData.actual[index];
+							this.setState({hoveredPoint: {
+								x: hoveredLine.x,
+								y: hoveredLine.y,
+								}});
+					   }
 				   }
 				   }}
-				   data={this.props.timeEstimateGraphData.actual}
-			   />
+				   //This is null at intialization because we have no commits
+				  data={this.props.timeEstimateGraphData.actual}
+			   />}
 
 			   
-			{/* {this.state.hoveredPoint && (this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && (this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && <Hint value={this.state.hoveredPoint}>
-						  <div style={{background: 'blue', fontSize: '2px'}}>
-						  {this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)].map((value, index) => {
+			 {this.state.hoveredPoint && this.state.isHoveringOverLine[0] && (this.props.commitByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && (this.props.commitByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && <Hint value={this.state.hoveredPoint}>
+							 <div style={{backgroundColor: '#b3b6c7', color: 'black',									
+						  				 border: '2px solid black',
+										 borderRadius: 5, padding: '5px',
+										 fontSize: '14px'}}>
+						  {this.props.commitByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)].map((value, index) => {
                    				 return  <div>
-										<p>{value.content.Name}</p>
-										<p>{value.content.Description}</p>
-										<p>{value.content.DueDate}</p>
-									</div>
+											
+											<p><b>Name</b>: </p>
+											<p><b>Description</b>: </p>
+											<p><b>Due</b>:</p>
+										</div>
                 			})}
-							<p>{this.state.hoveredPoint.y}</p>
 						</div>
-					</Hint>} */}
+					</Hint>}
         
             
 			</FlexibleXYPlot>	
@@ -159,8 +166,8 @@ class TrackingView extends React.Component {
     }
 	
 }
-
+//commitByDate :getCommitDataByDate(state, getSelectedCommitId(state))
 export default connect(
-    state => ({selectedTask: getSelectedTask(state), timeEstimateGraphData: getGraphDataForTask(state, getSelectedTaskId(state)), taskByDate: getTaskDataByDate(state, getSelectedTaskId(state)) }),
+    state => ({selectedTask: getSelectedTask(state), timeEstimateGraphData: getGraphDataForTask(state, getSelectedTaskId(state)), taskByDate: getTaskDataByDate(state, getSelectedTaskId(state)), commitByDate :getCommitDataByDate(state, getSelectedCommitId(state)) }),
     { addTimeEstimate }
   )(TrackingView) 

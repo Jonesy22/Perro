@@ -1,9 +1,13 @@
+
 export const getTasksState = store => store.tasks;
 export const getTimeEstimatesState = store => store.timeEstimates;
 export const getAppDataState = store => store.appData;
 
 export const getSelectedTaskId = store => 
 getAppDataState(store) ? getAppDataState(store).selectedId : -1;
+
+export const getSelectedCommitId = store =>
+getAppDataState(store) ? getAppDataState(store).commitId : -1;
 
 export const getSelectedTask = store => {
     return getTaskById(store, getSelectedTaskId(store)) || {};
@@ -95,8 +99,12 @@ export const getTimeEstimatesRecursively = function(store, id) {
 export const getCommitsRecursively = function(store, id) {
     var commits = {};
     var parents = [id];
+    
     while(parents.length > 0) {
         let task = getTaskById(store, parents[0])
+        if (!task.content) {
+            break;
+        }
         if (task.content.childIds.length > 0) {
             for(var i = 0; i < task.content.childIds.length; i++) {
                 parents.push(task.content.childIds[i])
@@ -104,9 +112,11 @@ export const getCommitsRecursively = function(store, id) {
         }
         commits = {...commits, ...task.content.commits};
         parents.shift();
+        
     }
     return commits
 }
+
 
 export const getGraphDataForTask = function(store, id) {
     let taskTimeEstimate = getTimeEstimatesRecursively(store, id);
@@ -126,10 +136,11 @@ export const getGraphDataForTask = function(store, id) {
     Object.entries(commits)
       .sort((a,b) => (a[1].commitTimestamp > b[1].commitTimestamp) - (a[1].commitTimestamp < b[1].commitTimestamp))
       .forEach(function(value, i) {
+        
         actualSum += value[1].commitWorkCompleted;
         graphDataActual.push({x: new Date(value[1].commitTimestamp), y: actualSum})
        });
-
+  
     return { estimate: graphDataEstimate, actual: graphDataActual};
 }
 
@@ -143,9 +154,7 @@ export const getTaskChildrenList = function (store, taskId) {
     list.push(task)
     if (task.content.childIds.length > 0) {
         for(var i = 0; i < task.content.childIds.length; i++) {
-            console.log(task.content.childIds)
             list = list.concat(getTaskChildrenList(store, task.content.childIds[i]))
-            console.log(list)
         }
     }
     return list
@@ -163,16 +172,16 @@ export const getTaskDataByDate = function(store, taskId) {
         else {
             taskLookup[task.content.DueDate] = [task]
         }
-        
     }
-    console.log(taskLookup)
-    console.log(taskList)
     return taskLookup
 }
 
 export const getCommitDataByDate = function(store, taskId) {
     let commitList = getCommitsRecursively(store, taskId);
     var commitLookup = {};
+    if (commitList.length === 0) {
+        return 0;
+    }
     for (let i = 0; i < commitList.length; i++) {
         let commit = commitList[i];
         if (commitLookup[commit.content.commitTimestamp]){
