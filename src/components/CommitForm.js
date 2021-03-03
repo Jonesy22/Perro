@@ -73,7 +73,7 @@ function CommitForm(props) {
                         <Form.Label>Commit Timestamp</Form.Label>
                             <Form.Control
                                 type="datetime-local" step="any"
-                                defaultValue={selectedCommit.commitTimestamp || new Date().toISOString().substring(0,19)} 
+                                defaultValue={selectedCommit.commitTimestamp ? selectedCommit.commitTimestamp.substring(0, 16) : new Date().toISOString().substring(0,19)} 
                                 name="commitTimestamp"
                                 ref={register({ required: true })}
                             />

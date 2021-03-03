@@ -39,7 +39,6 @@ router.get("/get", async (req, res) => {
 
 router.post("/create", async (req, res) => {
 
-    console.log(req.body);
     let conn;
     let commit;
     try {
@@ -47,7 +46,7 @@ router.post("/create", async (req, res) => {
         console.log("after conn")
         user = await conn.query("SELECT `userID` FROM `Users` WHERE `sessionID`=?", [req.sessionID]);
         console.log("CREATING COMMIT USER ID: ", user[0].userID);
-        commit = await conn.query("INSERT INTO `Commits` VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [req.body.commitId, req.body.commitName, req.body.taskId, req.body.commitDescription, req.body.commitWorkCompleted, req.body.commitReporter, req.body.commitCompleted, req.body.commitTimestamp])
+        commit = await conn.query("INSERT INTO `Commits` VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `commitName`=VALUES(`commitName`), `commitMessage`=VALUES(`commitMessage`), `parentTaskID`=VALUES(`parentTaskID`), `timeWorked`=VALUES(`timeWorked`), `committingUserID`=VALUES(`committingUserID`), `commitCompleted`=VALUES(`commitCompleted`), `commitTime`=VALUES(`commitTime`)", [req.body.commitId, req.body.commitName, req.body.taskId, req.body.commitDescription, req.body.commitWorkCompleted, req.body.commitReporter, req.body.commitCompleted, req.body.commitTimestamp])
         console.log("after query");
 
     } catch (err) {
