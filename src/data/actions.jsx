@@ -24,7 +24,7 @@ export const addTaskList = (allIds, byIds) => ({
 export const addCommit = (content) => ({
   type: ADD_COMMIT,
   payload: {
-    id: content.commitId !== -1? content.commitId : ++nextCommitId,
+    id: content.commitId !== null ? content.commitId : ++nextCommitId,
     content
   }
 })
@@ -127,3 +127,25 @@ export async function fetchCommits(dispatch, getState) {
   }
   dispatch(addCommitList(commits));
 }
+
+export function uploadCommit(commit) {
+  return async function uploadCommitThunk(dispatch, getState) {
+    const tasksResponse = await fetch("http://localhost:5000/commits/create", {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(commit),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "true"
+      }
+    });
+    const data = await tasksResponse.json();
+    if (data.error) throw new Error(data.error)
+    
+    console.log("data from new commit: ", data);
+    commit.commitId = data.insertId;
+    dispatch(addCommit(commit));
+  }
+}
+
