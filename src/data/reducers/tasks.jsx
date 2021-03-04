@@ -2,7 +2,7 @@ import { ADD_COMMIT, ADD_TASK, DELETE_TASK, DELETE_COMMIT, UPDATE_TASK, ADD_TASK
 import {createTask} from '../createObjects.js';
 
 const initialState = {
-  emptyTask: {content: createTask("", 0, null, "" , "", -1, [])},
+  emptyTask: {content: createTask("", 0, null, "" , "", null, [])},
   allIds: [/*0, 1, 2, 3, 4*/], // list of ids of all the tasks that are loaded
   byIds: {
     // 0: {content: createTask("Milestone 1", 5, "2021-01-31", "Summary Placeholder", "Description for milestone 1",  -1, [1, 3])}, 
@@ -111,7 +111,7 @@ const executeAction = function(state = initialState, action) {
       var updatedAllIds = [...state.allIds]
 
       // remove the deletedId from the parents list of childIds
-      if(updatedByIds[id].content.parentId !== -1) {
+      if(updatedByIds[id].content.parentId !== -1 && updatedByIds[id].content.parentId !== null ) {
         let childIdToDelete = updatedByIds[updatedByIds[id].content.parentId].content.childIds.indexOf(id)
         updatedByIds[updatedByIds[id].content.parentId].content.childIds.splice(childIdToDelete, 1)
         delete updatedByIds[updatedByIds[id].content.parentId].content.children[id]
@@ -144,7 +144,7 @@ const executeAction = function(state = initialState, action) {
         // and add its id to the childIds of its new parent
         for (var i = 0; i < updatedByIds[id].content.childIds.length; i++) {
           updatedByIds[updatedByIds[id].content.childIds[i]].content.parentId = newParentId
-          if(newParentId !== -1) {
+          if(newParentId !== -1 && newParentId !== null) {
             updatedByIds[newParentId].content.childIds.push(updatedByIds[id].content.childIds[i])
           }
         }

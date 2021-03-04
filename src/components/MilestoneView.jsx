@@ -92,7 +92,7 @@ class MilestoneView extends React.Component {
             <div>
                 <Button 
                 variant="primary"
-                onClick={() => this.setState({addProjectModalShow: true, taskId: -1})}
+                onClick={() => this.setState({addProjectModalShow: true, taskId: null})}
                 >Create Project</Button>
                 <InputModal
                 type= "Project"

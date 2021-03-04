@@ -205,7 +205,7 @@ export function removeTaskDB(task) {
     const taskResponse = await fetch("http://localhost:5000/tasks/delete", {
         method: "POST",
         credentials: "include",
-        body: JSON.stringify({taskId: task.taskId}),
+        body: JSON.stringify({taskId: task.taskId, mode: task.mode}),
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",

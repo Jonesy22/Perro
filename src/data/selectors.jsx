@@ -16,7 +16,7 @@ export const getTaskIdList = store =>
   getTasksState(store) ? getTasksState(store).allIds : [];
 
 export const getTaskById = (store, id) => {
-    if(id !== -1 && getTasksState(store).byIds[id]) {
+    if(id !== -1 && id !== null && getTasksState(store).byIds[id]) {
         return getTasksState(store) ? { ...getTasksState(store).byIds[id], id } : {};
     } else {
         return getTasksState(store) ? { ...getTasksState(store).emptyTask, id } : {};
@@ -50,7 +50,7 @@ export const getTaskHierarchy = function(store) {
     let taskList = getTasks(store)
     var taskHierarchy = {}
     for (var i = 0; i < taskList.length; i++) {
-        if (taskList[i].content.parentId === -1) {
+        if (taskList[i].content.parentId === -1 || taskList[i].content.parentId === null) {
             taskHierarchy[taskList[i].id] = getChildrenRecursively(store, taskList[i].id);
         }
     }
