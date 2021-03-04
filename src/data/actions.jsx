@@ -1,4 +1,4 @@
-import { ADD_TASK, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT, DELETE_COMMIT, UPDATE_TASK, SET_USER_PROFILE, ADD_TEAM, ADD_USER, ADD_MEMBER, ADD_TEAM_TO_USER } from "./actionTypes";
+import { ADD_TASK, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT, DELETE_COMMIT, UPDATE_TASK, SET_USER_PROFILE, ADD_TEAM, ADD_USER, ADD_MEMBER, REMOVE_MEMBER, ADD_TEAM_TO_USER, REMOVE_TEAM_FROM_USER } from "./actionTypes";
 
 
 let nextTaskId = 5;
@@ -86,13 +86,20 @@ export const addUser = (content) => ({
   }
 })
 
-export const addMember = (userId, teamId,email) => ({
+export const addMember = (userId, teamId) => ({
   type: ADD_MEMBER,
   payload: {
     userId: userId,
     teamId: teamId,
-    email: email,
     nextUserId: nextUserId++
+  }
+})
+
+export const removeMember = (userId, teamId) => ({
+  type: REMOVE_MEMBER,
+  payload: {
+    userId: userId,
+    teamId: teamId,
   }
 })
 
@@ -103,4 +110,14 @@ export const addTeamToUser = (userId, teamId) => ({
     teamId: teamId,
   }
 })
+
+export const removeTeamFromUser = (userId, teamId) => ({
+  type: REMOVE_TEAM_FROM_USER,
+  payload: {
+    userId: userId,
+    teamId: teamId,
+  }
+})
+
+
 

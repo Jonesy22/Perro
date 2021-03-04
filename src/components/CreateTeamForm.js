@@ -12,7 +12,6 @@ function CreateTeamForm(props) {
     const dispatch = useDispatch();
     
     const onSubmit = (data) => {
-        console.log(data)
         dispatch(addTeam(createTeam(data.teamName, userProfile.sd)))
         {props.onHide()}
     }

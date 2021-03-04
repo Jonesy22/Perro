@@ -1,4 +1,4 @@
-import { ADD_USER, ADD_TEAM_TO_USER } from "../actionTypes.js";
+import { ADD_USER, ADD_TEAM_TO_USER, REMOVE_TEAM_FROM_USER } from "../actionTypes.js";
 import { createUser } from "../createObjects.js";
 
 const initialState = {
@@ -31,17 +31,35 @@ const executeAction = function(state = initialState, action) {
         case ADD_TEAM_TO_USER: {
             const {userId, teamId} = action.payload;
             let users = {...state.byIds}
-            let dupCheck = false;
-            users[userId].content.teams.push(teamId)
-            console.log("USERS.users: " + JSON.stringify(users[userId]))
+            if(userId < 0){
+                console.log("User not found in Redux, need to query database")
+            }
+            else{
+                users[userId].content.teams.push(teamId)
+            }
             return {
                 ...state,
                 byIds: {...users}
             };
         };
+
+        case REMOVE_TEAM_FROM_USER: {
+            const {userId, teamId} = action.payload;
+            let users = {...state.byIds}
+            Object.entries(users[userId].content.teams).map(
+                (team,index) => {
+                    if(team[1] == teamId){
+                        users[userId].content.teams.splice(index, 1) 
+                    }
+                }
+            )
+        }
+
+
         default:
             return state;
     }
+
 }
     
     export default executeAction;

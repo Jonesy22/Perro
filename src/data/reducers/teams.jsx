@@ -1,5 +1,5 @@
 import InputForm from "../../components/InputForm.js";
-import { ADD_TEAM, ADD_MEMBER} from "../actionTypes.js";
+import { ADD_TEAM, ADD_MEMBER, REMOVE_MEMBER} from "../actionTypes.js";
 import { createTeam } from "../createObjects.js";
 
 const initialState = {
@@ -26,15 +26,12 @@ const executeAction = function(state = initialState, action) {
             };
         }
         case ADD_MEMBER: {
-            const {userId, teamId, nextUserId, email} = action.payload;
+            const {userId, teamId, nextUserId} = action.payload;
             let teams = {...state.byIds}
             let dupCheck = false;
-
             Object.entries(teams[teamId].content.teamMembers).map(
                 (member) => {
-                    console.log("mapMemberId: "+(member[1].userId) + " map userId: " + userId)
                     if(member[1].userId == userId){
-                        console.log("user has already been added")
                         dupCheck = true;
                     }
                 }
@@ -44,15 +41,27 @@ const executeAction = function(state = initialState, action) {
             }
             else{
                 if (userId < 0){
-                    console.log("creating newUserId")
                     teams[teamId].content.teamMembers.push({userId: nextUserId, teamStatus: false})
                 }
                 else{
-                    console.log("Teams : "+ JSON.stringify(teams));
                     teams[teamId].content.teamMembers.push({userId: userId, teamStatus: true})
-                    console.log("Member added : "+ JSON.stringify(teams[teamId].content))
                 }
             }
+            return {
+                ...state,
+                byIds: {...teams}
+            };
+        }
+        case REMOVE_MEMBER: {
+            const {userId, teamId} = action.payload;
+            let teams = {...state.byIds}
+            Object.entries(teams[teamId].content.teamMembers).map(
+                (member, index) => {
+                    if(member[1].userId == userId){
+                        teams[teamId].content.teamMembers.splice(index, 1) 
+                    }
+                }
+            )
             return {
                 ...state,
                 byIds: {...teams}

@@ -10,22 +10,17 @@ import { useHistory } from "react-router-dom";
 const Header = (props) => {
 
     const userProfile = useSelector(state =>  getUserProfile(state));
-    console.log("User profile state =:")
-    console.log(userProfile)
 
     let history = useHistory();
 
     function settingsClick() { 
-        console.log("settings click")
         history.push('/settings')
     };
     function trackingClick() {
             if (Object.entries(userProfile).length === 0) {
-                console.log("else")
                 history.push('/')
             }
             else {
-                console.log("if statement")
                 history.push('/tracking')
             }
     };

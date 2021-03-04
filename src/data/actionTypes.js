@@ -8,5 +8,7 @@ export const UPDATE_TASK = "UPDATE_TASK"
 export const SET_USER_PROFILE = "SET_USER_PROFILE";
 export const ADD_TEAM = "ADD_TEAM";
 export const ADD_MEMBER = "ADD_MEMBER"
+export const REMOVE_MEMBER = "REMOVE_MEMBER"
 export const ADD_USER = "ADD_USER";
 export const ADD_TEAM_TO_USER = "ADD_TEAM_TO_USER"
+export const REMOVE_TEAM_FROM_USER = "REMOVE_TEAM_FROM_USER"

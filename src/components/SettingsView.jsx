@@ -22,8 +22,6 @@ class SettingsView extends React.Component {
     //Object.entries(OBJECT).forEach(([key, value]) => ...)
 
     render() {
-        // console.log(typeof(this.props.teams))
-
         let teamCreateModalClose = () =>{
             this.setState({
                 teamCreateModalShow: false,

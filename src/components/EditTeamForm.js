@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import React, { Component, component, useState } from "react";
 import { Modal, Button, Row, Col, Form, Table, Dropdown, FormControl,Toast } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { addTeam, addMember,addTeamToUser } from "../data/actions";
+import { addTeam, addMember, removeMember, addTeamToUser, removeTeamFromUser } from "../data/actions";
 import { createTeam } from "../data/createObjects";
 import { getIdByEmail, getUserProfile } from "../data/selectors";
 import {  Combobox,  ComboboxInput,  ComboboxPopover,  ComboboxList,  ComboboxOption,  ComboboxOptionText,} from "@reach/combobox";
@@ -28,10 +28,6 @@ function EditTeamForm(props) {
     const { register, handleSubmit, errors, reset } = useForm();
     const dispatch = useDispatch();
     const onSubmit = () => {
-        console.log("Inviting team member");
-        console.log(term);
-        //console.log("userbyID :"+  invitedUserId);
-        //call useSelectHook with the email
         var userId = findIdByEmail(term);
         dispatch(addMember(userId, props.teamId));
         dispatch(addTeamToUser(userId, props.teamId));
@@ -46,8 +42,6 @@ function EditTeamForm(props) {
         Object.entries(props.users).map(
             (user) => {
                 if (user[1].content.email == term){
-                    console.log("user found! Email ("+user[1].content.email+") ID ("+user[0]+")")
-                    console.log("findIdByEmail return: " + user[0]);
                     value = user[0];
                 }
             })
@@ -59,15 +53,9 @@ function EditTeamForm(props) {
     const [showStatus, setShowStatus] = useState(false);
     const results = useNameMatch(term);
     const handleChange = (event) => {setTerm(event.target.value); setTest(event.target.value);setShowStatus(false);}
-    // const invitedUserId = useSelector(state => getIdByEmail(state, term));
-    
-	console.log(props.teamId);
 
     const pStyle = {
         color: "red",
-    };
-    const pending = {
-        color: "yellow",
     };
     
     function useNameMatch(term) {
@@ -84,7 +72,6 @@ function EditTeamForm(props) {
     }
 
     function displayName(id, status){
-        console.log(status)
         if(status){
             return (
                 <div > {props.users[id].content.fname} {props.users[id].content.lname}  </div>
@@ -176,10 +163,12 @@ function EditTeamForm(props) {
                                             <td>
                                                 <Button
                                                     onClick={() => {
+                                                        dispatch(removeMember(member[1].userId, props.teamId));
+                                                        dispatch(removeTeamFromUser(member[1].userId, props.teamId))
                                                     }}
-                                                    variant="outline-secondary"
+                                                    variant="danger"
                                                 >
-                                                    Edit
+                                                    Remove
                                                 </Button>
                                             </td>
                                         </tr>
