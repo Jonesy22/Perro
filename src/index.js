@@ -5,7 +5,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Provider } from 'react-redux'
-// import store from './data/store';
 import { ConnectedRouter } from 'connected-react-router';
 import configureStore, { history } from './data/configureStore';
 

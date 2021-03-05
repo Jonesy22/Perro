@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react';
+import React from 'react';
 import { setUserProfile } from '../data/actions';
 import { connect } from 'react-redux';
 import { getUserProfile } from "../data/selectors";

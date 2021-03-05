@@ -15,7 +15,7 @@ export function createCommit(commitId, commitName, taskId, commitWorkCompleted, 
     return {
         commitId: commitId,
         commitName: commitName,
-        taskId, taskId,
+        taskId,
         commitWorkCompleted: commitWorkCompleted, 
         commitDescription: commitDescription,
         commitTimestamp: commitTimestamp, 

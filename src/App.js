@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import 'react-bootstrap'
 import React from 'react';
@@ -11,15 +10,13 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './components/LandingPage';
 import LoginPage from './components/LoginPage';
-import { ConnectedRouter } from 'connected-react-router'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   } from "react-router-dom"
-import configureStore, { history } from './data/configureStore'
+import { history } from './data/configureStore'
 
-const store = configureStore();
 
 class App extends React.Component {
   render() {
