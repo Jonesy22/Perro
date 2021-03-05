@@ -4,6 +4,8 @@ import React from 'react';
 // components
 import LeftProjectView from './components/LeftProjectView'
 import RightProjectView from './components/RightProjectView'
+import SettingsView from './components/SettingsView'
+import { Container } from 'react-bootstrap';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './components/LandingPage';
@@ -25,6 +27,7 @@ class App extends React.Component {
             <Route path="/" exact component={() => <LandingPage />}/>
             <Route path="/tracking" exact component={TrackingView}/>
             <Route path="/auth/login" exact component={LoginPage}/>
+            <Route path="/settings" exact component={SettingsView}/>
           </Switch>
         </Router>
       </div>

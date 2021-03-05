@@ -5,13 +5,17 @@ import { addTask } from '../data/actions'
 import InputForm from './InputForm'
 import CommitForm from './CommitForm'
 import EditForm from './EditForm';
+import EditTeamForm from './EditTeamForm'
+import CreateTeamForm from './CreateTeamForm';
 
 class InputModal extends Component{
 
     components = {
         inputForm: InputForm,
         commitForm: CommitForm,
-        editForm: EditForm
+        editForm: EditForm,
+        createTeamForm: CreateTeamForm,
+        editTeamForm: EditTeamForm
     };
     
     render(){      

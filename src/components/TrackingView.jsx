@@ -153,7 +153,9 @@ class TrackingView extends React.Component {
 											
 											<p><b>Name</b>: {value.commitName}</p>
 											<p><b>Description</b>: {value.commitDescription}</p>
-											<p><b>Commit Time</b>: {(value.commitTimestamp.substr(0,19).replace('T', ' '))} </p>
+											<p><b>Commit Date</b>: {(new Date(value.commitTimestamp + "Z").toString().substr(4,11))} </p>
+											<p><b>Commit Time</b>: {(new Date(value.commitTimestamp + "Z").toString().substr(16,8))} </p>
+											<p>{console.log(value.commitTimestamp)}</p>
 										</div>
                 			})}
 						</div>

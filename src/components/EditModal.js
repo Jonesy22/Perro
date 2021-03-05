@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import { connect } from 'react-redux'
-import { addTask } from '../data/actions'
+import { addTask, addTeam } from '../data/actions'
 import EditForm from './EditForm'
 
 class EditModal extends Component{
@@ -50,5 +50,5 @@ class EditModal extends Component{
 
 export default connect(
     state => ({}),
-    { addTask }
+    { addTask, addTeam }
   )(EditModal)
