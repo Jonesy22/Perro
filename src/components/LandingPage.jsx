@@ -1,4 +1,5 @@
 import React, {useState, useEffect } from 'react'
+import '../App.css';
 import { Layout } from 'antd'
 import Header from './Header'
 import Footer from './Footer'
@@ -10,7 +11,7 @@ class LandingPage extends React.Component {
     
     render() {
         return (
-            <div>
+            <div class="float-container">
                 <Header />
                 <div>
                     <h1 class="display-1 text-center">Welcome to Perro</h1>

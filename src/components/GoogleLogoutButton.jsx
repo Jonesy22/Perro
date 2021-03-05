@@ -27,7 +27,8 @@ const GoogleLogoutButton = () => {
         console.log("data from user: ", data);
 
         console.log('Logout success!:');
-        history.push('/');
+        window.location.href = "/";
+        // history.push('/');
     };
 
 

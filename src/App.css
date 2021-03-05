@@ -70,3 +70,22 @@
   display: flex;
   padding: 0px 0px !important;
 }
+
+.team-table-container{
+  margin-top:30px;
+  min-width:600px;
+  width:1200px;
+  margin:auto;
+
+}
+[data-reach-combobox-option-text]{
+  font-weight: 100 !important;
+  font-size: 16px;
+}
+[data-reach-combobox-option-text][data-user-value] {
+  font-weight: 700 !important;
+  font-size: 16px;
+}
+#comboboxInput{
+  font-size: 16px;
+}

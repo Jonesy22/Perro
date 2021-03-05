@@ -23,7 +23,6 @@ function EditForm(props) {
         color: 'red',
     };
     
-
     const reqFieldError = "This is a required field"
 return (
 <div className="container">
