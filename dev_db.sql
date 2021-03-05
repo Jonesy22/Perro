@@ -4,14 +4,16 @@ DROP TABLE IF EXISTS `Users`;
 DROP TABLE IF EXISTS `Tasks`;
 
 CREATE TABLE `Users` (
-  `userID` int(11) NOT NULL AUTO_INCREMENT,
+  `userID` varchar(21) NOT NULL UNIQUE,
+  `googleToken` varchar(2048) NOT NULL,
+  `sessionID` varchar(32),
   `fname` varchar (255),
   `lname` varchar (255),
   `email` varchar (255),
   PRIMARY KEY (`userID`)
 );
 
-INSERT INTO `Users` VALUES (NULL, 'fname0','lname0','user0@email.com'), (NULL, 'fname1','lname1','user1@email.com'), (NULL, 'fname2','lname2','user2@email.com'), (NULL, 'fname3','lname3','user3@email.com'), (NULL, 'fname4','lname4','user4@email.com'), (NULL, 'fname5','lname5','user5@email.com'), (NULL, 'fname6','lname6','user6@email.com'), (NULL, 'fname7','lname7','user7@email.com'), (NULL, 'fname8','lname8','user8@email.com'), (NULL, 'fname9','lname9','user9@email.com'), (NULL, 'fname10','lname10','user10@email.com'), (NULL, 'fname11','lname11','user11@email.com'), (NULL, 'fname12','lname12','user12@email.com'), (NULL, 'fname13','lname13','user13@email.com'), (NULL, 'fname14','lname14','user14@email.com'), (NULL, 'fname15','lname15','user15@email.com'), (NULL, 'fname16','lname16','user16@email.com'), (NULL, 'fname17','lname17','user17@email.com'), (NULL, 'fname18','lname18','user18@email.com'), (NULL, 'fname19','lname19','user19@email.com'), (NULL, 'fname20','lname20','user20@email.com'), (NULL, 'fname21','lname21','user21@email.com'), (NULL, 'fname22','lname22','user22@email.com'), (NULL, 'fname23','lname23','user23@email.com'), (NULL, 'fname24','lname24','user24@email.com'), (NULL, 'fname25','lname25','user25@email.com'), (NULL, 'fname26','lname26','user26@email.com'), (NULL, 'fname27','lname27','user27@email.com'), (NULL, 'fname28','lname28','user28@email.com'), (NULL, 'fname29','lname29','user29@email.com'), (NULL, 'fname30','lname30','user30@email.com'), (NULL, 'fname31','lname31','user31@email.com'), (NULL, 'fname32','lname32','user32@email.com'), (NULL, 'fname33','lname33','user33@email.com'), (NULL, 'fname34','lname34','user34@email.com'), (NULL, 'fname35','lname35','user35@email.com'), (NULL, 'fname36','lname36','user36@email.com'), (NULL, 'fname37','lname37','user37@email.com'), (NULL, 'fname38','lname38','user38@email.com'), (NULL, 'fname39','lname39','user39@email.com'), (NULL, 'fname40','lname40','user40@email.com'), (NULL, 'fname41','lname41','user41@email.com'), (NULL, 'fname42','lname42','user42@email.com'), (NULL, 'fname43','lname43','user43@email.com'), (NULL, 'fname44','lname44','user44@email.com'), (NULL, 'fname45','lname45','user45@email.com'), (NULL, 'fname46','lname46','user46@email.com'), (NULL, 'fname47','lname47','user47@email.com'), (NULL, 'fname48','lname48','user48@email.com'), (NULL, 'fname49','lname49','user49@email.com');
+INSERT INTO `Users` (`userID`, `googleToken`, `fname`, `lname`, `email`) VALUES ('1', 'asdf', 'fname0','lname0','user0@email.com'), ('2', 'asdf1', 'fname1','lname1','user1@email.com'), ('3', 'asdf2', 'fname2','lname2','user2@email.com'), ('4', 'asdf0', 'fname3','lname3','user3@email.com'), ('5', 'asdf3', 'fname4','lname4','user4@email.com'), ('6', 'asdf4', 'fname5','lname5','user5@email.com'), ('7', 'asdf5', 'fname6','lname6','user6@email.com'), ('8', 'asdf6', 'fname7','lname7','user7@email.com'), ('9', 'asdf7', 'fname8','lname8','user8@email.com'), ('10', 'asdf8', 'fname9','lname9','user9@email.com');
 
 CREATE TABLE `Tasks` (
   `taskID` int(11) NOT NULL AUTO_INCREMENT,
@@ -27,14 +29,14 @@ INSERT INTO `Tasks` VALUES (1, NULL, 'Project 1', 10, 'This is the summary for t
 INSERT INTO `Tasks` VALUES (51, 1, 'Task 1', 3, 'subtask for project 1', 'description 1'), (52, 51, 'Subtask 1', 1, 'subtask of a subtask of a project', 'desc'), (53, 1, 'Task 2', 5, 'subtask for project 1', 'description 2'), (54, 1, 'Task 3', 3, 'subtask for project 1', 'description 3'), (55, 53, 'Subtask 1', 1, 'subtask of a subtask of a project', 'desc 2'), (56, 53, 'Subtask 2', 1, 'subtask of a subtask of a project', 'desc 3');
 
 CREATE TABLE `UserAccessibleTasks` (
-  `userID` int(11) NOT NULL,
+  `userID` varchar(21) NOT NULL,
   `taskID` int(11) NOT NULL,
   PRIMARY KEY (`userID`, `taskID`),
   FOREIGN KEY (`userID`) REFERENCES `Users` (`userID`) ON DELETE CASCADE,
   FOREIGN KEY (`taskID`) REFERENCES `Tasks` (`taskID`) ON DELETE CASCADE
 );
 
-INSERT INTO `UserAccessibleTasks` VALUES (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10), (11, 11), (12, 12), (13, 13), (14, 14), (15, 15), (16, 16), (17, 17), (18, 18), (19, 19), (20, 20), (21, 21), (22, 22), (23, 23), (24, 24), (25, 25), (26, 26), (27, 27), (28, 28), (29, 29), (30, 30), (31, 31), (32, 32), (33, 33), (34, 34), (35, 35), (36, 36), (37, 37), (38, 38), (39, 39), (40, 40), (41, 41), (42, 42), (43, 43), (44, 44), (45, 45), (46, 46), (47, 47), (48, 48), (49, 49), (50, 50);
+INSERT INTO `UserAccessibleTasks` VALUES (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9);
 INSERT INTO `UserAccessibleTasks` VALUES (1, 51), (1, 52), (1, 53), (1, 54), (1, 55), (1, 56); 
 
 CREATE TABLE `Commits` (
