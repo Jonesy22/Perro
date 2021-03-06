@@ -1,9 +1,11 @@
-import { ADD_TASK, ADD_TASK_LIST, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT, ADD_COMMIT_LIST, DELETE_COMMIT, UPDATE_TASK, SET_USER_PROFILE } from "./actionTypes";
+import { ADD_TASK, ADD_TASK_LIST, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT, ADD_COMMIT_LIST, DELETE_COMMIT, UPDATE_TASK, SET_USER_PROFILE, ADD_TEAM, ADD_USER, ADD_MEMBER, REMOVE_MEMBER, ADD_TEAM_TO_USER, REMOVE_TEAM_FROM_USER } from "./actionTypes";
 import {createTask, createCommit} from './createObjects';
 
 let nextTaskId = 5;
 let nextTimeEstimateId = 1;
 let nextCommitId = 0;
+let nextTeamId=1;
+let nextUserId=3;
 
 export const addTask = (content) => ({
   type: ADD_TASK,
@@ -52,7 +54,6 @@ export const updateTask = (content) => ({
   }
 });
 
-
 export const addTimeEstimate = (content) => ({
   type: ADD_TIME_ESTIMATE,
   payload: {
@@ -83,6 +84,55 @@ export const deleteTask = (content) => ({
   }
 });
 
+export const addTeam = (content) => ({
+  type: ADD_TEAM,
+  payload: {
+    id: nextTeamId++,
+    content
+  }
+});
+
+export const addUser = (content) => ({
+  type: ADD_USER,
+  payload: {
+    id: nextUserId++,
+    content
+  }
+})
+
+export const addMember = (userId, teamId) => ({
+  type: ADD_MEMBER,
+  payload: {
+    userId: userId,
+    teamId: teamId,
+    nextUserId: nextUserId++
+  }
+})
+
+export const removeMember = (userId, teamId) => ({
+  type: REMOVE_MEMBER,
+  payload: {
+    userId: userId,
+    teamId: teamId,
+  }
+})
+
+export const addTeamToUser = (userId, teamId) => ({
+  type: ADD_TEAM_TO_USER,
+  payload: {
+    userId: userId,
+    teamId: teamId,
+  }
+})
+
+export const removeTeamFromUser = (userId, teamId) => ({
+  type: REMOVE_TEAM_FROM_USER,
+  payload: {
+    userId: userId,
+    teamId: teamId,
+  }
+})
+
 export async function fetchTasks(dispatch, getState) {
   const tasksResponse = await fetch("http://localhost:5000/tasks/get", {
       method: "GET",
@@ -99,11 +149,16 @@ export async function fetchTasks(dispatch, getState) {
   console.log("data from tasks: ", data);
   let allIds = [];
   let byIds = {};
+  let selectedId = null
   for(let taskIdx in data) {
+    if(!selectedId && data[taskIdx].parentID == null) {
+      selectedId = data[taskIdx].taskID;
+    }
     allIds.push(data[taskIdx].taskID)
     byIds[data[taskIdx].taskID] = createTask(data[taskIdx].tname, data[taskIdx].timeEstimate, data[taskIdx].dueDate, data[taskIdx].summary, data[taskIdx].description, data[taskIdx].parentID, []);
   }
   dispatch(addTaskList(allIds, byIds));
+  dispatch(setSelectedId(selectedId));
   dispatch(fetchCommits);
 }
 
@@ -219,3 +274,6 @@ export function removeTaskDB(task) {
     dispatch(deleteTask(task));
   }
 }
+
+
+

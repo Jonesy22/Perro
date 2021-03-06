@@ -1,21 +1,21 @@
 import React, {Component} from 'react';
-import {Modal, Button, Row, Col} from 'react-bootstrap';
+import {Modal, Button} from 'react-bootstrap';
 import { connect } from 'react-redux'
 import { addTask } from '../data/actions'
 import InputForm from './InputForm'
 import CommitForm from './CommitForm'
 import EditForm from './EditForm';
+import EditTeamForm from './EditTeamForm'
+import CreateTeamForm from './CreateTeamForm';
 
 class InputModal extends Component{
-    constructor(props){
-        super(props);
-        //this.state = {takskId:-10};
-    }
 
     components = {
         inputForm: InputForm,
         commitForm: CommitForm,
-        editForm: EditForm
+        editForm: EditForm,
+        createTeamForm: CreateTeamForm,
+        editTeamForm: EditTeamForm
     };
     
     render(){      

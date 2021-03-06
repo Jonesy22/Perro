@@ -1,6 +1,5 @@
-import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Button from 'react-bootstrap/Button'
-import React, {useState, useEffect } from 'react'
+import React from 'react'
 import {Tabs, Tab} from 'react-bootstrap'
 import { connect } from 'react-redux'
 import TrackingView from './TrackingView'
@@ -28,25 +27,9 @@ class RightProjectView extends React.Component {
         let commitModalClose = () => this.setState({commitModalShow:false})
         return(
             <div>                
-                {/* <ButtonGroup aria-label="View Selector">
-                    <Button variant="primary" onClick={()=>this.setView(0)}>Summary</Button>{' '}
-                    <Button variant="primary" onClick={()=>this.setView(1)}>Data</Button>{' '}
-                    <Button variant="primary" onClick={()=>this.setView(2)}>Tracking</Button>{' '}
-                </ButtonGroup> */}
 
                 <Button variant="primary" onClick={()=>this.setState({commitModalShow: true})} style={{float: "right"}}>Commit Time</Button>{' '}
                 
-                {/* {this.state.viewId === 0 &&
-                    <SummaryView />
-                }
-
-                {this.state.viewId === 1 &&
-                    <DataView />
-                }
-
-                {this.state.viewId === 2 &&
-                    <TrackingView />
-                } */}
 
                 <Tabs defaultActiveKey="trackingView" id="right-side-view-tabs">
                     <Tab eventKey="summaryView" title="Summary">

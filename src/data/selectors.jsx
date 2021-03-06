@@ -1,9 +1,15 @@
+
 export const getTasksState = store => store.tasks;
+export const getTeamState = store => store.teams;
+export const getUserState = store => store.users;
 export const getTimeEstimatesState = store => store.timeEstimates;
 export const getAppDataState = store => store.appData;
 
 export const getSelectedTaskId = store => 
 getAppDataState(store) ? getAppDataState(store).selectedId : -1;
+
+export const getSelectedCommitId = store =>
+getAppDataState(store) ? getAppDataState(store).commitId : -1;
 
 export const getSelectedTask = store => {
     return getTaskById(store, getSelectedTaskId(store)) || {};
@@ -95,8 +101,12 @@ export const getTimeEstimatesRecursively = function(store, id) {
 export const getCommitsRecursively = function(store, id) {
     var commits = {};
     var parents = [id];
+    
     while(parents.length > 0) {
         let task = getTaskById(store, parents[0])
+        if (!task.content) {
+            break;
+        }
         if (task.content.childIds.length > 0) {
             for(var i = 0; i < task.content.childIds.length; i++) {
                 parents.push(task.content.childIds[i])
@@ -104,9 +114,11 @@ export const getCommitsRecursively = function(store, id) {
         }
         commits = {...commits, ...task.content.commits};
         parents.shift();
+        
     }
     return commits
 }
+
 
 export const getGraphDataForTask = function(store, id) {
     let taskTimeEstimate = getTimeEstimatesRecursively(store, id);
@@ -126,13 +138,76 @@ export const getGraphDataForTask = function(store, id) {
     Object.entries(commits)
       .sort((a,b) => (a[1].commitTimestamp > b[1].commitTimestamp) - (a[1].commitTimestamp < b[1].commitTimestamp))
       .forEach(function(value, i) {
+        
         actualSum += value[1].commitWorkCompleted;
         graphDataActual.push({x: new Date(value[1].commitTimestamp), y: actualSum})
        });
-
+  
     return { estimate: graphDataEstimate, actual: graphDataActual};
 }
 
 export const getCommitWithTaskId = function(store, taskId, commitId) {
     return getSelectedTask(store, taskId).content.commits[commitId] ? getSelectedTask(store, taskId).content.commits[commitId] : {};
 }
+
+export const getTaskChildrenList = function (store, taskId) {
+    var task = getTaskById(store, taskId)
+    var list = []
+    list.push(task)
+    if (task.content.childIds.length > 0) {
+        for(var i = 0; i < task.content.childIds.length; i++) {
+            list = list.concat(getTaskChildrenList(store, task.content.childIds[i]))
+        }
+    }
+    return list
+}
+
+
+export const getTaskDataByDate = function(store, taskId) {
+    let taskList = getTaskChildrenList(store, taskId);
+    var taskLookup = {};
+    for (let i = 0; i < taskList.length; i++) {
+        let task = taskList[i];
+        if (taskLookup[task.content.DueDate]){
+            taskLookup[task.content.DueDate].push(task)
+        }
+        else {
+            taskLookup[task.content.DueDate] = [task]
+        }
+    }
+    return taskLookup
+}
+
+export const getCommitDataByDate = function(store, taskId) {
+    let commitList = getCommitsRecursively(store, taskId);
+    var commitLookup = {};
+    if (commitList.length === 0) {
+        return 0;
+    }
+    for (const i in commitList) {
+        let commit = commitList[i];
+        let correctCommitTimeStamp = new Date(commit.commitTimestamp).toISOString()
+
+        if (commitLookup[correctCommitTimeStamp]){
+            commitLookup[correctCommitTimeStamp].push(commit)
+        }
+        else {
+            commitLookup[correctCommitTimeStamp] = [commit]
+        }
+    }
+
+    return commitLookup
+}
+export const getAllTeams = store =>
+  getTeamState(store) ? getTeamState(store).byIds : {};
+
+export const getAllUsers = store =>
+  getUserState(store) ? getUserState(store).byIds : {};
+
+
+  export const getIdByEmail = function (store, email) {
+  let users = getUserState(store).byIds;
+  return users;
+  //logic to parse users looking for email
+} 
+

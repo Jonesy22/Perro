@@ -2,7 +2,7 @@ export function createTask(taskName, taskEstimate, dueDate, taskSummary, taskDes
     return {
         Name: taskName,
         Estimate: taskEstimate, 
-        DueDate: dueDate,
+        DueDate: new Date(dueDate).toISOString(),
         Summary: taskSummary, 
         Description: taskDescription,  
         parentId: parentId, 
@@ -15,11 +15,28 @@ export function createCommit(commitId, commitName, taskId, commitWorkCompleted, 
     return {
         commitId: commitId,
         commitName: commitName,
-        taskId, taskId,
+        taskId,
         commitWorkCompleted: commitWorkCompleted, 
         commitDescription: commitDescription,
         commitTimestamp: commitTimestamp, 
         commitCompleted: commitCompleted,  
-        commitReporter: commitReporter, 
+        commitReporter: commitReporter ? commitReporter : "Person1", 
+    }
+}
+
+export function createTeam(teamName,teamLead,teamMembers = []){
+    return {
+        teamName:teamName,
+        teamLead:teamLead,
+        teamMembers: teamMembers,
+    }
+}
+
+export function createUser(fname,lname,email,teams = []){
+    return {
+        fname: fname,
+        lname: lname,
+        email: email,
+        teams: teams,
     }
 }

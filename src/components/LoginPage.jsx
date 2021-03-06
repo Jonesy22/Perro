@@ -1,9 +1,6 @@
-import React, {useState, useEffect } from 'react'
-import { Layout } from 'antd'
+import React from 'react'
 import Header from './Header'
 import Footer from './Footer'
-import { withRouter } from "react-router-dom"
-import { GoogleLogin } from 'react-google-login'
 import { connect } from 'react-redux'
 import { setUserProfile } from '../data/actions'
 import { getUserProfile } from "../data/selectors";
@@ -45,18 +42,18 @@ class LoginPage extends React.Component {
 }
 
 // currently button only takes you to the tracking page without data pass. We will need to update this function later on...
-const LoginButton = withRouter(({ history }) => (
+/* const LoginButton = withRouter(({ history }) => (
     <button 
         type="button" 
         class="btn btn-primary" 
         onClick={() => { history.push('/tracking')}}>
             Login
     </button>
-))
+)) */
 
 // var userProfile = "";
-const clientID = "135401201253-5dd1qt8cqq3qh4h3jfnibkcclkrs8l2g.apps.googleusercontent.com";
-const clientSecret = "z4Hvx0y5lHI38vPDx9KOuVaM";
+/* const clientID = "135401201253-5dd1qt8cqq3qh4h3jfnibkcclkrs8l2g.apps.googleusercontent.com";
+const clientSecret = "z4Hvx0y5lHI38vPDx9KOuVaM"; */
 
 // const GoogleLoginButton = () => {
 

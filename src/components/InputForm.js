@@ -19,7 +19,7 @@ function InputForm(props) {
         if(data.ProjectName){
             dispatch(uploadTask(createTask(data.ProjectName, parseInt(data.ProjectEstimate), data.DueDate, data.ProjectSummary, data.ProjectDescription,  props.taskId, [])));
         }
-        {props.onHide()}
+        props.onHide()
     }
 
     const pStyle = {

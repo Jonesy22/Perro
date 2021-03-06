@@ -2,7 +2,7 @@ import { ADD_COMMIT, ADD_TASK, DELETE_TASK, DELETE_COMMIT, UPDATE_TASK, ADD_TASK
 import {createTask} from '../createObjects.js';
 
 const initialState = {
-  emptyTask: {content: createTask("", 0, null, "" , "", null, [])},
+  emptyTask: {content: createTask("", 0, new Date(), "" , "", null, [])},
   allIds: [/*0, 1, 2, 3, 4*/], // list of ids of all the tasks that are loaded
   byIds: {
     // 0: {content: createTask("Milestone 1", 5, "2021-01-31", "Summary Placeholder", "Description for milestone 1",  -1, [1, 3])}, 
@@ -55,6 +55,9 @@ const executeAction = function(state = initialState, action) {
     case ADD_COMMIT: {
       const { id, content } = action.payload;
       let updatedByIds = {...state.byIds};
+      if(content.commitCompleted) {
+        updatedByIds[content.taskId].content.completed = true;
+      }
       updatedByIds[content.taskId].content.commits = {...updatedByIds[content.taskId].content.commits, [id]: {...content, "commitId": id}};
       return {
         ...state,
@@ -68,6 +71,9 @@ const executeAction = function(state = initialState, action) {
       const { commits } = action.payload;
       let updatedByIds = {...state.byIds};
       for(const idx in commits) {
+        if(commits[idx].commitCompleted) {
+          updatedByIds[commits[idx].taskId].content.completed = true;
+        }
         updatedByIds[commits[idx].taskId].content.commits = {...updatedByIds[commits[idx].taskId].content.commits, [commits[idx].commitId]: commits[idx]};
       }
       return {
@@ -93,7 +99,7 @@ const executeAction = function(state = initialState, action) {
     
     case UPDATE_TASK: {
       const { id, content } = action.payload;
-      var updatedByIds = state.byIds
+      updatedByIds = state.byIds
       return {
         ...state,
         byIds: {
@@ -107,7 +113,7 @@ const executeAction = function(state = initialState, action) {
 
     case DELETE_TASK: {
       const { id, content } = action.payload;
-      var updatedByIds = {...state.byIds}
+      updatedByIds = {...state.byIds}
       var updatedAllIds = [...state.allIds]
 
       // remove the deletedId from the parents list of childIds
@@ -130,7 +136,7 @@ const executeAction = function(state = initialState, action) {
         }
 
         // for each childId we want to delete, remove it and remove its id from allIds
-        for (var i = 0; i < listOfIdsToDelete.length; i++) {
+        for (i = 0; i < listOfIdsToDelete.length; i++) {
           delete updatedByIds[listOfIdsToDelete[i]]
           updatedAllIds.splice(updatedAllIds.indexOf(listOfIdsToDelete[i]), 1)
           // delete updatedAllIds[updatedAllIds.indexOf(listOfIdsToDelete[i])]
@@ -142,7 +148,7 @@ const executeAction = function(state = initialState, action) {
         let newParentId = updatedByIds[id].content.parentId
         // for each child of the deleted task, set its parent to the parent of deleted task
         // and add its id to the childIds of its new parent
-        for (var i = 0; i < updatedByIds[id].content.childIds.length; i++) {
+        for (i = 0; i < updatedByIds[id].content.childIds.length; i++) {
           updatedByIds[updatedByIds[id].content.childIds[i]].content.parentId = newParentId
           if(newParentId !== -1 && newParentId !== null) {
             updatedByIds[newParentId].content.childIds.push(updatedByIds[id].content.childIds[i])

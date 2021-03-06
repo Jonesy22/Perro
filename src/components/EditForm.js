@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
-import React, {Component, component} from 'react';
-import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
-import { connect } from 'react-redux';
+import React from 'react';
+import {Button, Row, Col, Form} from 'react-bootstrap';
 import { uploadTask } from '../data/actions';
 import { getTaskById } from "../data/selectors";
 import { useSelector, useDispatch } from 'react-redux';
@@ -25,7 +24,6 @@ function EditForm(props) {
         color: 'red',
     };
     
-
     const reqFieldError = "This is a required field"
 return (
 <div className="container">
