@@ -1,9 +1,11 @@
 import React from 'react';
+import {useDispatch } from 'react-redux';
 import { setUserProfile } from '../data/actions';
 import { connect } from 'react-redux';
 import { getUserProfile } from "../data/selectors";
 import { GoogleLogin } from 'react-google-login';
 import { useHistory } from "react-router-dom";
+import {fetchTasks} from '../data/actions.jsx'
 
 
 
@@ -12,6 +14,7 @@ import { useHistory } from "react-router-dom";
 const GoogleLoginButton = (props) => {
 
     let history = useHistory();
+    const dispatch = useDispatch();
 
     const onSuccess = async (res) => {
         // res returns object with information on account
@@ -20,6 +23,7 @@ const GoogleLoginButton = (props) => {
 
         // history.push('/tracking');
         var userProfile = res.getBasicProfile();
+        userProfile.token = id_token;
         props.setUserProfile(userProfile);
 
         const responseFromGoogle = await fetch("http://localhost:5000/api/v1/auth/google", {
@@ -39,6 +43,7 @@ const GoogleLoginButton = (props) => {
         
         console.log("data from user: ", data);
         
+        dispatch(fetchTasks);
 
         console.log('Login success!:', userProfile);
         // console.log('Login success!:', props.userProfile);

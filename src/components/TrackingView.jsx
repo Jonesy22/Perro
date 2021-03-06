@@ -68,7 +68,6 @@ class TrackingView extends React.Component {
 				}}
 			/>
 		
-
 			<LineMarkSeries
 			color="#00000"
 				key={0}
@@ -99,19 +98,20 @@ class TrackingView extends React.Component {
 				data={this.props.timeEstimateGraphData.estimate}
 			/>
 
-			{this.props.timeEstimateGraphData.estimate && this.state.hoveredPoint && this.state.isHoveringOverLine[0] && (this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && (this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)]) && <Hint value={this.state.hoveredPoint}>
+			{this.props.timeEstimateGraphData.estimate && this.state.hoveredPoint && this.state.isHoveringOverLine[0] && (this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString()]) && <Hint value={this.state.hoveredPoint}>
 						  <div style={{backgroundColor: '#b3b6c7', color: 'black',
 						  				 border: '2px solid black',
 										 borderRadius: 5, padding: '5px',
 										 fontSize: '14px'}}>
-						  {this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString().substr(0,10)].map((value, index) => {
+						  {this.props.taskByDate[new Date(this.state.hoveredPoint.x).toISOString()].map((value, index) => {
                    				 return  <div>
+										{index > 0 && <p>---------------</p>}
 										<p><b>Name</b>: {value.content.Name}</p>
-										<p><b>Description</b>: {value.content.Description}</p>
-										<p><b>Due</b>: {value.content.DueDate}</p>
+										<p><b>Summary</b>: {value.content.Summary}</p>
+										<p><b>Due</b>: {new Date(value.content.DueDate).toString().substr(0,15)}</p>
+										<p><b>Story points</b>: {value.content.Estimate}</p>
 									</div>
                 			})}
-							<p><b>Story points</b>: {this.state.hoveredPoint.y}</p>
 						</div>
 					</Hint>}
 
@@ -153,9 +153,8 @@ class TrackingView extends React.Component {
 											
 											<p><b>Name</b>: {value.commitName}</p>
 											<p><b>Description</b>: {value.commitDescription}</p>
-											<p><b>Commit Date</b>: {(new Date(value.commitTimestamp + "Z").toString().substr(4,11))} </p>
-											<p><b>Commit Time</b>: {(new Date(value.commitTimestamp + "Z").toString().substr(16,8))} </p>
-											<p>{console.log(value.commitTimestamp)}</p>
+											<p><b>Commit Date</b>: {(new Date(value.commitTimestamp + (value.commitTimestamp.includes("Z") ? "" : "Z")).toString().substr(4,11))} </p>
+											<p><b>Commit Time</b>: {(new Date(value.commitTimestamp + (value.commitTimestamp.includes("Z") ? "" : "Z")).toString().substr(16,8))} </p>
 										</div>
                 			})}
 						</div>

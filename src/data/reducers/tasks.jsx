@@ -1,15 +1,15 @@
-import { ADD_COMMIT, ADD_TASK, DELETE_TASK, DELETE_COMMIT, UPDATE_TASK } from "../actionTypes.js";
+import { ADD_COMMIT, ADD_TASK, DELETE_TASK, DELETE_COMMIT, UPDATE_TASK, ADD_TASK_LIST, ADD_COMMIT_LIST } from "../actionTypes.js";
 import {createTask} from '../createObjects.js';
 
 const initialState = {
-  emptyTask: {content: createTask("", 0, null, "" , "", -1, [])},
-  allIds: [0, 1, 2, 3, 4], // list of ids of all the tasks that are loaded
+  emptyTask: {content: createTask("", 0, new Date(), "" , "", null, [])},
+  allIds: [/*0, 1, 2, 3, 4*/], // list of ids of all the tasks that are loaded
   byIds: {
-    0: {content: createTask("Milestone 1", 5, "2021-01-31", "Summary Placeholder", "Description for milestone 1",  -1, [1, 3])}, 
-    1: {content: createTask("Task 1", 3, "2021-01-27", "Summary for task 1", "Description for task 1",  0, [2, 4])}, 
-    2: {content: createTask("Subtask 1", 1, "2021-01-28", "Summary subtask 1", "Description subtask 1",  1, [])}, 
-    3: {content: createTask("Task 2", 4, "2021-01-29", "Summary for task 2", "Description for task 2",  0, [])}, 
-    4: {content: createTask("Subtask 2", 1.5, "2021-01-30", "Summary subtask 2", "Description subtask 2",  1, [])}, 
+    // 0: {content: createTask("Milestone 1", 5, "2021-01-31", "Summary Placeholder", "Description for milestone 1",  -1, [1, 3])}, 
+    // 1: {content: createTask("Task 1", 3, "2021-01-27", "Summary for task 1", "Description for task 1",  0, [2, 4])}, 
+    // 2: {content: createTask("Subtask 1", 1, "2021-01-28", "Summary subtask 1", "Description subtask 1",  1, [])}, 
+    // 3: {content: createTask("Task 2", 4, "2021-01-29", "Summary for task 2", "Description for task 2",  0, [])}, 
+    // 4: {content: createTask("Subtask 2", 1.5, "2021-01-30", "Summary subtask 2", "Description subtask 2",  1, [])}, 
   }   // map of all tasks by id
 };
 
@@ -18,7 +18,7 @@ const executeAction = function(state = initialState, action) {
     case ADD_TASK: {
       const { id, content } = action.payload;
       var updatedByIds = {...state.byIds}
-      if(content.parentId !== -1){
+      if(content.parentId != -1 && content.parentId != null){
         updatedByIds[content.parentId].content.childIds.push(id)
       }
       return {
@@ -33,10 +33,49 @@ const executeAction = function(state = initialState, action) {
       };
     }
 
+    case ADD_TASK_LIST: {
+      const { allIds, byIds } = action.payload;
+      var updatedByIds = {...state.byIds}
+      for(let idx in allIds) {
+        let taskIdx = allIds[idx];
+        updatedByIds[taskIdx] = {content: byIds[taskIdx]};
+        if(byIds[taskIdx].parentId !== -1 && byIds[taskIdx].parentId !== null){
+          updatedByIds[byIds[taskIdx].parentId].content.childIds.push(taskIdx)
+        }
+      }
+      return {
+        ...state,
+        allIds: [...state.allIds, ...allIds],
+        byIds: {
+          ...updatedByIds
+        }
+      };
+    }
+
     case ADD_COMMIT: {
       const { id, content } = action.payload;
       let updatedByIds = {...state.byIds};
+      if(content.commitCompleted) {
+        updatedByIds[content.taskId].content.completed = true;
+      }
       updatedByIds[content.taskId].content.commits = {...updatedByIds[content.taskId].content.commits, [id]: {...content, "commitId": id}};
+      return {
+        ...state,
+        byIds: {
+          ...updatedByIds
+        }
+      };
+    }
+
+    case ADD_COMMIT_LIST: {
+      const { commits } = action.payload;
+      let updatedByIds = {...state.byIds};
+      for(const idx in commits) {
+        if(commits[idx].commitCompleted) {
+          updatedByIds[commits[idx].taskId].content.completed = true;
+        }
+        updatedByIds[commits[idx].taskId].content.commits = {...updatedByIds[commits[idx].taskId].content.commits, [commits[idx].commitId]: commits[idx]};
+      }
       return {
         ...state,
         byIds: {
@@ -78,7 +117,7 @@ const executeAction = function(state = initialState, action) {
       var updatedAllIds = [...state.allIds]
 
       // remove the deletedId from the parents list of childIds
-      if(updatedByIds[id].content.parentId !== -1) {
+      if(updatedByIds[id].content.parentId !== -1 && updatedByIds[id].content.parentId !== null ) {
         let childIdToDelete = updatedByIds[updatedByIds[id].content.parentId].content.childIds.indexOf(id)
         updatedByIds[updatedByIds[id].content.parentId].content.childIds.splice(childIdToDelete, 1)
         delete updatedByIds[updatedByIds[id].content.parentId].content.children[id]
@@ -111,7 +150,7 @@ const executeAction = function(state = initialState, action) {
         // and add its id to the childIds of its new parent
         for (i = 0; i < updatedByIds[id].content.childIds.length; i++) {
           updatedByIds[updatedByIds[id].content.childIds[i]].content.parentId = newParentId
-          if(newParentId !== -1) {
+          if(newParentId !== -1 && newParentId !== null) {
             updatedByIds[newParentId].content.childIds.push(updatedByIds[id].content.childIds[i])
           }
         }

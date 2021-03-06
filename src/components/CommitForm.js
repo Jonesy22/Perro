@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import React, {useState} from 'react';
 import {Button, Row, Col, Form} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
-import { addCommit } from '../data/actions'
+import { addCommit, uploadCommit } from '../data/actions'
 import { createCommit } from '../data/createObjects.js';
 import { getCommitWithTaskId } from "../data/selectors";
 
@@ -10,14 +10,15 @@ function CommitForm(props) {
     const { register, handleSubmit, errors } = useForm();
     const dispatch = useDispatch();
 
-    const selectedCommit = useSelector(state => props.loadFromSelectedCommitId ? getCommitWithTaskId(state, props.taskId, props.selectedCommitId) : createCommit(-1, "", props.taskId, null, "", null, false, ""));
+    const selectedCommit = useSelector(state => props.loadFromSelectedCommitId ? getCommitWithTaskId(state, props.taskId, props.selectedCommitId) : createCommit(null, "", props.taskId, null, "", null, false, ""));
     const [completedSwitch, setCompletedSwitch] = useState(selectedCommit.commitCompleted);
     
     const onSubmit = (data) => {
 
         // selectedCommit.commitId will be -1 above if props.loadFromSelectedCommitId = false and thus will generate a new id in the action addCommit()
-        dispatch(addCommit(createCommit(selectedCommit.commitId, data.commitName, props.taskId, parseInt(data.commitWorkCompleted), data.commitDescription, data.commitTimestamp, completedSwitch, data.commitReporter)))
-        props.onHide()
+        // dispatch(addCommit(createCommit(selectedCommit.commitId, data.commitName, props.taskId, parseInt(data.commitWorkCompleted), data.commitDescription, data.commitTimestamp, completedSwitch, data.commitReporter)))
+        dispatch(uploadCommit(createCommit(selectedCommit.commitId, data.commitName, props.taskId, parseInt(data.commitWorkCompleted), data.commitDescription, data.commitTimestamp, completedSwitch, data.commitReporter)))
+        {props.onHide()}
     }
 
     const pStyle = {
@@ -70,7 +71,7 @@ function CommitForm(props) {
                         <Form.Label>Commit Timestamp</Form.Label>
                             <Form.Control
                                 type="datetime-local" step="any"
-                                defaultValue={selectedCommit.commitTimestamp || new Date().toISOString().substring(0,19)} 
+                                defaultValue={selectedCommit.commitTimestamp ? selectedCommit.commitTimestamp.substring(0, 16) : new Date().toISOString().substring(0,19)} 
                                 name="commitTimestamp"
                                 ref={register({ required: true })}
                             />
