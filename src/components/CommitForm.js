@@ -4,13 +4,17 @@ import {Button, Row, Col, Form} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
 import { addCommit, uploadCommit } from '../data/actions'
 import { createCommit } from '../data/createObjects.js';
-import { getCommitWithTaskId } from "../data/selectors";
+import { getCommitWithTaskId, getTaskById } from "../data/selectors";
 
 function CommitForm(props) {
     const { register, handleSubmit, errors } = useForm();
     const dispatch = useDispatch();
 
-    const selectedCommit = useSelector(state => props.loadFromSelectedCommitId ? getCommitWithTaskId(state, props.taskId, props.selectedCommitId) : createCommit(null, "", props.taskId, null, "", null, false, ""));
+    let selectedCommit = useSelector(state => props.loadFromSelectedCommitId ? getCommitWithTaskId(state, props.taskId, props.selectedCommitId) : createCommit(null, "", props.taskId, null, "", null, false, ""));
+    const selectedTask = useSelector(state => getTaskById(state, props.taskId)).content;
+    if(props.autofill) {
+        selectedCommit = createCommit(null, "Finished " + selectedTask.Name, props.taskId, selectedTask.Estimate, "", selectedTask.DueDate, true, "");
+    }
     const [completedSwitch, setCompletedSwitch] = useState(selectedCommit.commitCompleted);
     
     const onSubmit = (data) => {

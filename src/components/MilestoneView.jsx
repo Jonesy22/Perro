@@ -2,7 +2,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal';
 import { Collapse } from 'antd';
-import { PlusOutlined, CloseOutlined, EditOutlined } from '@ant-design/icons';
+import { PlusOutlined, CloseOutlined, EditOutlined, CheckOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux'
 import { setSelectedId, removeTaskDB } from '../data/actions'
 import { getSelectedTaskId, getTaskHierarchy, getUserProfile, getSelectedTask } from "../data/selectors";
@@ -13,7 +13,7 @@ class MilestoneView extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {milestones: [], addProjectModalShow: false, addTaskModalShow: false, editProjectModalShow: false, editTaskModalShow: false, showModal: false, deletedId: -1 };
+        this.state = {milestones: [], addProjectModalShow: false, addTaskModalShow: false, editProjectModalShow: false, editTaskModalShow: false, showModal: false, createCommitModal: false, deletedId: -1 };
     }
 
     callback = (key) => {
@@ -26,6 +26,11 @@ class MilestoneView extends React.Component {
 
     genAnotherPanel = (taskId) => (
         <div style={{display: "flex", flexDirection: "row", flexWrap: "nowrap", marginLeft: "auto", paddingTop: "12px", paddingBottom: "12px"}}>
+            <CheckOutlined onClick={event => {
+                    console.log("create a new commit");
+                    event.stopPropagation();
+                    this.setState({createCommitModal: true, taskId: taskId})
+            }}/>
             <PlusOutlined
                 onClick={event => {
                     console.log("add a new panel");
@@ -87,6 +92,7 @@ class MilestoneView extends React.Component {
         let addProjectModalClose = () => this.setState({addProjectModalShow:false});
         let addTaskModalClose = () => this.setState({addTaskModalShow:false});
         let editTaskModalClose = () => this.setState({editTaskModalShow:false});
+        let createCommitModalClose = () => this.setState({createCommitModal:false});
         return (
             <div>
                 <Button 
@@ -101,6 +107,15 @@ class MilestoneView extends React.Component {
                 closeModalFunc = {this.closeModalFunc}
                 />
 
+
+                <InputModal
+                type= "Commit"
+                inputForm="commitForm"
+                autofill={true}
+                show={this.state.createCommitModal}
+                onHide={createCommitModalClose}
+                taskId={this.state.taskId}
+                />
 
                 <InputModal
                 type= "Task"
