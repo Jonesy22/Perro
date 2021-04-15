@@ -95,6 +95,7 @@ class MilestoneView extends React.Component {
                 >Create Project</Button>
                 <InputModal
                 type= "Project"
+                title = "Create Project"
                 show={this.state.addProjectModalShow}
                 onHide={addProjectModalClose}
                 taskId={this.state.taskId}
@@ -104,6 +105,7 @@ class MilestoneView extends React.Component {
 
                 <InputModal
                 type= "Task"
+                title = "Edit Task"
                 inputForm="editForm"
                 show={this.state.editTaskModalShow}
                 onHide={editTaskModalClose}
@@ -113,6 +115,7 @@ class MilestoneView extends React.Component {
 
                 <InputModal
                 type= "Task"
+                title = "Create Task"
                 show={this.state.addTaskModalShow}
                 onHide={addTaskModalClose}
                 taskId={this.state.taskId}
