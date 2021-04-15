@@ -29,7 +29,7 @@ class InputModal extends Component{
             >
             <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">
-                Create {this.props.type}
+                 {this.props.title}
                 </Modal.Title>
                 {this.props.loadFromSelectedCommitId && <Button onClick={this.props.clickDeleteCommitButton} variant='danger'>Delete</Button>}
             </Modal.Header>
