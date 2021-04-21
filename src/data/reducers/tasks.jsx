@@ -2,7 +2,7 @@ import { ADD_COMMIT, ADD_TASK, DELETE_TASK, DELETE_COMMIT, UPDATE_TASK, ADD_TASK
 import {createTask} from '../createObjects.js';
 
 const initialState = {
-  emptyTask: {content: createTask("", 0, new Date(), "" , "", null, [])},
+  emptyTask: {content: createTask("", 0, new Date(), "" , "", null, 0, [])},
   allIds: [/*0, 1, 2, 3, 4*/], // list of ids of all the tasks that are loaded
   byIds: {
     // 0: {content: createTask("Milestone 1", 5, "2021-01-31", "Summary Placeholder", "Description for milestone 1",  -1, [1, 3])}, 
