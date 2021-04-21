@@ -1,10 +1,11 @@
-export function createTask(taskName, taskEstimate, dueDate, taskSummary, taskDescription, parentId, childIds, commits = {}) {
+export function createTask(taskName, taskEstimate, dueDate, taskSummary, taskDescription, parentId, userId, childIds, commits = {}) {
     return {
         Name: taskName,
         Estimate: taskEstimate, 
         DueDate: new Date(dueDate).toISOString(),
         Summary: taskSummary, 
-        Description: taskDescription,  
+        Description: taskDescription, 
+        userId: userId,
         parentId: parentId, 
         childIds: childIds,
         commits: commits

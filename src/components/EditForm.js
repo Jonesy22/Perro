@@ -2,19 +2,20 @@ import { useForm } from "react-hook-form";
 import React from 'react';
 import {Button, Row, Col, Form} from 'react-bootstrap';
 import { uploadTask } from '../data/actions';
+import { connect } from 'react-redux'
 import { getTaskById } from "../data/selectors";
 import { useSelector, useDispatch } from 'react-redux';
 import { createTask } from '../data/createObjects.js';
+import { getAllUsers } from "../data/selectors";
 
 function EditForm(props) {
     const { register, handleSubmit, errors } = useForm();
     const dispatch = useDispatch();
     const selectedEdit = useSelector(state =>  getTaskById(state, props.taskId)).content;
-    console.log(selectedEdit);
+    console.log("selectedEdit: ", selectedEdit);
     const onSubmit = (data) => {
-        console.log(data);
         console.log(data.ProjectName);
-        let updatedTask = createTask(data.Name, parseInt(data.Estimate), data.DueDate, data.Summary, data.Description, selectedEdit.parentId, selectedEdit.childIds, selectedEdit.commits);
+        let updatedTask = createTask(data.Name, parseInt(data.Estimate), data.DueDate, data.Summary, data.Description, selectedEdit.parentId, data.Reporter, selectedEdit.childIds, selectedEdit.commits);
         updatedTask.taskId = props.taskId;
         dispatch(uploadTask(updatedTask));
         {props.onHide()}
@@ -23,6 +24,21 @@ function EditForm(props) {
     const pStyle = {
         color: 'red',
     };
+
+
+    const createSelectUsers = (selectedEdit) => {
+        let usersArray = [];
+        for (let i = 0; i < Object.keys(props.users).length; i++) {
+            if (i == selectedEdit.userId) {
+                usersArray.push(<option key={i} value={i} selected = "selected">{props.users[i].content.email}</option>);
+            } else {
+                usersArray.push(<option key={i} value={i}>{props.users[i].content.email}</option>);
+            }
+            
+        }
+        return usersArray;
+    
+    }
     
     const reqFieldError = "This is a required field"
 return (
@@ -85,9 +101,9 @@ return (
         </Form.Group>
         <Form.Group>
         <Form.Label>Reporter</Form.Label>
-        <select name="Reporter" ref={register({ required: true })} className="form-control required">
+        <select name="Reporter" selected="selected" ref={register({ required: true })} className="form-control required">
             placeholder="Assignee"
-            <option>Person1</option>
+            {createSelectUsers(selectedEdit)}
         </select>
         </Form.Group>
         <Form.Group>
@@ -99,4 +115,7 @@ return (
 );
 }
 
-export default EditForm;
+export default connect(
+    state => ({ users: getAllUsers(state) }),
+    {}
+  )(EditForm);
