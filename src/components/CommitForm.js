@@ -29,8 +29,14 @@ function CommitForm(props) {
 
     const createSelectUsers = () => {
         let usersArray = [];
+        console.log("props.users: ", props.users);
         for (let i = 0; i < Object.keys(props.users).length; i++) {
-            usersArray.push(<option key={i} value={i}>{props.users[i].content.email}</option>);
+            if (i == selectedCommit.Reporter) {
+                usersArray.push(<option key={i} value={i} selected="selected">{props.users[i].content.email}</option>);
+            } else {
+                usersArray.push(<option key={i} value={i}>{props.users[i].content.email}</option>);
+            }
+            
         }
         return usersArray;
     
@@ -98,7 +104,7 @@ function CommitForm(props) {
             <Form.Group>
                 <Form.Label>Reporter</Form.Label>
                 <select name="commitReporter" defaultValue={selectedCommit.commitReporter} ref={register({ required: true })} className="form-control required">
-                    {createSelectUsers()}
+                    {createSelectUsers(selectedCommit)}
                 </select>
             </Form.Group>
 
