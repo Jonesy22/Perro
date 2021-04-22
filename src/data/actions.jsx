@@ -228,7 +228,6 @@ export function uploadCommit(commit) {
 }
 
 export function uploadTask(task) {
-  console.log('********new task: ', task);
   let newTask = false;
   if (!task.taskId) {
     task.taskId = null;
