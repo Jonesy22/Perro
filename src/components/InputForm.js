@@ -1,23 +1,29 @@
 import { useForm } from "react-hook-form";
-import React, {Component, component} from 'react';
+import React, {Component, component, useEffect} from 'react';
 import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
 import { connect } from 'react-redux'
 import { uploadTask } from '../data/actions'
 import {createTask} from '../data/createObjects.js';
+import { getAllUsers } from "../data/selectors";
+
 
 function InputForm(props) {
+
+    console.log('props: ', props);
     const { register, handleSubmit, errors } = useForm();
     const dispatch = useDispatch();
+
+    //this.createSelectUsers = this.createSelectUsers.bind(this);
 
     const onSubmit = (data) => {
         console.log(data)
         if(data.TaskName){
-            dispatch(uploadTask(createTask(data.TaskName, parseInt(data.TaskEstimate), data.DueDate, data.TaskSummary, data.TaskDescription,  props.taskId, [])));
+            dispatch(uploadTask(createTask(data.TaskName, parseInt(data.TaskEstimate), data.DueDate, data.TaskSummary, data.TaskDescription, props.taskId, data.Reporter, [])));
 
         }
         if(data.ProjectName){
-            dispatch(uploadTask(createTask(data.ProjectName, parseInt(data.ProjectEstimate), data.DueDate, data.ProjectSummary, data.ProjectDescription,  props.taskId, [])));
+            dispatch(uploadTask(createTask(data.ProjectName, parseInt(data.ProjectEstimate), data.DueDate, data.ProjectSummary, data.ProjectDescription,  props.taskId, data.Reporter, [])));
         }
         props.onHide()
     }
@@ -25,6 +31,18 @@ function InputForm(props) {
     const pStyle = {
         color: 'red',
     };
+
+    const createSelectUsers = () => {
+        let usersArray = [];
+        //console.log("props: ", Object.keys(props.users).length);
+        for (let i = 0; i < Object.keys(props.users).length; i++) {
+            usersArray.push(<option key={i} value={i}>{props.users[i].content.email}</option>);
+        }
+        return usersArray;
+    
+    }
+
+
 
     const reqFieldError = "This is a required field"
     return (
@@ -91,9 +109,9 @@ function InputForm(props) {
             </Form.Group>
             <Form.Group>
                 <Form.Label>Reporter</Form.Label>
-                <select name="Reporter" ref={register({ required: true })} className="form-control required">
+                <select name="Reporter" onChange={onDropdownSelected} ref={register({ required: true })} className="form-control required">
                     placeholder="Assignee"
-                    <option>Person1</option>
+                    {createSelectUsers()}
                 </select>
             </Form.Group>
             <Form.Group>
@@ -105,4 +123,13 @@ function InputForm(props) {
     );
 }
 
-export default InputForm;
+function onDropdownSelected(e) {
+    console.log("THE val: ", e.target.value);
+}
+
+
+
+export default connect(
+    state => ({ users: getAllUsers(state) }),
+    {}
+  )(InputForm);

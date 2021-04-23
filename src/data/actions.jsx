@@ -155,7 +155,7 @@ export async function fetchTasks(dispatch, getState) {
       selectedId = data[taskIdx].taskID;
     }
     allIds.push(data[taskIdx].taskID)
-    byIds[data[taskIdx].taskID] = createTask(data[taskIdx].tname, data[taskIdx].timeEstimate, data[taskIdx].dueDate, data[taskIdx].summary, data[taskIdx].description, data[taskIdx].parentID, []);
+    byIds[data[taskIdx].taskID] = createTask(data[taskIdx].tname, data[taskIdx].timeEstimate, data[taskIdx].dueDate, data[taskIdx].summary, data[taskIdx].description, data[taskIdx].parentID, data[taskIdx].userId, []);
   }
   dispatch(addTaskList(allIds, byIds));
   dispatch(setSelectedId(selectedId));

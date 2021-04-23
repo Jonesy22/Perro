@@ -4,6 +4,8 @@ import {Button, Row, Col, Form} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
 import { addCommit, uploadCommit } from '../data/actions'
 import { createCommit } from '../data/createObjects.js';
+import { connect } from 'react-redux'
+import { getAllUsers } from "../data/selectors";
 import { getCommitWithTaskId } from "../data/selectors";
 
 function CommitForm(props) {
@@ -24,6 +26,21 @@ function CommitForm(props) {
     const pStyle = {
         color: 'red',
     };
+
+    const createSelectUsers = () => {
+        let usersArray = [];
+        console.log("props.users: ", props.users);
+        for (let i = 0; i < Object.keys(props.users).length; i++) {
+            if (i == selectedCommit.Reporter) {
+                usersArray.push(<option key={i} value={i} selected="selected">{props.users[i].content.email}</option>);
+            } else {
+                usersArray.push(<option key={i} value={i}>{props.users[i].content.email}</option>);
+            }
+            
+        }
+        return usersArray;
+    
+    }
 
     const reqFieldError = "This is a required field"
     return (
@@ -87,7 +104,7 @@ function CommitForm(props) {
             <Form.Group>
                 <Form.Label>Reporter</Form.Label>
                 <select name="commitReporter" defaultValue={selectedCommit.commitReporter} ref={register({ required: true })} className="form-control required">
-                    <option>Person1</option>
+                    {createSelectUsers(selectedCommit)}
                 </select>
             </Form.Group>
 
@@ -100,4 +117,7 @@ function CommitForm(props) {
     );
 }
 
-export default CommitForm;
+export default connect(
+    state => ({ users: getAllUsers(state) }),
+    {}
+  )(CommitForm);
