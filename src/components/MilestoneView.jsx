@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { setSelectedId, removeTaskDB } from '../data/actions'
 import { getSelectedTaskId, getTaskHierarchy, getUserProfile, getSelectedTask } from "../data/selectors";
 import InputModal from './InputModal';
+import SearchBar from './SearchBar';
 const { Panel } = Collapse;
 
 class MilestoneView extends React.Component {
@@ -101,6 +102,8 @@ class MilestoneView extends React.Component {
                 taskId={this.state.taskId}
                 closeModalFunc = {this.closeModalFunc}
                 />
+
+
 
 
                 <InputModal

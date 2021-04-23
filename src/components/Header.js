@@ -5,6 +5,7 @@ import { connect, useSelector } from 'react-redux';
 import React, { useState } from 'react';
 import { getUserProfile } from "../data/selectors";
 import { useHistory } from "react-router-dom";
+import SearchBar from './SearchBar';
 
 
 const Header = (props) => {
@@ -44,6 +45,8 @@ const Header = (props) => {
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
             </ul>
+
+            <SearchBar />
             {Object.entries(userProfile).length != 0 && <button type="button" style={navButton} class="btn btn-primary" onClick={settingsClick}>Settings</button>}
             <div style={{marginRight:5, marginLeft:5}}>    
                 {Object.entries(userProfile).length === 0 && <GoogleLoginButton/>}
