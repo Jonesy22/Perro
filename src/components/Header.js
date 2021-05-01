@@ -44,7 +44,7 @@ const Header = (props) => {
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
             </ul>
-            {Object.entries(userProfile).length != 0 && <button type="button" style={navButton} class="btn btn-primary" onClick={settingsClick}>Settings</button>}
+            {Object.entries(userProfile).length != 0 && <button type="button" style={navButton} class="btn btn-primary" onClick={settingsClick}>Teams</button>}
             <div style={{marginRight:5, marginLeft:5}}>    
                 {Object.entries(userProfile).length === 0 && <GoogleLoginButton/>}
             </div>

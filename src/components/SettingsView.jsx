@@ -9,6 +9,10 @@ import InputModal from "./InputModal";
 import { getAllTeams, getAllUsers } from "../data/selectors";
 import { ListGroup, Row } from "react-bootstrap";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ConsoleSqlOutlined } from "@ant-design/icons";
+
 class SettingsView extends React.Component {
     constructor(props) {
         super(props);
@@ -17,6 +21,7 @@ class SettingsView extends React.Component {
             editTeamModalShow: false,
             teamId: -1,
             users:{},
+            notifications: false,
         };
     }
     //Object.entries(OBJECT).forEach(([key, value]) => ...)
@@ -44,9 +49,36 @@ class SettingsView extends React.Component {
             fontSize: "14px",
         };
 
+        function NotifcationRenderer(props) {
+            const notifications = props.notificationsBool;
+            console.log("running")
+            console.log(notifications)
+            if (notifications)
+            {
+                return (<div class="team-table-container">
+                <span>New Notification</span>
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th>Team</th>
+                            <th>Team Lead</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </Table>
+            </div>);
+            }
+            else
+            {
+                return <h1>No new invitations</h1>;
+            }
+        };
         return (
             <div class="float-container">
                 <Header />
+                <NotifcationRenderer notificationsBool={false} />
                 <div class="team-table-container">
                     <Button
                         onClick={() => {
@@ -97,6 +129,8 @@ class SettingsView extends React.Component {
                     </Table>
                 </div>
 
+                <Button onClick={notify}>Notify!</Button>
+
                 <InputModal
                 type="Team"
                 inputForm="createTeamForm"
@@ -117,6 +151,9 @@ class SettingsView extends React.Component {
         );
     }
 }
+
+const notify = () => toast("New team invitation");
+
 
 export default connect(
     //takes states and returns => an object with the properties
