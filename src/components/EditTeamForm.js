@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import React, { Component, component, useState } from "react";
 import { Modal, Button, Row, Col, Form, Table, Dropdown, FormControl,Toast } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { addTeam, addMember, removeMember, addTeamToUser, removeTeamFromUser } from "../data/actions";
+import { addTeam, addMember, removeMember, addTeamToUser, removeTeamFromUser, uploadTeamMember } from "../data/actions";
 import { createTeam } from "../data/createObjects";
 import { getIdByEmail, getUserProfile } from "../data/selectors";
 import {  Combobox,  ComboboxInput,  ComboboxPopover,  ComboboxList,  ComboboxOption,  ComboboxOptionText,} from "@reach/combobox";
@@ -30,7 +30,7 @@ function EditTeamForm(props) {
 
     const onSubmit = () => {
         var userId = findIdByEmail(term);
-        dispatch(addMember(userId, props.teamId));
+        dispatch(uploadTeamMember({email: term, teamId: props.teamId}));
         dispatch(addTeamToUser(userId, props.teamId));
         setShow(true);
         setShowStatus(true);
@@ -73,7 +73,7 @@ function EditTeamForm(props) {
     }
 
     function displayName(id, status){
-        if(status){
+        if(status && props.users[id]){
             return (
                 <div > {props.users[id].content.fname} {props.users[id].content.lname}  </div>
             )
