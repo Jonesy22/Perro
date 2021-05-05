@@ -87,7 +87,7 @@ export const deleteTask = (content) => ({
 export const addTeam = (content) => ({
   type: ADD_TEAM,
   payload: {
-    id: nextTeamId++,
+    id: content.teamId,
     content
   }
 });
@@ -298,5 +298,62 @@ export function removeTaskDB(task) {
   }
 }
 
+export function uploadNewTeam(team) {
+  return async function uploadTeamThunk(dispatch, getState) {
+    const teamResponse = await fetch("http://localhost:5000/teams/create", {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(team),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "true"
+      }
+    });
+    const data = await teamResponse.json();
+    if (data.error) throw new Error(data.error)
+    
+    console.log("data from new team: ", data);
+    team.teamId = data.insertId;
+    dispatch(addTeam(team));
+  }
+}
 
+export function removeTeamDB(team) {
+  return async function removeTeamDBThunk(dispatch, getState) {
+    const teamResponse = await fetch("http://localhost:5000/teams/delete", {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(team),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "true"
+      }
+    });
+    const data = await teamResponse.json();
+    if (data.error) throw new Error(data.error)
 
+    // TODO Setup action for removing from redux
+    // dispatch(addTeam(team));
+  }
+}
+
+export function uploadTeamMember(team) {
+  return async function uploadTeamMemberThunk(dispatch, getState) {
+    const teamResponse = await fetch("http://localhost:5000/teams/add", {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(team),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "true"
+      }
+    });
+    const data = await teamResponse.json();
+    if (data.error) throw new Error(data.error)
+    
+    dispatch(addMember(team.email, team.teamId));
+  }
+}
