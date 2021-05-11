@@ -1,8 +1,9 @@
-import { SET_SELECTED_ID, SET_USER_PROFILE } from "../actionTypes.js";
+import { SET_SELECTED_ID, SET_USER_PROFILE, SET_SEARCH_TASK } from "../actionTypes.js";
 
 const initialState = {
     selectedId: 0,
     userProfile: {},
+    searchedTask: "",
 }
 
 const executeAction = function(state = initialState, action) {
@@ -19,6 +20,13 @@ const executeAction = function(state = initialState, action) {
             return {
                 ...state,
                 userProfile: userProfile
+            };
+        }
+        case SET_SEARCH_TASK: {
+            const { searchedTask } = action.payload;
+            return {
+                ...state,
+                searchedTask: searchedTask
             };
         }
 

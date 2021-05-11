@@ -41,7 +41,7 @@ export const getUserProfile = function(store) {
  */
 export const getTasks = store => getTaskIdList(store).map(id => getTaskById(store, id));
 
-const getChildrenRecursively = function(store, id) {
+export const getChildrenRecursively = function(store, id) {
     var task = getTaskById(store, id)
     task.content.children = {}
     if (task.content.childIds.length > 0) {
@@ -61,6 +61,17 @@ export const getTaskHierarchy = function(store) {
         }
     }
     return taskHierarchy
+}
+
+export const getParentsRecursively = function(store, id) {
+    var task = getTaskById(store, id)
+    task.content.parents = {}
+    if (task.content.parentId.length > 0) {
+        for(var i = 0; i < task.content.parentId.length; i++) {
+            task.content.parents[task.content.parentId[i]] = getParentsRecursively(store, task.content.parentId[i])
+        }
+    }
+    return task
 }
 
 
