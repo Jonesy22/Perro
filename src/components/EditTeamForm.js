@@ -27,6 +27,7 @@ const membersEmail = [
 function EditTeamForm(props) {
     const { register, handleSubmit, errors, reset } = useForm();
     const dispatch = useDispatch();
+
     const onSubmit = () => {
         var userId = findIdByEmail(term);
         dispatch(addMember(userId, props.teamId));
@@ -77,9 +78,14 @@ function EditTeamForm(props) {
                 <div > {props.users[id].content.fname} {props.users[id].content.lname}  </div>
             )
         }
+        else if(props.users[id]){
+            return(
+                <div style={{color:"#F39803"}}>{props.users[id].content.fname} {props.users[id].content.lname}  </div>
+            )
+        }
         else{
             return (
-                <div style={{color:"#F39803"}}> {id}</div>
+                <div style={{color:"#F39803"}}>{id}... pending invite</div>
             )
         }
 

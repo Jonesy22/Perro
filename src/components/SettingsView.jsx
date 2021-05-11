@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { connect, useSelector } from "react-redux";
+import { connect, useSelector, useDispatch } from "react-redux";
+import { addTeam, addMember, removeMember, addTeamToUser, removeTeamFromUser, updateTeamsTeamStatus, updateUsersTeamStatus } from "../data/actions";
 import "../App.css";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -12,6 +13,9 @@ import { ListGroup, Row } from "react-bootstrap";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ConsoleSqlOutlined } from "@ant-design/icons";
+import {HiOutlineBell} from "react-icons/hi";
+
+let tempUserId = 0;
 
 class SettingsView extends React.Component {
     constructor(props) {
@@ -51,34 +55,78 @@ class SettingsView extends React.Component {
 
         function NotifcationRenderer(props) {
             const notifications = props.notificationsBool;
-            console.log("running")
-            console.log(notifications)
-            if (notifications)
+            let invitations = false;
+            const dispatch = useDispatch();
+            console.log(props)
+            let teamSize = props.users[tempUserId].content.teams.length;
+            let i = 0;
+            console.log(i)
+            for (i = 0; i < teamSize; i++){
+                // console.log(props.users[tempUserId.content.teams])
+                if (props.users[tempUserId].content.teams[i].teamStatus == false)
+                invitations = true;
+            }
+            if (invitations)
             {
-                return (<div class="team-table-container">
-                <span>New Notification</span>
-                <Table striped bordered hover>
+                return (<div class="invitation-table-container">
+                <span style={{fontSize: 20}}>Invitations <span style={{color: "#0275d8"}}><HiOutlineBell /></span></span>
+                <Table bordered hover>
                     <thead>
                         <tr>
                             <th>Team</th>
-                            <th>Team Lead</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
+                    {Object.entries(props.users[tempUserId].content.teams).map(
+                                (team, index) => {
+                                    if(team[1].teamStatus == false){
+                                    return (
+                                        <tr key={index}>
+                                            <td>{props.teams[[team[1].teamId]].content.teamName}</td>
+                                            <td>
+                                            <span style={{marginRight: 10}}>
+                                                <Button
+                                                    onClick={() => {
+                                                        dispatch(updateTeamsTeamStatus(team[1].teamId, tempUserId));
+                                                        dispatch(updateUsersTeamStatus(tempUserId, team[1].teamId));
+                                                    }}
+                                                    variant="primary"
+                                                >
+                                                    Accept
+                                                </Button>
+                                            </span>
+                                            <span>
+                                                <Button
+                                                    onClick={() => {
+                                                        //replace first argument with current users userID
+                                                        dispatch(removeMember(tempUserId, team[1].teamId));
+                                                        dispatch(removeTeamFromUser(tempUserId, team[1].teamId))
+                                                    }}
+                                                    variant="danger"
+                                                >
+                                                    Decline
+                                                </Button>
+                                            </span>
+                                            </td>
+                                        </tr>
+                                    );
+                                    }
+                                }
+                            )}
                     </tbody>
                 </Table>
             </div>);
             }
             else
             {
-                return <h1>No new invitations</h1>;
+                return '';
             }
         };
         return (
             <div class="float-container">
                 <Header />
-                <NotifcationRenderer notificationsBool={false} />
+                <NotifcationRenderer notificationsBool={true} users={this.props.users} teams={this.props.teams}/>
                 <div class="team-table-container">
                     <Button
                         onClick={() => {

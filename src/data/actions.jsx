@@ -1,4 +1,4 @@
-import { ADD_TASK, ADD_TASK_LIST, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT, ADD_COMMIT_LIST, DELETE_COMMIT, UPDATE_TASK, SET_USER_PROFILE, ADD_TEAM, ADD_USER, ADD_MEMBER, REMOVE_MEMBER, ADD_TEAM_TO_USER, REMOVE_TEAM_FROM_USER } from "./actionTypes";
+import { ADD_TASK, ADD_TASK_LIST, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT, ADD_COMMIT_LIST, DELETE_COMMIT, UPDATE_TASK, SET_USER_PROFILE, ADD_TEAM, ADD_USER, ADD_MEMBER, REMOVE_MEMBER, ADD_TEAM_TO_USER, REMOVE_TEAM_FROM_USER, UPDATE_TEAMS_TEAMSTATUS, UPDATE_USERS_TEAMSTATUS } from "./actionTypes";
 import {createTask, createCommit} from './createObjects';
 
 let nextTaskId = 5;
@@ -127,6 +127,22 @@ export const addTeamToUser = (userId, teamId) => ({
 
 export const removeTeamFromUser = (userId, teamId) => ({
   type: REMOVE_TEAM_FROM_USER,
+  payload: {
+    userId: userId,
+    teamId: teamId,
+  }
+})
+
+export const updateTeamsTeamStatus = (teamId, userId) => ({
+  type: UPDATE_TEAMS_TEAMSTATUS,
+  payload: {
+    teamId: teamId,
+    userId: userId,
+  }
+})
+
+export const updateUsersTeamStatus = (userId, teamId) => ({
+  type: UPDATE_USERS_TEAMSTATUS,
   payload: {
     userId: userId,
     teamId: teamId,

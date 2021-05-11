@@ -6,11 +6,14 @@ import React, { useState } from 'react';
 import { getUserProfile } from "../data/selectors";
 import { useHistory } from "react-router-dom";
 
+import {HiOutlineBell} from "react-icons/hi";
+
 
 const Header = (props) => {
 
     const userProfile = useSelector(state =>  getUserProfile(state));
 
+    let notifcation = true;
     let history = useHistory();
 
     function settingsClick() { 
@@ -29,7 +32,7 @@ const Header = (props) => {
             backgroundColor: "white",
             color:"rgba(0, 0, 0, 0.54)",
             height:"43px",
-            width: "85px",
+            width: "90px",
             bordeRadius:"2px",
             borderColor:"white",
             fontFamily:"Roboto, sans-serif",
@@ -44,7 +47,12 @@ const Header = (props) => {
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
             </ul>
-            {Object.entries(userProfile).length != 0 && <button type="button" style={navButton} class="btn btn-primary" onClick={settingsClick}>Teams</button>}
+            {Object.entries(userProfile).length != 0 && notifcation && <button type="button" style={navButton} class="btn btn-primary" onClick={settingsClick}>
+                Teams <span style={{color: "#0275d8"}}><HiOutlineBell /></span>
+            </button>}
+            {Object.entries(userProfile).length != 0 && ! notifcation && <button type="button" style={navButton} class="btn btn-primary" onClick={settingsClick}>
+                Teams
+            </button>}
             <div style={{marginRight:5, marginLeft:5}}>    
                 {Object.entries(userProfile).length === 0 && <GoogleLoginButton/>}
             </div>
