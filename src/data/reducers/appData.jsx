@@ -24,6 +24,7 @@ const executeAction = function(state = initialState, action) {
         }
         case SET_SEARCH_TASK: {
             const { searchedTask } = action.payload;
+            console.log("SEARCH!!!!!!!:", searchedTask);
             return {
                 ...state,
                 searchedTask: searchedTask

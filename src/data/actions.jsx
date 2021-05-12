@@ -125,10 +125,11 @@ export const addTeamToUser = (userId, teamId) => ({
   }
 })
 
-export const setSearchTask = (content) => ({
+export const setSearchTask = (content) => (  
+  {
   type: SET_SEARCH_TASK,
   payload: {
-    searchTerm: content
+    searchedTask: content
   }
 })
 

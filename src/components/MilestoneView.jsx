@@ -5,7 +5,7 @@ import { Collapse } from 'antd';
 import { PlusOutlined, CloseOutlined, EditOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux'
 import { setSelectedId, removeTaskDB } from '../data/actions'
-import { getSelectedTaskId, getTaskHierarchy, getUserProfile, getSelectedTask } from "../data/selectors";
+import { getSelectedTaskId, getTaskHierarchy, getUserProfile, getSelectedTask, getSearchTask } from "../data/selectors";
 import InputModal from './InputModal';
 
 const { Panel } = Collapse;
@@ -15,8 +15,13 @@ class MilestoneView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {searchTerm: {}, milestones: [], addProjectModalShow: false, addTaskModalShow: false, editProjectModalShow: false, editTaskModalShow: false, showModal: false, deletedId: -1 };
+        // this.setState({searchTerm: this.props.searchTerm});
+        // console.log("*************Milestone: ", this.props.searchTerm);
     }
       
+
+
+
 
     callback = (key) => {
         console.log(parseInt(key[0]));
@@ -86,7 +91,9 @@ class MilestoneView extends React.Component {
     }
 
     render() {
-        
+        console.log("STATE: ", this.props);
+        // this.setState({searchTerm: this.props.searchTerm});
+        // console.log("*************Milestone: ", this.props.searchTerm);
         let addProjectModalClose = () => this.setState({addProjectModalShow:false});
         let addTaskModalClose = () => this.setState({addTaskModalShow:false});
         let editTaskModalClose = () => this.setState({editTaskModalShow:false});
@@ -160,6 +167,6 @@ class MilestoneView extends React.Component {
 }
 
 export default connect(
-    state => ({ taskHierarchy: getTaskHierarchy(state), userProfile: getUserProfile(state), selectedId: getSelectedTaskId(state), selectedTask: getSelectedTask(state) }),
+    state => ({ taskHierarchy: getTaskHierarchy(state), userProfile: getUserProfile(state), selectedId: getSelectedTaskId(state), selectedTask: getSelectedTask(state), searchTerm: getSearchTask(state) }),
     { setSelectedId, removeTaskDB }
   )(MilestoneView)

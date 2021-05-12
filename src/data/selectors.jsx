@@ -4,6 +4,7 @@ export const getTeamState = store => store.teams;
 export const getUserState = store => store.users;
 export const getTimeEstimatesState = store => store.timeEstimates;
 export const getAppDataState = store => store.appData;
+export const getSearchTask = store => store.appData.searchedTask;
 
 export const getSelectedTaskId = store => 
 getAppDataState(store) ? getAppDataState(store).selectedId : -1;
