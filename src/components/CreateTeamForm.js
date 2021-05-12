@@ -15,7 +15,11 @@ function CreateTeamForm(props) {
     const dispatch = useDispatch();
     
     const onSubmit = (data) => {
+<<<<<<< HEAD
         dispatch(uploadNewTeam(createTeam(data.teamName, appData.userProfile.Qt)))
+=======
+        dispatch(addTeam(createTeam(data.teamName, appData.userProfile.tS)))
+>>>>>>> 6ec0f7f (Progress - team deletion implemented)
         {props.onHide()}
     }
 
