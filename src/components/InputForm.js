@@ -36,7 +36,8 @@ function InputForm(props) {
         let usersArray = [];
         //console.log("props: ", Object.keys(props.users).length);
         for (let i = 0; i < Object.keys(props.users).length; i++) {
-            usersArray.push(<option key={i} value={i}>{props.users[i].content.email}</option>);
+            const id = Object.keys(props.users)[i];
+            usersArray.push(<option key={id} value={id}>{props.users[id].content.email}</option>);
         }
         return usersArray;
     

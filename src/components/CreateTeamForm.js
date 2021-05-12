@@ -15,7 +15,7 @@ function CreateTeamForm(props) {
     const dispatch = useDispatch();
     
     const onSubmit = (data) => {
-        dispatch(uploadNewTeam(createTeam(data.teamName, appData.userProfile.tS)))
+        dispatch(uploadNewTeam(createTeam(data.teamName, appData.userProfile.Qt)))
         {props.onHide()}
     }
 

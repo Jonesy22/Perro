@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { connect, useSelector, useDispatch } from "react-redux";
-import { addTeam, addMember, removeMember, addTeamToUser, removeTeamFromUser, updateTeamsTeamStatus, updateUsersTeamStatus, removeTeamDB } from "../data/actions";
+import { addTeam, addMember, removeMember, addTeamToUser, removeTeamFromUser, updateTeamsTeamStatus, updateUsersTeamStatus, removeTeamDB, acceptTeamInvDB, declineTeamInvDB } from "../data/actions";
 import "../App.css";
 import Header from "./Header";
 import Footer from "./Footer";
 import Table from "react-bootstrap/Table";
 import InputModal from "./InputModal";
-import { getAllAppData, getAllTeams, getAllUsers } from "../data/selectors";
+import { getAllAppData, getAllTeams, getAllInvitations, getAllUsers } from "../data/selectors";
 import { ListGroup, Row } from "react-bootstrap";
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -54,21 +54,9 @@ class SettingsView extends React.Component {
 
         function NotifcationRenderer(props) {
             const notifications = props.notificationsBool;
-            let tempUserId = 0;
-            // let tempUserId = props.userId
             console.log(props.userId)
-            let invitations = false;
             const dispatch = useDispatch();
-            console.log(props)
-            let teamSize = props.users[tempUserId].content.teams.length;
-            let i = 0;
-            console.log(i)
-            for (i = 0; i < teamSize; i++){
-                // console.log(props.users[tempUserId.content.teams])
-                if (props.users[tempUserId].content.teams[i].teamStatus == false)
-                invitations = true;
-            }
-            if (invitations)
+            if (props.invitations.length > 0)
             {
                 return (
                 <div class="invitation-table-container">
@@ -81,18 +69,18 @@ class SettingsView extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                    {Object.entries(props.users[tempUserId].content.teams).map(
-                                (team, index) => {
-                                    if(team[1].teamStatus == false){
+                    {props.invitations.map(
+                                (inv, index) => {
                                     return (
                                         <tr key={index}>
-                                            <td>{props.teams[[team[1].teamId]].content.teamName}</td>
+                                            <td>{props.teams[[inv.teamId]].content.teamName}</td>
                                             <td>
                                             <span style={{marginRight: 10}}>
                                                 <Button
                                                     onClick={() => {
-                                                        dispatch(updateTeamsTeamStatus(team[1].teamId, tempUserId));
-                                                        dispatch(updateUsersTeamStatus(tempUserId, team[1].teamId));
+                                                        dispatch(acceptTeamInvDB(props.userEmail, inv.teamId))
+                                                        // dispatch(updateTeamsTeamStatus(inv.teamId, tempUserId));
+                                                        // dispatch(updateUsersTeamStatus(tempUserId, inv.teamId));
                                                     }}
                                                     variant="primary"
                                                 >
@@ -103,8 +91,9 @@ class SettingsView extends React.Component {
                                                 <Button
                                                     onClick={() => {
                                                         //replace first argument with current users userID
-                                                        dispatch(removeMember(tempUserId, team[1].teamId));
-                                                        dispatch(removeTeamFromUser(tempUserId, team[1].teamId))
+                                                        dispatch(declineTeamInvDB(props.userEmail, inv.teamId))
+                                                        // dispatch(removeMember(tempUserId, inv.teamId));
+                                                        // dispatch(removeTeamFromUser(tempUserId, inv.teamId))
                                                     }}
                                                     variant="danger"
                                                 >
@@ -114,7 +103,6 @@ class SettingsView extends React.Component {
                                             </td>
                                         </tr>
                                     );
-                                    }
                                 }
                             )}
                     </tbody>
@@ -129,7 +117,7 @@ class SettingsView extends React.Component {
         return (
             <div class="float-container">
                 <Header />
-                <NotifcationRenderer notificationsBool={true} users={this.props.users} teams={this.props.teams} userId={this.props.appData.userProfile.tS}/>
+                <NotifcationRenderer notificationsBool={true} invitations={this.props.invitations} teams={this.props.teams} userId={this.props.appData.userProfile.tS} userEmail={this.props.appData.userProfile.Qt}/>
                 <div class="team-table-container">
                     <Button
                         onClick={() => {
@@ -221,6 +209,6 @@ const notify = () => toast("New team invitation");
 
 export default connect(
     //takes states and returns => an object with the properties
-    (state) => ({ teams: getAllTeams(state), users: getAllUsers(state), appData: getAllAppData(state) }),
+    (state) => ({ teams: getAllTeams(state), invitations: getAllInvitations(state), appData: getAllAppData(state), users: getAllUsers(state) }),
     { removeTeamDB }
 )(SettingsView);

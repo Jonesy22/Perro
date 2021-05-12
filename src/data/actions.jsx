@@ -1,5 +1,5 @@
-import { ADD_TASK, ADD_TASK_LIST, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT, ADD_COMMIT_LIST, DELETE_COMMIT, UPDATE_TASK, SET_USER_PROFILE, ADD_TEAM, ADD_USER, ADD_MEMBER, REMOVE_MEMBER, ADD_TEAM_TO_USER, REMOVE_TEAM_FROM_USER, UPDATE_TEAMS_TEAMSTATUS, UPDATE_USERS_TEAMSTATUS, DELETE_TEAM } from "./actionTypes";
-import {createTask, createCommit} from './createObjects';
+import { ADD_TASK, ADD_TASK_LIST, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT, ADD_COMMIT_LIST, DELETE_COMMIT, ADD_INV_LIST, UPDATE_TASK, SET_USER_PROFILE, ADD_TEAM, ADD_USER, ADD_USER_LIST, ADD_MEMBER, REMOVE_MEMBER, ADD_TEAM_TO_USER, ADD_TEAMS_LIST, REMOVE_TEAM_FROM_USER, UPDATE_TEAMS_TEAMSTATUS, UPDATE_USERS_TEAMSTATUS, DELETE_TEAM, DELETE_INVITATION } from "./actionTypes";
+import {createTask, createCommit, createTeam, createUser} from './createObjects';
 
 let nextTaskId = 5;
 let nextTimeEstimateId = 1;
@@ -92,6 +92,13 @@ export const addTeam = (content) => ({
   }
 });
 
+export const addTeamsList = (content) => ({
+  type: ADD_TEAMS_LIST,
+  payload: {
+    content
+  }
+});
+
 export const addUser = (content) => ({
   type: ADD_USER,
   payload: {
@@ -100,12 +107,19 @@ export const addUser = (content) => ({
   }
 })
 
-export const addMember = (userId, teamId) => ({
+export const addUserList = (content) => ({
+  type: ADD_USER_LIST,
+  payload: {
+    content
+  }
+})
+
+export const addMember = (userId, teamId, accepted=false) => ({
   type: ADD_MEMBER,
   payload: {
     userId: userId,
     teamId: teamId,
-    nextUserId: nextUserId++
+    accepted: accepted
   }
 })
 
@@ -156,6 +170,21 @@ export const updateUsersTeamStatus = (userId, teamId) => ({
   }
 })
 
+export const deleteInvitation = (userEmail, teamId) => ({
+  type: DELETE_INVITATION,
+  payload: {
+    userEmail: userEmail,
+    teamId: teamId,
+  }
+})
+
+export const addInvitationList = (content) => ({
+  type: ADD_INV_LIST,
+  payload: {
+    content
+  }
+})
+
 export async function fetchTasks(dispatch, getState) {
   const tasksResponse = await fetch("http://localhost:5000/tasks/get", {
       method: "GET",
@@ -183,6 +212,7 @@ export async function fetchTasks(dispatch, getState) {
   dispatch(addTaskList(allIds, byIds));
   dispatch(setSelectedId(selectedId));
   dispatch(fetchCommits);
+  dispatch(fetchUsers);
 }
 
 export async function fetchCommits(dispatch, getState) {
@@ -204,6 +234,56 @@ export async function fetchCommits(dispatch, getState) {
     commits[data[idx].commitID] = createCommit(data[idx].commitID, data[idx].commitName, data[idx].parentTaskID, data[idx].timeWorked, data[idx].commitMessage, data[idx].commitTime, data[idx].commitCompleted, data[idx].commitingUserID)
   }
   dispatch(addCommitList(commits));
+}
+
+export async function fetchUsers(dispatch, getState) {
+  const usersResponse = await fetch("http://localhost:5000/users/accessibleUsers", {
+      method: "GET",
+      credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "true"
+    }
+  });
+  const data = await usersResponse.json();
+  if (data.error) throw new Error(data.error)
+  
+  console.log("data from users: ", data);
+  let users = {};
+  for(let idx in data) {
+    users[data[idx].userID] = {content: createUser(data[idx].fname, data[idx].lname, data[idx].email)}
+  }
+  console.log(users);
+  dispatch(addUserList(users));
+  dispatch(fetchTeams);
+}
+
+export async function fetchTeams(dispatch, getState) {
+  const teamsResponse = await fetch("http://localhost:5000/teams/get", {
+      method: "GET",
+      credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "true"
+    }
+  });
+  const data = await teamsResponse.json();
+  if (data.error) throw new Error(data.error)
+  
+  console.log("data from teams: ", data);
+  let teams = {};
+  for(let idx in data.teams) {
+    teams[data.teams[idx].teamID] = {content: createTeam(data.teams[idx].teamName, "", [], data.teams[idx].teamID)}
+  }
+  
+  for(let idx in data.teamUsers) {
+    teams[data.teamUsers[idx].teamID].content.teamMembers.push({userId: data.teamUsers[idx].userEmail, teamStatus: Boolean(data.teamUsers[idx].acceptedInvite)})
+  }
+
+  dispatch(addTeamsList(teams));
+  dispatch(addInvitationList(data.invitations));
 }
 
 export function uploadCommit(commit) {
@@ -316,6 +396,7 @@ export function uploadNewTeam(team) {
     console.log("data from new team: ", data);
     team.teamId = data.insertId;
     dispatch(addTeam(team));
+    dispatch(addMember(team.teamLead, data.insertId, true));
   }
 }
 
@@ -356,6 +437,7 @@ export function acceptTeamInvDB(userEmail, teamId) {
 
     // TODO Setup action for accepting team invite in redux
     dispatch(updateTeamsTeamStatus(teamId, userEmail));
+    dispatch(deleteInvitation(userEmail, teamId));
   }
 }
 
@@ -376,6 +458,7 @@ export function declineTeamInvDB(userEmail, teamId) {
 
     // TODO refactor these so they take email instead of id, and store teams members by email as new invites wont have id
     dispatch(removeMember(userEmail, teamId));
+    dispatch(deleteInvitation(userEmail, teamId));
     // dispatch(removeTeamFromUser(userEmail, teamId))
   }
 }

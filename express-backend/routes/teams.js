@@ -10,6 +10,31 @@ const pool = mariadb.createPool({
 const express = require("express");
 const router = express.Router();
 
+router.get("/get", async (req, res) => {
+
+    let conn;
+    let teamUsers;
+    let teamInvs;
+    try {
+        conn = await pool.getConnection();
+        console.log("after conn")
+        user = await conn.query("SELECT `userID`, `email` FROM `Users` WHERE `sessionID`=?", [req.sessionID]);
+        teams = await conn.query("SELECT * FROM `Teams` WHERE `teamID` IN (SELECT `teamID` FROM `TeamUsers` WHERE `userEmail`=?)", [user[0].email])
+        teamUsers = await conn.query("SELECT * FROM `TeamUsers` WHERE `teamID` IN (SELECT `teamID` FROM `TeamUsers` WHERE `userEmail`=?)", [user[0].email, user[0].email])
+        teamInvs = await conn.query("SELECT teamName, t.teamID as teamId FROM `TeamUsers` tu JOIN `Teams` t ON tu.teamID = t.teamID  WHERE `userEmail`=? AND `acceptedInvite`=0", [user[0].email, user[0].email])
+        console.log("after query");
+
+    } catch (err) {
+        console.log(err)
+        throw err;
+    } finally {
+        res.status(201);
+        res.json({teams: teams, teamUsers: teamUsers, invitations: teamInvs});
+
+        if (conn) return conn.end();
+    }
+});
+
 router.post("/create", async (req, res) => {
 
     let conn;
