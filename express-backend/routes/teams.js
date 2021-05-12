@@ -56,6 +56,50 @@ router.post("/add", async (req, res) => {
     }
 });
 
+router.post("/declineInv", async (req, res) => {
+
+    let conn;
+    let teamUser;
+    try {
+        conn = await pool.getConnection();
+        console.log("after conn")
+        user = await conn.query("SELECT `userID`, `email` FROM `Users` WHERE `sessionID`=?", [req.sessionID]);
+        teamUser = await conn.query("DELETE FROM `TeamUsers` WHERE `userEmail`=? AND `teamID`=?", [req.body.email, req.body.teamId])
+        console.log("after query");
+
+    } catch (err) {
+        console.log(err)
+        throw err;
+    } finally {
+        res.status(201);
+        res.json(teamUser);
+
+        if (conn) return conn.end();
+    }
+});
+
+router.post("/acceptInv", async (req, res) => {
+
+    let conn;
+    let teamUser;
+    try {
+        conn = await pool.getConnection();
+        console.log("after conn")
+        user = await conn.query("SELECT `userID`, `email` FROM `Users` WHERE `sessionID`=?", [req.sessionID]);
+        teamUser = await conn.query("UPDATE `TeamUsers` SET `acceptedInvite`=? WHERE `userEmail`=? AND `teamID`=?", [true, req.body.email, req.body.teamId])
+        console.log("after query");
+
+    } catch (err) {
+        console.log(err)
+        throw err;
+    } finally {
+        res.status(201);
+        res.json(teamUser);
+
+        if (conn) return conn.end();
+    }
+});
+
 router.post("/delete", async (req, res) => {
     let conn;
     let team;

@@ -62,12 +62,7 @@ const executeAction = function(state = initialState, action) {
                 console.log("Member has already been added")
             }
             else{
-                if (userId < 0){
-                    teams[teamId].content.teamMembers.push({userId: nextUserId, teamStatus: false})
-                }
-                else{
-                    teams[teamId].content.teamMembers.push({userId: userId, teamStatus: false})
-                }
+                teams[teamId].content.teamMembers.push({userId: userId, teamStatus: false})
             }
             return {
                 ...state,
