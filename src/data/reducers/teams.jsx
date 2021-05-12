@@ -1,5 +1,5 @@
 import InputForm from "../../components/InputForm.js";
-import { ADD_TEAM, ADD_MEMBER, REMOVE_MEMBER, UPDATE_TEAMS_TEAMSTATUS} from "../actionTypes.js";
+import { ADD_TEAM, ADD_MEMBER, REMOVE_MEMBER, UPDATE_TEAMS_TEAMSTATUS, DELETE_TEAM} from "../actionTypes.js";
 import { createTeam } from "../createObjects.js";
 
 const initialState = {
@@ -25,6 +25,28 @@ const executeAction = function(state = initialState, action) {
                 }
             };
         }
+
+        case DELETE_TEAM: {
+            const { teamId } = action.payload;
+            let teams = {...state.byIds}  
+            console.log("teamId: "+ teamId)
+            delete teams[teamId];
+            console.log("DELETING TEAM")
+            
+            // Object.entries(teams).map(
+            //     (team, index) => {
+            //         console.log(team)
+            //         if(team[1].content.teamId == teamId){
+            //             teams.splice(index, 1) 
+            //         }
+            //     }
+            // )
+            return {
+                ...state,
+                byIds: {...teams}
+            };
+        }
+
         case ADD_MEMBER: {
             const {userId, teamId, nextUserId} = action.payload;
             let teams = {...state.byIds}

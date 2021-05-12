@@ -1,4 +1,4 @@
-import { ADD_TASK, ADD_TASK_LIST, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT, ADD_COMMIT_LIST, DELETE_COMMIT, UPDATE_TASK, SET_USER_PROFILE, ADD_TEAM, ADD_USER, ADD_MEMBER, REMOVE_MEMBER, ADD_TEAM_TO_USER, REMOVE_TEAM_FROM_USER, UPDATE_TEAMS_TEAMSTATUS, UPDATE_USERS_TEAMSTATUS } from "./actionTypes";
+import { ADD_TASK, ADD_TASK_LIST, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT, ADD_COMMIT_LIST, DELETE_COMMIT, UPDATE_TASK, SET_USER_PROFILE, ADD_TEAM, ADD_USER, ADD_MEMBER, REMOVE_MEMBER, ADD_TEAM_TO_USER, REMOVE_TEAM_FROM_USER, UPDATE_TEAMS_TEAMSTATUS, UPDATE_USERS_TEAMSTATUS, DELETE_TEAM } from "./actionTypes";
 import {createTask, createCommit} from './createObjects';
 
 let nextTaskId = 5;
@@ -113,6 +113,13 @@ export const removeMember = (userId, teamId) => ({
   type: REMOVE_MEMBER,
   payload: {
     userId: userId,
+    teamId: teamId,
+  }
+})
+
+export const deleteTeam = (teamId) => ({
+  type: DELETE_TEAM,
+  payload: {
     teamId: teamId,
   }
 })

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { connect, useSelector, useDispatch } from "react-redux";
-import { addTeam, addMember, removeMember, addTeamToUser, removeTeamFromUser, updateTeamsTeamStatus, updateUsersTeamStatus } from "../data/actions";
+import { addTeam, addMember, removeMember, addTeamToUser, removeTeamFromUser, updateTeamsTeamStatus, updateUsersTeamStatus, deleteTeam } from "../data/actions";
 import "../App.css";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -68,7 +68,8 @@ class SettingsView extends React.Component {
             }
             if (invitations)
             {
-                return (<div class="invitation-table-container">
+                return (
+                <div class="invitation-table-container">
                 <span style={{fontSize: 20}}>Invitations <span style={{color: "#0275d8"}}><HiOutlineBell /></span></span>
                 <Table bordered hover>
                     <thead>
@@ -157,17 +158,29 @@ class SettingsView extends React.Component {
                                             <td>{team[1].content.teamName}</td>
                                             <td>{team[1].content.teamLead}</td>
                                             <td>
-                                                <Button
-                                                    onClick={() => {
-                                                        this.setState({
-                                                            editTeamModalShow: true,
-                                                            teamId: team[0],
-                                                        });
-                                                    }}
-                                                    variant="outline-secondary"
-                                                >
-                                                    Edit
-                                                </Button>
+                                                <span style={{marginRight: 10}}>
+                                                    <Button
+                                                        onClick={() => {
+                                                            this.setState({
+                                                                editTeamModalShow: true,
+                                                                teamId: team[0],
+                                                            });
+                                                        }}
+                                                        variant="outline-secondary"
+                                                    >
+                                                        Edit
+                                                    </Button>
+                                                </span>
+                                                <span>
+                                                    <Button
+                                                        onClick={() => {
+                                                            this.props.deleteTeam(index);
+                                                        }}
+                                                        variant="danger"
+                                                    >
+                                                        Delete
+                                                    </Button>
+                                                </span>
                                             </td>
                                         </tr>
                                     );
@@ -206,5 +219,5 @@ const notify = () => toast("New team invitation");
 export default connect(
     //takes states and returns => an object with the properties
     (state) => ({ teams: getAllTeams(state), users: getAllUsers(state) }),
-    {}
+    { deleteTeam }
 )(SettingsView);
