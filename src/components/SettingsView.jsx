@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { connect, useSelector, useDispatch } from "react-redux";
-import { addTeam, addMember, removeMember, addTeamToUser, removeTeamFromUser, updateTeamsTeamStatus, updateUsersTeamStatus, deleteTeam } from "../data/actions";
+import { addTeam, addMember, removeMember, addTeamToUser, removeTeamFromUser, updateTeamsTeamStatus, updateUsersTeamStatus, removeTeamDB } from "../data/actions";
 import "../App.css";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -174,7 +174,7 @@ class SettingsView extends React.Component {
                                                 <span>
                                                     <Button
                                                         onClick={() => {
-                                                            this.props.deleteTeam(index);
+                                                            this.props.removeTeamDB(team[0]);
                                                         }}
                                                         variant="danger"
                                                     >
@@ -219,5 +219,5 @@ const notify = () => toast("New team invitation");
 export default connect(
     //takes states and returns => an object with the properties
     (state) => ({ teams: getAllTeams(state), users: getAllUsers(state) }),
-    { deleteTeam }
+    { removeTeamDB }
 )(SettingsView);

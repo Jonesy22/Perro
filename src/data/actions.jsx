@@ -324,7 +324,7 @@ export function removeTeamDB(team) {
     const teamResponse = await fetch("http://localhost:5000/teams/delete", {
         method: "POST",
         credentials: "include",
-        body: JSON.stringify(team),
+        body: JSON.stringify({teamId: team}),
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -335,7 +335,7 @@ export function removeTeamDB(team) {
     if (data.error) throw new Error(data.error)
 
     // TODO Setup action for removing from redux
-    // dispatch(addTeam(team));
+    dispatch(deleteTeam(team));
   }
 }
 
