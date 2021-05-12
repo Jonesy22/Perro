@@ -15,8 +15,8 @@ class MilestoneView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {searchTerm: {}, milestones: [], addProjectModalShow: false, addTaskModalShow: false, editProjectModalShow: false, editTaskModalShow: false, showModal: false, deletedId: -1 };
-        // this.setState({searchTerm: this.props.searchTerm});
-        // console.log("*************Milestone: ", this.props.searchTerm);
+        this.setState({searchTerm: this.props.searchTerm});
+        console.log("*************Milestone: ", this.props.searchTerm);
     }
       
 

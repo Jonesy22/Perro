@@ -8,10 +8,8 @@ import { getTasks, getTaskById, getChildrenRecursively, getSearchTask } from "..
 
 function SearchBar(props) {
 	const [term, setTerm] = React.useState("");
-    //const results = useCityMatch(term);
     const handleChange = (event) => {
 		setTerm(event.target.value);
-		//Object.assign(props.searchTerm, term);
 		props.setSearchTask(term);
 		console.log("******search: ", term);
 
