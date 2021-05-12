@@ -40,7 +40,11 @@ const executeAction = function(state = initialState, action) {
         let taskIdx = allIds[idx];
         updatedByIds[taskIdx] = {content: byIds[taskIdx]};
         if(byIds[taskIdx].parentId !== -1 && byIds[taskIdx].parentId !== null){
-          updatedByIds[byIds[taskIdx].parentId].content.childIds.push(taskIdx)
+          if(updatedByIds[byIds[taskIdx].parentId]) {
+            updatedByIds[byIds[taskIdx].parentId].content.childIds.push(taskIdx) 
+          } else {
+            updatedByIds[taskIdx].content.parentId = -1;
+          }
         }
       }
       return {
