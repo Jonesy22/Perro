@@ -14,8 +14,9 @@ class MilestoneView extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {milestones: [], addProjectModalShow: false, addTaskModalShow: false, editProjectModalShow: false, editTaskModalShow: false, showModal: false, deletedId: -1 };
+        this.state = {searchTerm: {}, milestones: [], addProjectModalShow: false, addTaskModalShow: false, editProjectModalShow: false, editTaskModalShow: false, showModal: false, deletedId: -1 };
     }
+      
 
     callback = (key) => {
         console.log(parseInt(key[0]));
@@ -85,6 +86,7 @@ class MilestoneView extends React.Component {
     }
 
     render() {
+        
         let addProjectModalClose = () => this.setState({addProjectModalShow:false});
         let addTaskModalClose = () => this.setState({addTaskModalShow:false});
         let editTaskModalClose = () => this.setState({editTaskModalShow:false});
