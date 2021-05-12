@@ -1,5 +1,5 @@
 import InputForm from "../../components/InputForm.js";
-import { ADD_TEAM, ADD_MEMBER, REMOVE_MEMBER} from "../actionTypes.js";
+import { ADD_TEAM, ADD_MEMBER, REMOVE_MEMBER, UPDATE_TEAMS_TEAMSTATUS, DELETE_TEAM} from "../actionTypes.js";
 import { createTeam } from "../createObjects.js";
 
 const initialState = {
@@ -25,6 +25,28 @@ const executeAction = function(state = initialState, action) {
                 }
             };
         }
+
+        case DELETE_TEAM: {
+            const { teamId } = action.payload;
+            let teams = {...state.byIds}  
+            console.log("teamId: "+ teamId)
+            delete teams[teamId];
+            console.log("DELETING TEAM")
+            
+            // Object.entries(teams).map(
+            //     (team, index) => {
+            //         console.log(team)
+            //         if(team[1].content.teamId == teamId){
+            //             teams.splice(index, 1) 
+            //         }
+            //     }
+            // )
+            return {
+                ...state,
+                byIds: {...teams}
+            };
+        }
+
         case ADD_MEMBER: {
             const {userId, teamId, nextUserId} = action.payload;
             let teams = {...state.byIds}
@@ -44,7 +66,7 @@ const executeAction = function(state = initialState, action) {
                     teams[teamId].content.teamMembers.push({userId: nextUserId, teamStatus: false})
                 }
                 else{
-                    teams[teamId].content.teamMembers.push({userId: userId, teamStatus: true})
+                    teams[teamId].content.teamMembers.push({userId: userId, teamStatus: false})
                 }
             }
             return {
@@ -59,6 +81,21 @@ const executeAction = function(state = initialState, action) {
                 (member, index) => {
                     if(member[1].userId == userId){
                         teams[teamId].content.teamMembers.splice(index, 1) 
+                    }
+                }
+            )
+            return {
+                ...state,
+                byIds: {...teams}
+            };
+        }
+        case UPDATE_TEAMS_TEAMSTATUS: {
+            const { teamId, userId } = action.payload;
+            let teams = {...state.byIds}
+            Object.entries(teams[teamId].content.teamMembers).map(
+                (member) => {
+                    if (member[1].userId == userId){
+                        member[1].teamStatus = true;
                     }
                 }
             )

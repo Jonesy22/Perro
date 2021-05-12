@@ -1,4 +1,4 @@
-import { ADD_USER, ADD_TEAM_TO_USER, REMOVE_TEAM_FROM_USER } from "../actionTypes.js";
+import { ADD_USER, ADD_TEAM_TO_USER, REMOVE_TEAM_FROM_USER, UPDATE_USERS_TEAMSTATUS } from "../actionTypes.js";
 import { createUser } from "../createObjects.js";
 
 const initialState = {
@@ -31,12 +31,27 @@ const executeAction = function(state = initialState, action) {
         case ADD_TEAM_TO_USER: {
             const {userId, teamId} = action.payload;
             let users = {...state.byIds}
-            if(userId < 0){
-                console.log("User not found in Redux, need to query database")
+            let dupCheck = false;
+                if(userId < 0){
+                    console.log("User not found in Redux, need to query database")
+                }            
+                else{
+                    Object.entries(users[userId].content.teams).map(
+                        (team) => {
+                            if(team[1].teamId == teamId){
+                                dupCheck = true;
+                            }
+                        }
+                    )
+                    if(dupCheck){
+                        console.log("Member has already been added")
+                    }
+                    else{
+        
+                    users[userId].content.teams.push({teamId: teamId, teamStatus: false})
+                }
             }
-            else{
-                users[userId].content.teams.push(teamId)
-            }
+
             return {
                 ...state,
                 byIds: {...users}
@@ -48,14 +63,29 @@ const executeAction = function(state = initialState, action) {
             let users = {...state.byIds}
             Object.entries(users[userId].content.teams).map(
                 (team,index) => {
-                    if(team[1] == teamId){
+                    if(team[1].teamId == teamId){
                         users[userId].content.teams.splice(index, 1) 
                     }
                 }
             )
         }
 
-
+        case UPDATE_USERS_TEAMSTATUS: {
+            console.log("running USERS_TEAMSTATUS")
+            const { userId, teamId } = action.payload;
+            let users = {...state.byIds}
+            Object.entries(users[userId].content.teams).map(
+                (team) => {
+                    if (team[1].teamId == teamId){
+                        team[1].teamStatus = true;
+                    }
+                }
+            )
+            return {
+                ...state,
+                byIds: {...users}
+            };
+        }
         default:
             return state;
     }
