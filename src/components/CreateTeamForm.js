@@ -10,8 +10,6 @@ function CreateTeamForm(props) {
     const { register, handleSubmit, errors } = useForm();
     const userProfile = useSelector(state =>  getUserProfile(state));
     const appData = useSelector(state =>  getAllAppData(state));
-    console.log("APPDATA: " + JSON.stringify(appData))
-    console.log("USERPROFILE: "+ JSON.stringify(userProfile.sd))
     const dispatch = useDispatch();
     
     const onSubmit = (data) => {
