@@ -63,13 +63,13 @@ class MilestoneView extends React.Component {
     );
 
     buildRecursivePanels = (parentTask) => (
-        <Collapse key={parentTask.id} forceRender={true} ghost={false} bordered={false}>
-            <Panel showArrow={parentTask.content.childIds.length > 0} header={<div onClick={(event) => {event.stopPropagation(); this.callback([parentTask.id]);}} style={{display: "flex", overflow:"hidden", flexGrow: "1" }}><div style={{display: "inline-block", whiteSpace: "nowrap", overflow:"hidden", textOverflow: "ellipsis", marginLeft: "41px", marginTop: "10px", marginBottom: "10px"}}>{parentTask.content.Name}{parentTask.content.completed ? "✔" : ""}</div>{this.genAnotherPanel(parentTask.id)}</div>} key={parentTask.id}>
-                {Object.entries(parentTask.content.children).map((value, index) => {
-                    return this.buildRecursivePanels(value[1])
-                })}
-            </Panel>
-        </Collapse>
+            <Collapse key={parentTask.id} forceRender={true} ghost={false} bordered={false}>
+                <Panel showArrow={parentTask.content.childIds.length > 0} header={<div onClick={(event) => {event.stopPropagation(); this.callback([parentTask.id]);}} style={{display: "flex", overflow:"hidden", flexGrow: "1" }}><div style={{display: "inline-block", whiteSpace: "nowrap", overflow:"hidden", textOverflow: "ellipsis", marginLeft: "41px", marginTop: "10px", marginBottom: "10px"}}>{parentTask.content.Name}{parentTask.content.completed ? "✔" : ""}</div>{this.genAnotherPanel(parentTask.id)}</div>} key={parentTask.id}>
+                    {Object.entries(parentTask.content.children).map((value, index) => {
+                        return this.buildRecursivePanels(value[1])
+                    })}
+                </Panel>
+            </Collapse>
     );
 
     deleteModalClose = () => this.setState({showModal:false});
@@ -135,7 +135,9 @@ class MilestoneView extends React.Component {
                 />
                 <div>
                 {Object.entries(this.props.taskHierarchy).map((value, index) => {
-                    return this.buildRecursivePanels(value[1]);
+                    if (this.props.searchTerm == "data") {
+                        return this.buildRecursivePanels(value[1]);
+                    }
                 })}
                 </div>
 
