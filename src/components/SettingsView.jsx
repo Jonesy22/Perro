@@ -7,7 +7,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Table from "react-bootstrap/Table";
 import InputModal from "./InputModal";
-import { getAllTeams, getAllUsers } from "../data/selectors";
+import { getAllAppData, getAllTeams, getAllUsers } from "../data/selectors";
 import { ListGroup, Row } from "react-bootstrap";
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -15,7 +15,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ConsoleSqlOutlined } from "@ant-design/icons";
 import {HiOutlineBell} from "react-icons/hi";
 
-let tempUserId = 0;
 
 class SettingsView extends React.Component {
     constructor(props) {
@@ -55,6 +54,9 @@ class SettingsView extends React.Component {
 
         function NotifcationRenderer(props) {
             const notifications = props.notificationsBool;
+            let tempUserId = 0;
+            // let tempUserId = props.userId
+            console.log(props.userId)
             let invitations = false;
             const dispatch = useDispatch();
             console.log(props)
@@ -127,7 +129,7 @@ class SettingsView extends React.Component {
         return (
             <div class="float-container">
                 <Header />
-                <NotifcationRenderer notificationsBool={true} users={this.props.users} teams={this.props.teams}/>
+                <NotifcationRenderer notificationsBool={true} users={this.props.users} teams={this.props.teams} userId={this.props.appData.userProfile.tS}/>
                 <div class="team-table-container">
                     <Button
                         onClick={() => {
@@ -155,6 +157,7 @@ class SettingsView extends React.Component {
                                 (team, index) => {
                                     return (
                                         <tr key={index}>
+                                            
                                             <td>{team[1].content.teamName}</td>
                                             <td>{team[1].content.teamLead}</td>
                                             <td>
@@ -174,7 +177,7 @@ class SettingsView extends React.Component {
                                                 <span>
                                                     <Button
                                                         onClick={() => {
-                                                            this.props.deleteTeam(index);
+                                                            this.props.deleteTeam(team[0]);
                                                         }}
                                                         variant="danger"
                                                     >
@@ -218,6 +221,6 @@ const notify = () => toast("New team invitation");
 
 export default connect(
     //takes states and returns => an object with the properties
-    (state) => ({ teams: getAllTeams(state), users: getAllUsers(state) }),
+    (state) => ({ teams: getAllTeams(state), users: getAllUsers(state), appData: getAllAppData(state)}),
     { deleteTeam }
 )(SettingsView);

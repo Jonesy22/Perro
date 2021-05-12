@@ -28,22 +28,16 @@ const executeAction = function(state = initialState, action) {
 
         case DELETE_TEAM: {
             const { teamId } = action.payload;
-            let teams = {...state.byIds}  
+            let teams = {...state.byIds}
+            var updatedAllIds = [...state.allIds]
+            // delete updatedAllIds[teamId]
+            updatedAllIds.splice(updatedAllIds.indexOf(teamId), 1)
             console.log("teamId: "+ teamId)
             delete teams[teamId];
-            console.log("DELETING TEAM")
-            
-            // Object.entries(teams).map(
-            //     (team, index) => {
-            //         console.log(team)
-            //         if(team[1].content.teamId == teamId){
-            //             teams.splice(index, 1) 
-            //         }
-            //     }
-            // )
             return {
                 ...state,
-                byIds: {...teams}
+                byIds: {...teams},
+                allIds: [...updatedAllIds]
             };
         }
 
