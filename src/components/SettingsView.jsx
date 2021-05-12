@@ -56,6 +56,30 @@ class SettingsView extends React.Component {
             fontSize: "14px",
         };
 
+        function RenderDeleteButton(props){
+
+            console.log(props.teamLead)
+            console.log(props.userId)
+            if (props.teamLead != props.userId){
+                return ''
+            }
+            else{
+                return(
+                <span>
+                <Button
+                    onClick={() => {
+                        props.deleteTeam(props.teamId);
+                    }}
+                    variant="danger"
+                >
+                    Delete
+                </Button>
+            </span>
+                );
+            }
+
+        }
+
         function NotifcationRenderer(props) {
             const notifications = props.notificationsBool;
 <<<<<<< HEAD
@@ -177,7 +201,8 @@ class SettingsView extends React.Component {
                                                         Edit
                                                     </Button>
                                                 </span>
-                                                <span>
+                                                <RenderDeleteButton teamLead={team[1].content.teamLead} teamId={team[0]} userId={this.props.appData.userProfile.tS} deleteTeam={this.props.deleteTeam}/>
+                                                {/* <span>
                                                     <Button
                                                         onClick={() => {
 <<<<<<< HEAD
@@ -190,7 +215,7 @@ class SettingsView extends React.Component {
                                                     >
                                                         Delete
                                                     </Button>
-                                                </span>
+                                                </span> */}
                                             </td>
                                         </tr>
                                     );
