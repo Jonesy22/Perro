@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import React, { Component, component, useState } from "react";
 import { Modal, Button, Row, Col, Form, Table, Dropdown, FormControl,Toast } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { addTeam, addMember, removeMember, addTeamToUser, removeTeamFromUser, uploadTeamMember } from "../data/actions";
+import { addTeam, addMember, removeMember, addTeamToUser, removeTeamFromUser, uploadTeamMember, declineTeamInvDB, acceptTeamInvDB } from "../data/actions";
 import { createTeam } from "../data/createObjects";
 import { getIdByEmail, getUserProfile } from "../data/selectors";
 import {  Combobox,  ComboboxInput,  ComboboxPopover,  ComboboxList,  ComboboxOption,  ComboboxOptionText,} from "@reach/combobox";
@@ -73,6 +73,7 @@ function EditTeamForm(props) {
     }
 
     function displayName(id, status){
+        const color = status ? "#000000" : "#F39803"
         if(status && props.users[id]){
             return (
                 <div > {props.users[id].content.fname} {props.users[id].content.lname}  </div>
@@ -80,12 +81,12 @@ function EditTeamForm(props) {
         }
         else if(props.users[id]){
             return(
-                <div style={{color:"#F39803"}}>{props.users[id].content.fname} {props.users[id].content.lname}  </div>
+                <div style={{color: color}}>{props.users[id].content.fname} {props.users[id].content.lname}  </div>
             )
         }
         else{
             return (
-                <div style={{color:"#F39803"}}>{id}... pending invite</div>
+                <div style={{color: color}}>{id}{status ? "" : "... pending invite"}</div>
             )
         }
 
@@ -169,8 +170,9 @@ function EditTeamForm(props) {
                                             <td>
                                                 <Button
                                                     onClick={() => {
-                                                        dispatch(removeMember(member[1].userId, props.teamId));
-                                                        dispatch(removeTeamFromUser(member[1].userId, props.teamId))
+                                                        dispatch(declineTeamInvDB(member[1].userId, props.teamId));
+                                                        // dispatch(removeMember(member[1].userId, props.teamId));
+                                                        // dispatch(removeTeamFromUser(member[1].userId, props.teamId))
                                                     }}
                                                     variant="danger"
                                                 >

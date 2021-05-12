@@ -339,6 +339,47 @@ export function removeTeamDB(team) {
   }
 }
 
+export function acceptTeamInvDB(userEmail, teamId) {
+  return async function acceptTeamInvDBThunk(dispatch, getState) {
+    const teamResponse = await fetch("http://localhost:5000/teams/acceptInv", {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify({email: userEmail, teamId: teamId}),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "true"
+      }
+    });
+    const data = await teamResponse.json();
+    if (data.error) throw new Error(data.error)
+
+    // TODO Setup action for accepting team invite in redux
+    dispatch(updateTeamsTeamStatus(teamId, userEmail));
+  }
+}
+
+export function declineTeamInvDB(userEmail, teamId) {
+  return async function declineTeamInvDBThunk(dispatch, getState) {
+    const teamResponse = await fetch("http://localhost:5000/teams/declineInv", {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify({email: userEmail, teamId: teamId}),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "true"
+      }
+    });
+    const data = await teamResponse.json();
+    if (data.error) throw new Error(data.error)
+
+    // TODO refactor these so they take email instead of id, and store teams members by email as new invites wont have id
+    dispatch(removeMember(userEmail, teamId));
+    // dispatch(removeTeamFromUser(userEmail, teamId))
+  }
+}
+
 export function uploadTeamMember(team) {
   return async function uploadTeamMemberThunk(dispatch, getState) {
     const teamResponse = await fetch("http://localhost:5000/teams/add", {
