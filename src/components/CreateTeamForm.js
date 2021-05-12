@@ -4,15 +4,18 @@ import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { uploadNewTeam } from '../data/actions';
 import {createTeam} from '../data/createObjects';
-import { getUserProfile } from "../data/selectors";
+import { getUserProfile, getAllAppData } from "../data/selectors";
 
 function CreateTeamForm(props) {
     const { register, handleSubmit, errors } = useForm();
     const userProfile = useSelector(state =>  getUserProfile(state));
+    const appData = useSelector(state =>  getAllAppData(state));
+    console.log("APPDATA: " + JSON.stringify(appData))
+    console.log("USERPROFILE: "+ JSON.stringify(userProfile.sd))
     const dispatch = useDispatch();
     
     const onSubmit = (data) => {
-        dispatch(uploadNewTeam(createTeam(data.teamName, userProfile.sd)))
+        dispatch(uploadNewTeam(createTeam(data.teamName, appData.userProfile.tS)))
         {props.onHide()}
     }
 

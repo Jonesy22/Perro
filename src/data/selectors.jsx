@@ -212,3 +212,5 @@ export const getAllUsers = store =>
   //logic to parse users looking for email
 } 
 
+export const getAllAppData = store =>
+ getAppDataState(store)
