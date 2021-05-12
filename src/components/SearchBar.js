@@ -8,7 +8,7 @@ import { createMatchSelector } from "connected-react-router";
 import { connect } from 'react-redux'
 import {  Combobox,  ComboboxInput,  ComboboxPopover,  ComboboxList,  ComboboxOption,  ComboboxOptionText,} from "@reach/combobox";
 import "@reach/combobox/styles.css";
-import { getTasks, getTaskById, getChildrenRecursively } from "../data/selectors";
+import { getTasks, getTaskById, getChildrenRecursively, getSearchTask } from "../data/selectors";
 
 
 function SearchBar(props) {
@@ -16,11 +16,11 @@ function SearchBar(props) {
     //const results = useCityMatch(term);
     const handleChange = (event) => {
 		setTerm(event.target.value);
-		Object.assign(props.searchTerm, term)
-		console.log("******search: ", props.searchTerm[0]);
+		//Object.assign(props.searchTerm, term);
+		props.setSearchTask(term);
+		console.log("******search: ", term);
 
 	}
-	console.log("SEARCH!!!!! :", );
 	return (
 	  <div>
 		<Combobox aria-labelledby="search box" >
@@ -56,6 +56,6 @@ function SearchBar(props) {
 
   
 export default connect(
-	state => ({ tasks: getTasks(state), searchTerm: setSearchTask(state)}),
-	{}
+	state => ({ tasks: getTasks(state) }),
+	{ setSearchTask }
 )(SearchBar);
