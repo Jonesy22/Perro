@@ -280,6 +280,9 @@ export async function fetchTeams(dispatch, getState) {
   
   for(let idx in data.teamUsers) {
     teams[data.teamUsers[idx].teamID].content.teamMembers.push({userId: data.teamUsers[idx].userEmail, teamStatus: Boolean(data.teamUsers[idx].acceptedInvite)})
+    if(data.teamUsers[idx].teamAdmin === 1) {
+      teams[data.teamUsers[idx].teamID].content.teamLead = data.teamUsers[idx].userEmail;
+    }
   }
 
   dispatch(addTeamsList(teams));

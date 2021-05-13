@@ -12,7 +12,7 @@ import { ListGroup, Row } from "react-bootstrap";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ConsoleSqlOutlined } from "@ant-design/icons";
+import { ConsoleSqlOutlined, PropertySafetyFilled } from "@ant-design/icons";
 import {HiOutlineBell} from "react-icons/hi";
 
 
@@ -54,9 +54,11 @@ class SettingsView extends React.Component {
 
         function RenderDeleteButton(props){
 
-            console.log(props.teamLead)
-            console.log(props.userId)
-            if (props.teamLead != props.userId){
+            console.log("team Lead: " , JSON.stringify(props.teamLead))
+            console.log("userId: " , JSON.stringify(props.userId))
+
+            const dispatch = useDispatch();
+            if (props.teamLead != props.userEmail){
                 return ''
             }
             else{
@@ -64,7 +66,7 @@ class SettingsView extends React.Component {
                 <span>
                 <Button
                     onClick={() => {
-                        props.deleteTeam(props.teamId);
+                        dispatch(props.removeTeamDB(props.teamId));
                     }}
                     variant="danger"
                 >
@@ -141,7 +143,7 @@ class SettingsView extends React.Component {
         return (
             <div class="float-container">
                 <Header />
-                <NotifcationRenderer notificationsBool={true} invitations={this.props.invitations} teams={this.props.teams} userId={this.props.appData.userProfile.tS} userEmail={this.props.appData.userProfile.Qt}/>
+                <NotifcationRenderer notificationsBool={true} invitations={this.props.invitations} teams={this.props.teams} userId={this.props.appData.userProfile.id} userEmail={this.props.appData.userProfile.email} deleteTeam={this.props.deleteTeam}/>
                 <div class="team-table-container">
                     <Button
                         onClick={() => {
@@ -186,7 +188,7 @@ class SettingsView extends React.Component {
                                                         Edit
                                                     </Button>
                                                 </span>
-                                                <RenderDeleteButton teamLead={team[1].content.teamLead} teamId={team[0]} userId={this.props.appData.userProfile.tS} deleteTeam={this.props.deleteTeam}/>
+                                                <RenderDeleteButton teamLead={team[1].content.teamLead} teamId={team[0]} userEmail={this.props.appData.userProfile.email} userId={this.props.appData.userProfile.id} deleteTeam={this.props.deleteTeam} removeTeamDB={removeTeamDB}/>
                                                 {/* <span>
                                                     <Button
                                                         onClick={() => {
