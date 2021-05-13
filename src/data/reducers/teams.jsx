@@ -55,7 +55,6 @@ const executeAction = function(state = initialState, action) {
                 ...state,
                 byIds: {...teams},
                 allIds: [...updatedAllIds]
-<<<<<<< HEAD
             };
         }
 
@@ -79,8 +78,6 @@ const executeAction = function(state = initialState, action) {
             return {
                 ...state,
                 invitations: [...state.invitations, ...content]
-=======
->>>>>>> 6ec0f7f (Progress - team deletion implemented)
             };
         }
 

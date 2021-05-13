@@ -10,14 +10,12 @@ function CreateTeamForm(props) {
     const { register, handleSubmit, errors } = useForm();
     const userProfile = useSelector(state =>  getUserProfile(state));
     const appData = useSelector(state =>  getAllAppData(state));
+    console.log("APPDATA: " + JSON.stringify(appData))
+    console.log("USERPROFILE: "+ JSON.stringify(userProfile.sd))
     const dispatch = useDispatch();
     
     const onSubmit = (data) => {
-<<<<<<< HEAD
         dispatch(uploadNewTeam(createTeam(data.teamName, appData.userProfile.Qt)))
-=======
-        dispatch(addTeam(createTeam(data.teamName, appData.userProfile.tS)))
->>>>>>> 6ec0f7f (Progress - team deletion implemented)
         {props.onHide()}
     }
 

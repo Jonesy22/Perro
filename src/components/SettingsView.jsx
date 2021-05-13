@@ -7,11 +7,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Table from "react-bootstrap/Table";
 import InputModal from "./InputModal";
-<<<<<<< HEAD
 import { getAllAppData, getAllTeams, getAllInvitations, getAllUsers } from "../data/selectors";
-=======
-import { getAllAppData, getAllTeams, getAllUsers } from "../data/selectors";
->>>>>>> 6ec0f7f (Progress - team deletion implemented)
 import { ListGroup, Row } from "react-bootstrap";
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -56,40 +52,13 @@ class SettingsView extends React.Component {
             fontSize: "14px",
         };
 
-        function RenderDeleteButton(props){
-
-            console.log(props.teamLead)
-            console.log(props.userId)
-            if (props.teamLead != props.userId){
-                return ''
-            }
-            else{
-                return(
-                <span>
-                <Button
-                    onClick={() => {
-                        props.deleteTeam(props.teamId);
-                    }}
-                    variant="danger"
-                >
-                    Delete
-                </Button>
-            </span>
-                );
-            }
-
-        }
-
         function NotifcationRenderer(props) {
             const notifications = props.notificationsBool;
-<<<<<<< HEAD
             console.log(props.userId)
-=======
             let tempUserId = 0;
             // let tempUserId = props.userId
             console.log(props.userId)
             let invitations = false;
->>>>>>> 6ec0f7f (Progress - team deletion implemented)
             const dispatch = useDispatch();
             if (props.invitations.length > 0)
             {
@@ -152,11 +121,7 @@ class SettingsView extends React.Component {
         return (
             <div class="float-container">
                 <Header />
-<<<<<<< HEAD
                 <NotifcationRenderer notificationsBool={true} invitations={this.props.invitations} teams={this.props.teams} userId={this.props.appData.userProfile.tS} userEmail={this.props.appData.userProfile.Qt}/>
-=======
-                <NotifcationRenderer notificationsBool={true} users={this.props.users} teams={this.props.teams} userId={this.props.appData.userProfile.tS}/>
->>>>>>> 6ec0f7f (Progress - team deletion implemented)
                 <div class="team-table-container">
                     <Button
                         onClick={() => {
@@ -201,21 +166,16 @@ class SettingsView extends React.Component {
                                                         Edit
                                                     </Button>
                                                 </span>
-                                                <RenderDeleteButton teamLead={team[1].content.teamLead} teamId={team[0]} userId={this.props.appData.userProfile.tS} deleteTeam={this.props.deleteTeam}/>
-                                                {/* <span>
+                                                <span>
                                                     <Button
                                                         onClick={() => {
-<<<<<<< HEAD
                                                             this.props.removeTeamDB(team[0]);
-=======
-                                                            this.props.deleteTeam(team[0]);
->>>>>>> 6ec0f7f (Progress - team deletion implemented)
                                                         }}
                                                         variant="danger"
                                                     >
                                                         Delete
                                                     </Button>
-                                                </span> */}
+                                                </span>
                                             </td>
                                         </tr>
                                     );
@@ -253,11 +213,6 @@ const notify = () => toast("New team invitation");
 
 export default connect(
     //takes states and returns => an object with the properties
-<<<<<<< HEAD
     (state) => ({ teams: getAllTeams(state), invitations: getAllInvitations(state), appData: getAllAppData(state), users: getAllUsers(state) }),
     { removeTeamDB }
-=======
-    (state) => ({ teams: getAllTeams(state), users: getAllUsers(state), appData: getAllAppData(state)}),
-    { deleteTeam }
->>>>>>> 6ec0f7f (Progress - team deletion implemented)
 )(SettingsView);
