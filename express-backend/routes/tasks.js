@@ -5,7 +5,7 @@ const pool = mariadb.createPool({
      user:'capstone_2021_group60', 
      password: 'Perro109*',
      multipleStatements: true,
-     connectionLimit: 5
+     connectionLimit: 10
 });
 
 const express = require("express");
@@ -64,6 +64,42 @@ router.post("/shareTeam", async (req, res) => {
                 conn.commit();
             } catch (err) {
                 conn.rollback();
+            }
+        }
+        console.log("after query");
+
+    } catch (err) {
+        console.log(err)
+        throw err;
+    } finally {
+        res.status(201);
+        res.json(values);
+
+        if (conn) return conn.end();
+    }
+});
+
+router.post("/removeShareTeam", async (req, res) => {
+
+    let conn;
+    let values;
+    let tat;
+    try {
+        conn = await pool.getConnection();
+        console.log("after conn")
+        user = await conn.query("SELECT `userID` FROM `Users` WHERE `sessionID`=?", [req.sessionID]);
+        if(!req.body.taskId) {
+            values = []
+            for(const i in req.body.taskIdList) {
+                values.push(new Array(Number(req.body.teamId), req.body.taskIdList[i]))
+            }
+
+            try {
+                tat = await conn.query("DELETE FROM `TeamsAccessibleTasks` WHERE `teamID`=? AND `taskID` IN (?)", [req.body.teamId, req.body.taskIdList]);
+                delete tat.meta
+            } catch (err) {
+                console.log(err)
+                // conn.rollback();
             }
         }
         console.log("after query");

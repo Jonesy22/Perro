@@ -87,7 +87,6 @@ export const getTimeEstimatesRecursively = function(store, id) {
     var parents = [id];
     while(parents.length > 0) {
         let task = getTaskById(store, parents[0])
-        console.log("task: ", task);
         if (task.content.childIds.length > 0) {
             for(var i = 0; i < task.content.childIds.length; i++) {
                 parents.push(task.content.childIds[i])

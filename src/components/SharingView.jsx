@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getSelectedTask, getAllTeams, getTaskChildrenIds } from "../data/selectors";
-import { uploadShareTeam } from "../data/actions";
+import { uploadShareTeam, uploadRemoveShareTeam } from "../data/actions";
 import {Form, Button, InputGroup, Table} from "react-bootstrap";
 
 class SharingView extends React.Component {
@@ -15,7 +15,7 @@ class SharingView extends React.Component {
         for (let i = 0; i < this.props.selectedTask.content.sharedTeamIds.length; i++) {
             const id = this.props.selectedTask.content.sharedTeamIds[i];
             if(this.props.teams[id]) {
-                teamsArray.push(<tr><td>{this.props.teams[id].content.teamName}</td><td>button</td></tr>);
+                teamsArray.push(<tr><td>{this.props.teams[id].content.teamName}</td><td><Button variant="danger" onClick={() => {this.props.dispatch(uploadRemoveShareTeam(this.props.allChildIds, id))}}>Remove</Button></td></tr>);
             }
         }
         return teamsArray;

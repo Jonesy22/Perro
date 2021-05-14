@@ -529,3 +529,22 @@ export function uploadShareTeam(taskIdList, teamId) {
     dispatch(addTeamShareList(data))
   }
 }
+
+export function uploadRemoveShareTeam(taskIdList, teamId) {
+  return async function uploadTeamMemberThunk(dispatch, getState) {
+    const teamResponse = await fetch("http://localhost:5000/tasks/removeShareTeam", {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify({taskIdList: taskIdList, teamId: teamId}),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "true"
+      }
+    });
+    const data = await teamResponse.json();
+    console.log(data)
+    if (data.error) throw new Error(data.error)
+    dispatch(removeTeamShareList(data))
+  }
+}

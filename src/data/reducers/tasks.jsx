@@ -41,7 +41,9 @@ const executeAction = function(state = initialState, action) {
         updatedByIds[taskIdx] = {content: byIds[taskIdx]};
         if(byIds[taskIdx].parentId !== -1 && byIds[taskIdx].parentId !== null){
           if(updatedByIds[byIds[taskIdx].parentId]) {
-            updatedByIds[byIds[taskIdx].parentId].content.childIds.push(taskIdx) 
+            if(!updatedByIds[byIds[taskIdx].parentId].content.childIds.includes(taskIdx)) {
+              updatedByIds[byIds[taskIdx].parentId].content.childIds.push(taskIdx) 
+            }
           } else {
             updatedByIds[taskIdx].content.parentId = -1;
           }
@@ -64,6 +66,24 @@ const executeAction = function(state = initialState, action) {
         let teamId = content[idx][0];
         if(updatedByIds[taskId] && !updatedByIds[taskId].content.sharedTeamIds.includes(teamId) ) {
           updatedByIds[taskId].content.sharedTeamIds.push(teamId);
+        }
+      }
+      return {
+        ...state,
+        byIds: {
+          ...updatedByIds
+        }
+      };
+    }
+
+    case REMOVE_TEAM_SHARE_LIST: {
+      const { content } = action.payload;
+      var updatedByIds = {...state.byIds}
+      for(let idx in content) {
+        let taskId = content[idx][1];
+        let teamId = content[idx][0];
+        if(updatedByIds[taskId] && updatedByIds[taskId].content.sharedTeamIds.includes(teamId) ) {
+          updatedByIds[taskId].content.sharedTeamIds.splice(updatedByIds[taskId].content.sharedTeamIds.indexOf(teamId), 1);
         }
       }
       return {
