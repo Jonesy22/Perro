@@ -22,11 +22,13 @@ import { history } from './data/configureStore'
 import { getAllInvitations } from './data/selectors';
 import { notification } from 'antd';
 
-
+var haveNotified = false;
 class App extends React.Component {
+  
   render() {
-    if(this.props.invitations.length > 0){
+    if(this.props.invitations.length > 0 && !haveNotified){
       notify();
+      haveNotified = true;
     }
     return (
       <div>

@@ -79,10 +79,9 @@
 
 }
 .invitation-table-container{
-  margin-top:1em;
-  min-width:200px;
+  margin-top:30px;
+  min-width:400px;
   width:400px;
-  margin: auto;
   padding-top: 2em;
   padding-bottom: 2em;
   padding:10px;
@@ -97,4 +96,18 @@
 }
 #comboboxInput{
   font-size: 16px;
+}
+
+.flex-wrapper {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.no-notifications{
+  margin-top:25px;
+  width:400px;
+  min-width: 400px;
+  padding-left: 9px;
+  margin-top: 40px;
+  
 }

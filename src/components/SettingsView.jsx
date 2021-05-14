@@ -85,8 +85,8 @@ class SettingsView extends React.Component {
                 <Table bordered hover>
                     <thead>
                         <tr>
-                            <th>Team</th>
-                            <th>Actions</th>
+                            <th style={{width:200}}>Team</th>
+                            <th style={{width:200}}>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -132,83 +132,90 @@ class SettingsView extends React.Component {
             }
             else
             {
-                return '';
+                return(
+                        <div class="no-notifications">
+                            <span style={{fontSize: 20}}>No Invitations <span style={{color: "#0275d8"}}><HiOutlineBell /></span></span>
+                        </div>
+                    );
             }
         };
         return (
             <div class="float-container">
                 <Header />
-                <NotifcationRenderer notificationsBool={true} invitations={this.props.invitations} teams={this.props.teams} userId={this.props.appData.userProfile.id} userEmail={this.props.appData.userProfile.email} deleteTeam={this.props.deleteTeam}/>
-                <div class="team-table-container">
-                    <Button
-                        onClick={() => {
-                            this.setState({ teamCreateModalShow: true });
-                        }}
-                        variant="outline-secondary"
-                        style={{
-                            float: "left",
-                            marginTop: "20px",
-                            marginBottom: "10px",
-                        }}
-                    >
-                        Create Team
-                    </Button>
-                    <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>Team</th>
-                                <th>Team Lead</th>
-                                <th>Manage</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {Object.entries(this.props.teams).map(
-                                (team, index) => {
-                                    return (
-                                        <tr key={index}>
-                                            
-                                            <td>{team[1].content.teamName}</td>
-                                            <td>{team[1].content.teamLead}</td>
-                                            <td>
-                                                <span style={{marginRight: 10}}>
-                                                    <Button
-                                                        onClick={() => {
-                                                            this.setState({
-                                                                editTeamModalShow: true,
-                                                                teamId: team[0],
-                                                            });
-                                                        }}
-                                                        variant="outline-secondary"
-                                                    >
-                                                        Edit
-                                                    </Button>
-                                                </span>
-                                                <RenderDeleteButton teamLead={team[1].content.teamLead} teamId={team[0]} userEmail={this.props.appData.userProfile.email} userId={this.props.appData.userProfile.id} deleteTeam={this.props.deleteTeam} removeTeamDB={removeTeamDB}/>
-                                            </td>
-                                        </tr>
-                                    );
-                                }
-                            )}
-                        </tbody>
-                    </Table>
-                </div>
 
-                <InputModal
-                type="Team"
-                inputForm="createTeamForm"
-                show={this.state.teamCreateModalShow}
-                onHide={teamCreateModalClose}
-                />
-                <InputModal
-                type="Team Changes"
-                inputForm="editTeamForm"
-                show={this.state.editTeamModalShow}
-                onHide={editTeamModalClose}
-                teamId={this.state.teamId}
-                teams={this.props.teams}
-                users={this.props.users}
-                appData={this.props.appData}
-                />               
+                <div class="flex-wrapper">
+                    <NotifcationRenderer notificationsBool={true} invitations={this.props.invitations} teams={this.props.teams} userId={this.props.appData.userProfile.id} userEmail={this.props.appData.userProfile.email} deleteTeam={this.props.deleteTeam}/>
+                    <div class="team-table-container">
+                        <Button
+                            onClick={() => {
+                                this.setState({ teamCreateModalShow: true });
+                            }}
+                            variant="outline-secondary"
+                            style={{
+                                float: "left",
+                                marginTop: "20px",
+                                marginBottom: "10px",
+                            }}
+                        >
+                            Create Team
+                        </Button>
+                        <Table striped bordered hover>
+                            <thead>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>Team Lead</th>
+                                    <th>Manage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {Object.entries(this.props.teams).map(
+                                    (team, index) => {
+                                        return (
+                                            <tr key={index}>
+                                                
+                                                <td>{team[1].content.teamName}</td>
+                                                <td>{team[1].content.teamLead}</td>
+                                                <td>
+                                                    <span style={{marginRight: 10}}>
+                                                        <Button
+                                                            onClick={() => {
+                                                                this.setState({
+                                                                    editTeamModalShow: true,
+                                                                    teamId: team[0],
+                                                                });
+                                                            }}
+                                                            variant="outline-secondary"
+                                                        >
+                                                            Edit
+                                                        </Button>
+                                                    </span>
+                                                    <RenderDeleteButton teamLead={team[1].content.teamLead} teamId={team[0]} userEmail={this.props.appData.userProfile.email} userId={this.props.appData.userProfile.id} deleteTeam={this.props.deleteTeam} removeTeamDB={removeTeamDB}/>
+                                                </td>
+                                            </tr>
+                                        );
+                                    }
+                                )}
+                            </tbody>
+                        </Table>
+                    </div>
+
+                    <InputModal
+                    type="Team"
+                    inputForm="createTeamForm"
+                    show={this.state.teamCreateModalShow}
+                    onHide={teamCreateModalClose}
+                    />
+                    <InputModal
+                    type="Team Changes"
+                    inputForm="editTeamForm"
+                    show={this.state.editTeamModalShow}
+                    onHide={editTeamModalClose}
+                    teamId={this.state.teamId}
+                    teams={this.props.teams}
+                    users={this.props.users}
+                    appData={this.props.appData}
+                    />
+                </div>               
                 <Footer />
             </div>
         );
