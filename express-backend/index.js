@@ -33,6 +33,9 @@ app.use(bodyParser.json());
 const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
 
+const teamsRouter = require("./routes/teams");
+app.use("/teams/", teamsRouter);
+
 const tasksRouter = require("./routes/tasks");
 app.use("/tasks/", tasksRouter);
 

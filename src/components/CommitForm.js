@@ -29,14 +29,14 @@ function CommitForm(props) {
 
     const createSelectUsers = () => {
         let usersArray = [];
-        console.log("props.users: ", props.users);
+        //console.log("props: ", Object.keys(props.users).length);
         for (let i = 0; i < Object.keys(props.users).length; i++) {
-            if (i == selectedCommit.Reporter) {
-                usersArray.push(<option key={i} value={i} selected="selected">{props.users[i].content.email}</option>);
+            const id = Object.keys(props.users)[i];
+            if (id == selectedCommit.reporter) {
+                usersArray.push(<option key={id} value={id} selected = {true}>{props.users[id].content.email}</option>);
             } else {
-                usersArray.push(<option key={i} value={i}>{props.users[i].content.email}</option>);
+                usersArray.push(<option key={id} value={id}>{props.users[id].content.email}</option>);
             }
-            
         }
         return usersArray;
     

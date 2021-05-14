@@ -17,11 +17,13 @@ router.get("/get", async (req, res) => {
     try {
         conn = await pool.getConnection();
         console.log("after conn")
-        user = await conn.query("SELECT `userID` FROM `Users` WHERE `sessionID`=?", [req.sessionID]);
+        user = await conn.query("SELECT `userID`, `email` FROM `Users` WHERE `sessionID`=?", [req.sessionID]);
         console.log(user[0].userID);
         // commits = await conn.query("SELECT `commitID`, `commitName`, `parentTaskID`, `commitMessage`, `timeWorked`, `committingUserID`, `commitCompleted`, `commitTime` FROM `Commits` c JOIN `UserAccessibleTasks` uat ON c.parentTaskID=uat.taskID WHERE uat.userID=?", [1]);
-        commits = await conn.query("SELECT `commitID`, `commitName`, `parentTaskID`, `commitMessage`, `timeWorked`, `committingUserID`, `commitCompleted`, `commitTime` FROM `Commits` c JOIN `UserAccessibleTasks` uat ON c.parentTaskID=uat.taskID WHERE uat.userID=?", [user[0].userID]);
+        commits = await conn.query("SELECT `commitID`, `commitName`, `parentTaskID`, `commitMessage`, `timeWorked`, `committingUserID`, `commitCompleted`, `commitTime` FROM `Commits` c JOIN `UserAccessibleTasks` uat ON c.parentTaskID=uat.taskID WHERE uat.userID=?", [user[0].userID]);  
+        teamCommits = await conn.query("SELECT `commitID`, `commitName`, `parentTaskID`, `commitMessage`, `timeWorked`, `committingUserID`, `commitCompleted`, `commitTime` FROM `Commits` WHERE `parentTaskID` IN (SELECT `taskID` FROM `TeamsAccessibleTasks` WHERE `teamID` IN (SELECT `teamID` FROM `TeamUsers` WHERE `userEmail` = ?))", [user[0].email]);
         delete commits.meta;
+        delete teamCommits.meta;
         console.log("after query");
 
     } catch (err) {
@@ -32,7 +34,7 @@ router.get("/get", async (req, res) => {
         console.log("sessionID: ", req.sessionID)
 
         res.status(201);
-        res.json(commits);
+        res.json(commits.concat(teamCommits));
 
         if (conn) return conn.end();
     }

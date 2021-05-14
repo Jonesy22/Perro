@@ -202,6 +202,10 @@ export const getCommitDataByDate = function(store, taskId) {
 export const getAllTeams = store =>
   getTeamState(store) ? getTeamState(store).byIds : {};
 
+export const getAllInvitations = store =>
+  getTeamState(store) ? getTeamState(store).invitations : [];
+  
+
 export const getAllUsers = store =>
   getUserState(store) ? getUserState(store).byIds : {};
 
@@ -212,3 +216,5 @@ export const getAllUsers = store =>
   //logic to parse users looking for email
 } 
 
+export const getAllAppData = store =>
+ getAppDataState(store)

@@ -17,11 +17,13 @@ router.get("/get", async (req, res) => {
     try {
         conn = await pool.getConnection();
         console.log("after conn")
-        user = await conn.query("SELECT `userID` FROM `Users` WHERE `sessionID`=?", [req.sessionID]);
+        user = await conn.query("SELECT `userID`, `email` FROM `Users` WHERE `sessionID`=?", [req.sessionID]);
         console.log(user[0].userID);
         // tasks = await conn.query("SELECT t.`taskID`, `parentID`, `tname`, `timeEstimate`, `summary`, `description`, `dueDate` FROM `Tasks` t JOIN `UserAccessibleTasks` uat ON t.taskID=uat.taskID WHERE uat.userID=?", [1]);
         tasks = await conn.query("SELECT t.`taskID`, `parentID`, `tname`, `timeEstimate`, `summary`, `description`, `dueDate` FROM `Tasks` t JOIN `UserAccessibleTasks` uat ON t.taskID=uat.taskID WHERE uat.userID=?", [user[0].userID]);
+        teamTasks = await conn.query("SELECT t.`taskID`, `parentID`, `tname`, `timeEstimate`, `summary`, `description`, `dueDate` FROM `Tasks` as t WHERE `taskID` IN (SELECT `taskID` FROM `TeamsAccessibleTasks` WHERE `teamID` IN (SELECT `teamID` FROM `TeamUsers` WHERE `userEmail` = ?))", [user[0].email]);
         delete tasks.meta;
+        delete teamTasks.meta;
         console.log("after query");
 
     } catch (err) {
@@ -32,7 +34,7 @@ router.get("/get", async (req, res) => {
         console.log("sessionID: ", req.sessionID)
 
         res.status(201);
-        res.json(tasks);
+        res.json(tasks.concat(teamTasks));
 
         if (conn) return conn.end();
     }

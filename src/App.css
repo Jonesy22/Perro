@@ -78,6 +78,14 @@
   margin:auto;
 
 }
+.invitation-table-container{
+  margin-top:30px;
+  min-width:400px;
+  width:400px;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  padding:10px;
+}
 [data-reach-combobox-option-text]{
   font-weight: 100 !important;
   font-size: 16px;
@@ -88,4 +96,18 @@
 }
 #comboboxInput{
   font-size: 16px;
+}
+
+.flex-wrapper {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.no-notifications{
+  margin-top:25px;
+  width:400px;
+  min-width: 400px;
+  padding-left: 9px;
+  margin-top: 40px;
+  
 }

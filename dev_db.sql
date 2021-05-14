@@ -9,7 +9,7 @@ CREATE TABLE `Users` (
   `sessionID` varchar(32),
   `fname` varchar (255),
   `lname` varchar (255),
-  `email` varchar (255),
+  `email` varchar (255) UNIQUE,
   PRIMARY KEY (`userID`)
 );
 
@@ -23,6 +23,7 @@ CREATE TABLE `Tasks` (
   `summary` text,
   `description` text,
   `dueDate` DATE,
+  `userId` int(11),
   PRIMARY KEY (`taskID`),
   CONSTRAINT FK_MT_Parent FOREIGN KEY (`parentID`) REFERENCES `Tasks`(`taskID`) ON DELETE CASCADE
 );
@@ -55,3 +56,27 @@ CREATE TABLE `Commits` (
 );
 
 INSERT INTO `Commits` VALUES (1, 'Test commit', 1, 'Added subtasks to project 1 so reduced project overhead time', -8, 1, 0, '2021-01-020 2:19:03');
+
+CREATE TABLE `Teams` (
+  `teamID` int(11) NOT NULL AUTO_INCREMENT,
+  `teamName` varchar(255) NOT NULL,
+  PRIMARY KEY (`teamID`)
+)
+
+CREATE TABLE `TeamUsers` (
+  `teamID` int(11) NOT NULL AUTO_INCREMENT,
+  `userEmail` varchar (255),
+  `teamAdmin` boolean,
+  `acceptedInvite` boolean,
+  PRIMARY KEY (`teamID`, `userEmail`),
+  FOREIGN KEY (`teamID`) REFERENCES `Teams` (`teamID`) ON DELETE CASCADE,
+  FOREIGN KEY (`userEmail`) REFERENCES `Users` (`email`) ON DELETE CASCADE
+)
+
+CREATE TABLE `TeamsAccessibleTasks` (
+  `teamID` int(11) NOT NULL,
+  `taskID` int(11) NOT NULL,
+  PRIMARY KEY (`teamID`, `taskID`),
+  FOREIGN KEY (`teamID`) REFERENCES `Teams` (`teamID`) ON DELETE CASCADE,
+  FOREIGN KEY (`taskID`) REFERENCES `Tasks` (`taskID`) ON DELETE CASCADE
+);
