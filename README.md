@@ -2,6 +2,16 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+To get started:
+
+Create a .env file containing all environment variables in the root dir
+
+This needs database credentials and google login client id
+
+#### `docker-compose up` to start the database from .env vars
+#### `npm start` to start the react dev server
+#### `cd ./express-backend/` then run `nodemon` to start the backend server
+
 ## Available Scripts
 
 In the project directory, you can run:
