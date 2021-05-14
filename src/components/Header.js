@@ -3,7 +3,7 @@ import GoogleLogoutButton from "./GoogleLogoutButton";
 import { setUserProfile } from '../data/actions';
 import { connect, useSelector } from 'react-redux';
 import React, { useState } from 'react';
-import { getUserProfile } from "../data/selectors";
+import { getUserProfile, getAllInvitations } from "../data/selectors";
 import { useHistory } from "react-router-dom";
 
 import {HiOutlineBell} from "react-icons/hi";
@@ -12,8 +12,8 @@ import {HiOutlineBell} from "react-icons/hi";
 const Header = (props) => {
 
     const userProfile = useSelector(state =>  getUserProfile(state));
-
-    let notifcation = true;
+    const notifications = useSelector(state => getAllInvitations(state));
+    console.log("notifications: ", notifications.length)
     let history = useHistory();
 
     function settingsClick() { 
@@ -47,10 +47,10 @@ const Header = (props) => {
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
             </ul>
-            {Object.entries(userProfile).length != 0 && notifcation && <button type="button" style={navButton} class="btn btn-primary" onClick={settingsClick}>
+            {Object.entries(userProfile).length != 0 && notifications.length > 0 && <button type="button" style={navButton} class="btn btn-primary" onClick={settingsClick}>
                 Teams <span style={{color: "#0275d8"}}><HiOutlineBell /></span>
             </button>}
-            {Object.entries(userProfile).length != 0 && ! notifcation && <button type="button" style={navButton} class="btn btn-primary" onClick={settingsClick}>
+            {Object.entries(userProfile).length != 0 && notifications.length == 0 && <button type="button" style={navButton} class="btn btn-primary" onClick={settingsClick}>
                 Teams
             </button>}
             <div style={{marginRight:5, marginLeft:5}}>    
@@ -65,6 +65,6 @@ const Header = (props) => {
 }
 
 export default connect(
-    state => ({ userProfile: getUserProfile(state) }),
+    state => ({ userProfile: getUserProfile(state), inivtations: getAllInvitations(state) }),
     { setUserProfile }
   )(Header);

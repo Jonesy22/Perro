@@ -53,10 +53,6 @@ class SettingsView extends React.Component {
         };
 
         function RenderDeleteButton(props){
-
-            console.log("team Lead: " , JSON.stringify(props.teamLead))
-            console.log("userId: " , JSON.stringify(props.userId))
-
             const dispatch = useDispatch();
             if (props.teamLead != props.userEmail){
                 return ''
@@ -75,7 +71,6 @@ class SettingsView extends React.Component {
             </span>
                 );
             }
-
         }
 
         function NotifcationRenderer(props) {
@@ -189,16 +184,6 @@ class SettingsView extends React.Component {
                                                     </Button>
                                                 </span>
                                                 <RenderDeleteButton teamLead={team[1].content.teamLead} teamId={team[0]} userEmail={this.props.appData.userProfile.email} userId={this.props.appData.userProfile.id} deleteTeam={this.props.deleteTeam} removeTeamDB={removeTeamDB}/>
-                                                {/* <span>
-                                                    <Button
-                                                        onClick={() => {
-                                                            this.props.removeTeamDB(team[0]);
-                                                        }}
-                                                        variant="danger"
-                                                    >
-                                                        Delete
-                                                    </Button>
-                                                </span> */}
                                             </td>
                                         </tr>
                                     );
@@ -207,8 +192,6 @@ class SettingsView extends React.Component {
                         </tbody>
                     </Table>
                 </div>
-
-                <Button onClick={notify}>Notify!</Button>
 
                 <InputModal
                 type="Team"
@@ -224,15 +207,13 @@ class SettingsView extends React.Component {
                 teamId={this.state.teamId}
                 teams={this.props.teams}
                 users={this.props.users}
+                appData={this.props.appData}
                 />               
                 <Footer />
             </div>
         );
     }
 }
-
-const notify = () => toast("New team invitation");
-
 
 export default connect(
     //takes states and returns => an object with the properties

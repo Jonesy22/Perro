@@ -11,6 +11,7 @@ import {matchSorter} from 'match-sorter'
 import { useThrottle } from "react-use";
 import { createMatchSelector } from "connected-react-router";
 import '../App.css';
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 const membersEmail = [
     "JohnDoe@example.com",
@@ -92,6 +93,66 @@ function EditTeamForm(props) {
 
     }
 
+    function RenderDeleteButton(props){
+        const dispatch = useDispatch();
+        console.log("teamLead: ",props.teamLead)
+        console.log("userEmail: ",props.userEmail)
+        console.log("currentEmail: ", props.currentEmail)
+
+        if (props.teamLead === props.userEmail){
+            if (props.teamLead === props.currentEmail){
+                return(
+                    <span>
+                    <Button
+                        onClick={() => {
+                            dispatch(declineTeamInvDB(props.currentEmail, props.teamId));
+                        }}
+                        variant="danger"
+                    >
+                        Leave
+                    </Button>
+                </span>
+                    );
+            }
+            else{
+                return(
+                    <span>
+                    <Button
+                        onClick={() => {
+                            dispatch(declineTeamInvDB(props.currentEmail, props.teamId));
+                        }}
+                        variant="danger"
+                    >
+                        Remove
+                    </Button>
+                </span>
+                    );
+            }
+        }
+        else{
+            if (props.userEmail === props.currentEmail){
+                return(
+                    <span>
+                    <Button
+                        onClick={() => {
+                            dispatch(declineTeamInvDB(props.userEmail, props.teamId));
+                        }}
+                        variant="danger"
+                    >
+                        Leave
+                    </Button>
+                </span>
+                    );
+            }
+            else{
+                return('');
+            }
+        }    
+
+    }
+
+
+
     const createButton = {
         backgroundColor: "white",
         color: "rgba(0, 0, 0, 0.54)",
@@ -168,16 +229,7 @@ function EditTeamForm(props) {
                                         <tr key={index}>
                                             <td>{displayName(member[1].userId, member[1].teamStatus)}</td>
                                             <td>
-                                                <Button
-                                                    onClick={() => {
-                                                        dispatch(declineTeamInvDB(member[1].userId, props.teamId));
-                                                        // dispatch(removeMember(member[1].userId, props.teamId));
-                                                        // dispatch(removeTeamFromUser(member[1].userId, props.teamId))
-                                                    }}
-                                                    variant="danger"
-                                                >
-                                                    Remove
-                                                </Button>
+                                                <RenderDeleteButton teamLead={props.teams[props.teamId].content.teamLead} teamId={props.teamId} userEmail={props.appData.userProfile.email} currentEmail={member[1].userId}/>
                                             </td>
                                         </tr>
                                     );

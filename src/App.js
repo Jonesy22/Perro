@@ -1,6 +1,9 @@
 import './App.css';
 import 'react-bootstrap'
 import React from 'react';
+import { connect, useSelector, useDispatch } from "react-redux";
+
+import { ToastContainer, toast } from 'react-toastify';
 // components
 import LeftProjectView from './components/LeftProjectView'
 import RightProjectView from './components/RightProjectView'
@@ -16,10 +19,15 @@ import {
   Route,
   } from "react-router-dom"
 import { history } from './data/configureStore'
+import { getAllInvitations } from './data/selectors';
+import { notification } from 'antd';
 
 
 class App extends React.Component {
   render() {
+    if(this.props.invitations.length > 0){
+      notify();
+    }
     return (
       <div>
         <Router history={history}>
@@ -30,6 +38,7 @@ class App extends React.Component {
             <Route path="/settings" exact component={SettingsView}/>
           </Switch>
         </Router>
+        
       </div>
 
     );
@@ -40,6 +49,7 @@ class App extends React.Component {
 const TrackingView = () => {
   return (
     <div>
+      
       <div className="float-container">
         <Header />
         <div className="float-child-left">
@@ -54,5 +64,16 @@ const TrackingView = () => {
   
   );
 }
+const notify = () => toast.info("New team invitation",{
+  position: "bottom-right",
+autoClose: 5000,
+hideProgressBar: false,
+closeOnClick: true,
+pauseOnHover: true,
+draggable: true,
+progress: undefined,
+});
 
-export default App;
+export default connect(
+  (state) => ( {invitations: getAllInvitations(state) })
+)(App);
