@@ -23,8 +23,23 @@ const GoogleLoginButton = (props) => {
 
         // history.push('/tracking');
         var userProfile = res.getBasicProfile();
+        console.log(userProfile.token)
+
+        console.log(userProfile)
+        var newUserProfile = {
+            id: userProfile.getId(),
+            fullname: userProfile.getName(),
+            email: userProfile.getEmail(),
+            token: id_token,
+            image: userProfile.getImageUrl()
+        };
+
+        console.log(newUserProfile)
+
+        
+
         userProfile.token = id_token;
-        props.setUserProfile(userProfile);
+        props.setUserProfile(newUserProfile);
 
         const responseFromGoogle = await fetch("http://localhost:5000/api/v1/auth/google", {
             method: "POST",

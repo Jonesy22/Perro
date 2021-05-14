@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { connect } from 'react-redux'
 import { uploadTask } from '../data/actions'
 import {createTask} from '../data/createObjects.js';
-import { getAllUsers } from "../data/selectors";
+import { getAllUsers, getTaskById } from "../data/selectors";
 
 
 function InputForm(props) {
@@ -13,17 +13,18 @@ function InputForm(props) {
     console.log('props: ', props);
     const { register, handleSubmit, errors } = useForm();
     const dispatch = useDispatch();
+    const parentTask = useSelector(state =>  getTaskById(state, props.taskId));
 
     //this.createSelectUsers = this.createSelectUsers.bind(this);
 
     const onSubmit = (data) => {
         console.log(data)
         if(data.TaskName){
-            dispatch(uploadTask(createTask(data.TaskName, parseInt(data.TaskEstimate), data.DueDate, data.TaskSummary, data.TaskDescription, props.taskId, data.Reporter, [])));
+            dispatch(uploadTask(createTask(data.TaskName, parseInt(data.TaskEstimate), data.DueDate, data.TaskSummary, data.TaskDescription, props.taskId, data.Reporter, []), parentTask.content.sharedTeamIds));
 
         }
         if(data.ProjectName){
-            dispatch(uploadTask(createTask(data.ProjectName, parseInt(data.ProjectEstimate), data.DueDate, data.ProjectSummary, data.ProjectDescription,  props.taskId, data.Reporter, [])));
+            dispatch(uploadTask(createTask(data.ProjectName, parseInt(data.ProjectEstimate), data.DueDate, data.ProjectSummary, data.ProjectDescription,  props.taskId, data.Reporter, []), parentTask.content.sharedTeamIds));
         }
         props.onHide()
     }
@@ -36,7 +37,8 @@ function InputForm(props) {
         let usersArray = [];
         //console.log("props: ", Object.keys(props.users).length);
         for (let i = 0; i < Object.keys(props.users).length; i++) {
-            usersArray.push(<option key={i} value={i}>{props.users[i].content.email}</option>);
+            const id = Object.keys(props.users)[i];
+            usersArray.push(<option key={id} value={id}>{props.users[id].content.email}</option>);
         }
         return usersArray;
     

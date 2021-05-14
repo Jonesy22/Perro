@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import React, { Component, component, useState } from "react";
 import { Modal, Button, Row, Col, Form, Table, Dropdown, FormControl,Toast } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { addTeam, addMember, removeMember, addTeamToUser, removeTeamFromUser } from "../data/actions";
+import { addTeam, addMember, removeMember, addTeamToUser, removeTeamFromUser, uploadTeamMember, declineTeamInvDB, acceptTeamInvDB } from "../data/actions";
 import { createTeam } from "../data/createObjects";
 import { getIdByEmail, getUserProfile } from "../data/selectors";
 import {  Combobox,  ComboboxInput,  ComboboxPopover,  ComboboxList,  ComboboxOption,  ComboboxOptionText,} from "@reach/combobox";
@@ -11,6 +11,7 @@ import {matchSorter} from 'match-sorter'
 import { useThrottle } from "react-use";
 import { createMatchSelector } from "connected-react-router";
 import '../App.css';
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 const membersEmail = [
     "JohnDoe@example.com",
@@ -27,9 +28,10 @@ const membersEmail = [
 function EditTeamForm(props) {
     const { register, handleSubmit, errors, reset } = useForm();
     const dispatch = useDispatch();
+
     const onSubmit = () => {
         var userId = findIdByEmail(term);
-        dispatch(addMember(userId, props.teamId));
+        dispatch(uploadTeamMember({email: term, teamId: props.teamId}));
         dispatch(addTeamToUser(userId, props.teamId));
         setShow(true);
         setShowStatus(true);
@@ -72,18 +74,84 @@ function EditTeamForm(props) {
     }
 
     function displayName(id, status){
-        if(status){
+        const color = status ? "#000000" : "#F39803"
+        if(status && props.users[id]){
             return (
                 <div > {props.users[id].content.fname} {props.users[id].content.lname}  </div>
             )
         }
+        else if(props.users[id]){
+            return(
+                <div style={{color: color}}>{props.users[id].content.fname} {props.users[id].content.lname}  </div>
+            )
+        }
         else{
             return (
-                <div style={{color:"#F39803"}}> {id}</div>
+                <div style={{color: color}}>{id}{status ? "" : "... pending invite"}</div>
             )
         }
 
     }
+
+    function RenderDeleteButton(props){
+        const dispatch = useDispatch();
+        console.log("teamLead: ",props.teamLead)
+        console.log("userEmail: ",props.userEmail)
+        console.log("currentEmail: ", props.currentEmail)
+
+        if (props.teamLead === props.userEmail){
+            if (props.teamLead === props.currentEmail){
+                return(
+                    <span>
+                    <Button
+                        onClick={() => {
+                            dispatch(declineTeamInvDB(props.currentEmail, props.teamId));
+                        }}
+                        variant="danger"
+                    >
+                        Leave
+                    </Button>
+                </span>
+                    );
+            }
+            else{
+                return(
+                    <span>
+                    <Button
+                        onClick={() => {
+                            dispatch(declineTeamInvDB(props.currentEmail, props.teamId));
+                        }}
+                        variant="danger"
+                    >
+                        Remove
+                    </Button>
+                </span>
+                    );
+            }
+        }
+        else{
+            if (props.userEmail === props.currentEmail){
+                return(
+                    <span>
+                    <Button
+                        onClick={() => {
+                            dispatch(declineTeamInvDB(props.userEmail, props.teamId));
+                        }}
+                        variant="danger"
+                    >
+                        Leave
+                    </Button>
+                </span>
+                    );
+            }
+            else{
+                return('');
+            }
+        }    
+
+    }
+
+
 
     const createButton = {
         backgroundColor: "white",
@@ -161,15 +229,7 @@ function EditTeamForm(props) {
                                         <tr key={index}>
                                             <td>{displayName(member[1].userId, member[1].teamStatus)}</td>
                                             <td>
-                                                <Button
-                                                    onClick={() => {
-                                                        dispatch(removeMember(member[1].userId, props.teamId));
-                                                        dispatch(removeTeamFromUser(member[1].userId, props.teamId))
-                                                    }}
-                                                    variant="danger"
-                                                >
-                                                    Remove
-                                                </Button>
+                                                <RenderDeleteButton teamLead={props.teams[props.teamId].content.teamLead} teamId={props.teamId} userEmail={props.appData.userProfile.email} currentEmail={member[1].userId}/>
                                             </td>
                                         </tr>
                                     );

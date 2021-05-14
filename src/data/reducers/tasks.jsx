@@ -1,4 +1,4 @@
-import { ADD_COMMIT, ADD_TASK, DELETE_TASK, DELETE_COMMIT, UPDATE_TASK, ADD_TASK_LIST, ADD_COMMIT_LIST } from "../actionTypes.js";
+import { ADD_COMMIT, ADD_TASK, DELETE_TASK, DELETE_COMMIT, UPDATE_TASK, ADD_TASK_LIST, ADD_COMMIT_LIST, ADD_TEAM_SHARE_LIST, REMOVE_TEAM_SHARE_LIST } from "../actionTypes.js";
 import {createTask} from '../createObjects.js';
 
 const initialState = {
@@ -40,12 +40,54 @@ const executeAction = function(state = initialState, action) {
         let taskIdx = allIds[idx];
         updatedByIds[taskIdx] = {content: byIds[taskIdx]};
         if(byIds[taskIdx].parentId !== -1 && byIds[taskIdx].parentId !== null){
-          updatedByIds[byIds[taskIdx].parentId].content.childIds.push(taskIdx)
+          if(updatedByIds[byIds[taskIdx].parentId]) {
+            if(!updatedByIds[byIds[taskIdx].parentId].content.childIds.includes(taskIdx)) {
+              updatedByIds[byIds[taskIdx].parentId].content.childIds.push(taskIdx) 
+            }
+          } else {
+            updatedByIds[taskIdx].content.parentId = -1;
+          }
         }
       }
       return {
         ...state,
         allIds: [...state.allIds, ...allIds],
+        byIds: {
+          ...updatedByIds
+        }
+      };
+    }
+
+    case ADD_TEAM_SHARE_LIST: {
+      const { content } = action.payload;
+      var updatedByIds = {...state.byIds}
+      for(let idx in content) {
+        let taskId = content[idx][1];
+        let teamId = content[idx][0];
+        if(updatedByIds[taskId] && !updatedByIds[taskId].content.sharedTeamIds.includes(teamId) ) {
+          updatedByIds[taskId].content.sharedTeamIds.push(teamId);
+        }
+      }
+      return {
+        ...state,
+        byIds: {
+          ...updatedByIds
+        }
+      };
+    }
+
+    case REMOVE_TEAM_SHARE_LIST: {
+      const { content } = action.payload;
+      var updatedByIds = {...state.byIds}
+      for(let idx in content) {
+        let taskId = content[idx][1];
+        let teamId = content[idx][0];
+        if(updatedByIds[taskId] && updatedByIds[taskId].content.sharedTeamIds.includes(teamId) ) {
+          updatedByIds[taskId].content.sharedTeamIds.splice(updatedByIds[taskId].content.sharedTeamIds.indexOf(teamId), 1);
+        }
+      }
+      return {
+        ...state,
         byIds: {
           ...updatedByIds
         }

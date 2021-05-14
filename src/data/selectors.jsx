@@ -87,7 +87,6 @@ export const getTimeEstimatesRecursively = function(store, id) {
     var parents = [id];
     while(parents.length > 0) {
         let task = getTaskById(store, parents[0])
-        console.log("task: ", task);
         if (task.content.childIds.length > 0) {
             for(var i = 0; i < task.content.childIds.length; i++) {
                 parents.push(task.content.childIds[i])
@@ -163,6 +162,17 @@ export const getTaskChildrenList = function (store, taskId) {
     return list
 }
 
+export const getTaskChildrenIds = function (store, taskId) {
+    var task = getTaskById(store, taskId)
+    var list = []
+    list.push(task.id)
+    if (task.content.childIds.length > 0) {
+        for(var i = 0; i < task.content.childIds.length; i++) {
+            list = list.concat(getTaskChildrenIds(store, task.content.childIds[i]))
+        }
+    }
+    return list
+}
 
 export const getTaskDataByDate = function(store, taskId) {
     let taskList = getTaskChildrenList(store, taskId);
@@ -202,6 +212,10 @@ export const getCommitDataByDate = function(store, taskId) {
 export const getAllTeams = store =>
   getTeamState(store) ? getTeamState(store).byIds : {};
 
+export const getAllInvitations = store =>
+  getTeamState(store) ? getTeamState(store).invitations : [];
+  
+
 export const getAllUsers = store =>
   getUserState(store) ? getUserState(store).byIds : {};
 
@@ -212,3 +226,5 @@ export const getAllUsers = store =>
   //logic to parse users looking for email
 } 
 
+export const getAllAppData = store =>
+ getAppDataState(store)

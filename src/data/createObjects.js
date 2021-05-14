@@ -1,4 +1,4 @@
-export function createTask(taskName, taskEstimate, dueDate, taskSummary, taskDescription, parentId, userId, childIds, commits = {}) {
+export function createTask(taskName, taskEstimate, dueDate, taskSummary, taskDescription, parentId, userId, childIds, commits = {}, sharedTeamIds=[], sharedUserIds=[]) {
     return {
         Name: taskName,
         Estimate: taskEstimate, 
@@ -8,7 +8,9 @@ export function createTask(taskName, taskEstimate, dueDate, taskSummary, taskDes
         userId: userId,
         parentId: parentId, 
         childIds: childIds,
-        commits: commits
+        commits: commits,
+        sharedTeamIds: sharedTeamIds,
+        sharedUserIds: sharedUserIds
     }
 }
 
@@ -25,8 +27,9 @@ export function createCommit(commitId, commitName, taskId, commitWorkCompleted, 
     }
 }
 
-export function createTeam(teamName,teamLead,teamMembers = []){
+export function createTeam(teamName,teamLead,teamMembers = [], teamId=null){
     return {
+        teamId:teamId,
         teamName:teamName,
         teamLead:teamLead,
         teamMembers: teamMembers,

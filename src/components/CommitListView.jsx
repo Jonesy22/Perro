@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { ListGroup, Button, Row } from 'react-bootstrap'
-import { getSelectedTaskCommits, getSelectedTaskId } from "../data/selectors";
+import { getAllUsers, getSelectedTaskCommits, getSelectedTaskId } from "../data/selectors";
 import { removeCommitDB } from "../data/actions";
 import InputModal from "./InputModal";
 
@@ -23,7 +23,7 @@ class CommitListView extends React.Component {
                         return (
                             <ListGroup.Item key={index}>
                                 <Row style={{display: "flex", flexDirection:"row", flexWrap:"nowrap"}}>
-                                    <b>{value[1].commitReporter + ":"}</b><div style={{textOverflow: "ellipsis", overflow:"hidden", flexGrow: "1"}}>&nbsp;{value[1].commitName}</div>
+                                    <b>{(this.props.users[value[1].commitReporter] ? this.props.users[value[1].commitReporter].content.fname + " " + this.props.users[value[1].commitReporter].content.lname : "Private User") + ":"}</b><div style={{textOverflow: "ellipsis", overflow:"hidden", flexGrow: "1"}}>&nbsp;{value[1].commitName}</div>
                                 
                                     <p className="text-success" style={{float: "right", fontWeight: "bold", fontSize: "18px", marginBottom: "0px", marginRight: "5px"}}>+{value[1].commitWorkCompleted}</p>
                                     <Button onClick={() => {this.setState({commitEditModalShow: true, selectedCommitId: value[1].commitId})}} variant="outline-secondary" size="sm" style={{float: "right", marginRight: "4px"}}>Edit</Button>
@@ -53,6 +53,6 @@ class CommitListView extends React.Component {
 }
 
 export default connect(
-    state => ({ taskCommits: getSelectedTaskCommits(state), selectedTaskId: getSelectedTaskId(state) }),
+    state => ({ taskCommits: getSelectedTaskCommits(state), selectedTaskId: getSelectedTaskId(state), users: getAllUsers(state) }),
     { removeCommitDB }
   )(CommitListView)
