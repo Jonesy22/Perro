@@ -23,8 +23,8 @@ router.get("/get", async (req, res) => {
         user = await conn.query("SELECT `userID`, `email` FROM `Users` WHERE `sessionID`=?", [req.sessionID]);
         console.log(user[0].userID);
         // tasks = await conn.query("SELECT t.`taskID`, `parentID`, `tname`, `timeEstimate`, `summary`, `description`, `dueDate` FROM `Tasks` t JOIN `UserAccessibleTasks` uat ON t.taskID=uat.taskID WHERE uat.userID=?", [1]);
-        tasks = await conn.query("SELECT t.`taskID`, `parentID`, `tname`, `timeEstimate`, `summary`, `description`, `dueDate` FROM `Tasks` t JOIN `UserAccessibleTasks` uat ON t.taskID=uat.taskID WHERE uat.userID=?", [user[0].userID]);
-        teamTasks = await conn.query("SELECT t.`taskID`, `parentID`, `tname`, `timeEstimate`, `summary`, `description`, `dueDate` FROM `Tasks` as t WHERE `taskID` IN (SELECT `taskID` FROM `TeamsAccessibleTasks` WHERE `teamID` IN (SELECT `teamID` FROM `TeamUsers` WHERE `userEmail` = ? AND `acceptedInvite`=1))", [user[0].email]);
+        tasks = await conn.query("SELECT t.`taskID`, `parentID`, `tname`, `timeEstimate`, `summary`, `description`, `dueDate`, t.`userId` FROM `Tasks` t JOIN `UserAccessibleTasks` uat ON t.taskID=uat.taskID WHERE uat.userID=?", [user[0].userID]);
+        teamTasks = await conn.query("SELECT t.`taskID`, `parentID`, `tname`, `timeEstimate`, `summary`, `description`, `dueDate`, t.`userId` FROM `Tasks` as t WHERE `taskID` IN (SELECT `taskID` FROM `TeamsAccessibleTasks` WHERE `teamID` IN (SELECT `teamID` FROM `TeamUsers` WHERE `userEmail` = ? AND `acceptedInvite`=1))", [user[0].email]);
         tat = await conn.query("SELECT t.`teamID`, t.`taskID` FROM `TeamsAccessibleTasks` as t WHERE `teamID` IN (SELECT `teamID` FROM `TeamUsers` WHERE `userEmail` = ?)", [user[0].email]);
         delete tasks.meta;
         delete teamTasks.meta;

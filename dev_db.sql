@@ -23,7 +23,7 @@ CREATE TABLE `Tasks` (
   `summary` text,
   `description` text,
   `dueDate` DATE,
-  `userId` int(11),
+  `userId` varchar(21),
   PRIMARY KEY (`taskID`),
   CONSTRAINT FK_MT_Parent FOREIGN KEY (`parentID`) REFERENCES `Tasks`(`taskID`) ON DELETE CASCADE
 );
