@@ -22,7 +22,7 @@ class DataView extends React.Component {
     }
     render() {
         return (
-            <div>
+            <div style={{marginTop: "10px"}}>
                 <h2><b>{this.printName()}</b></h2>
                 <div>
                         <u>Time Estimate:</u> {this.printEstimate()}<br></br>

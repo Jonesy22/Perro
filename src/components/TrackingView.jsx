@@ -30,7 +30,7 @@ class TrackingView extends React.Component {
 		}
 		
 	return (
-        <div>
+        <div style={{marginTop: "10px"}}>
 			<h2><b>{this.printName()}</b></h2>
 			<LegendView />
             <FlexibleXYPlot height = {500}

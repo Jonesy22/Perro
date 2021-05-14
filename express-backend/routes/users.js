@@ -1,11 +1,4 @@
-const mariadb = require('mariadb');
-const pool = mariadb.createPool({
-     host: 'classmysql.engr.oregonstate.edu', 
-     database: 'capstone_2021_group60',
-     user:'capstone_2021_group60', 
-     password: 'Perro109*',
-     connectionLimit: 5
-});
+const pool = require("../dbPool");
 
 const express = require("express");
 const router = express.Router();
@@ -18,8 +11,9 @@ router.get("/accessibleUsers", async (req, res) => {
     try {
         conn = await pool.getConnection();
         console.log("after conn")
-        user = await conn.query("SELECT `userID`, `email` FROM `Users` WHERE `sessionID`=?", [req.sessionID]);
+        user = await conn.query("SELECT `userID`, `email`, `fname`, `lname` FROM `Users` WHERE `sessionID`=?", [req.sessionID]);
         teamUsers = await conn.query("SELECT `userID`, `email`, `fname`, `lname` FROM `Users` WHERE `email` IN (SELECT `userEmail` FROM `TeamUsers` WHERE `teamID` IN (SELECT `teamID` FROM `TeamUsers` WHERE `userEmail`=?))", [user[0].email]);
+        delete user.meta;
         delete teamUsers.meta;
         console.log("after query");
 
@@ -29,7 +23,7 @@ router.get("/accessibleUsers", async (req, res) => {
     } finally {
 
         res.status(201);
-        res.json(teamUsers);
+        res.json(teamUsers.concat(user));
 
         if (conn) return conn.end();
     }

@@ -1,11 +1,4 @@
-const mariadb = require('mariadb');
-const pool = mariadb.createPool({
-     host: 'classmysql.engr.oregonstate.edu', 
-     database: 'capstone_2021_group60',
-     user:'capstone_2021_group60', 
-     password: 'Perro109*',
-     connectionLimit: 5
-});
+const pool = require("../dbPool");
 
 const express = require("express");
 const router = express.Router();

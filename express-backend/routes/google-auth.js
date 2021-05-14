@@ -1,13 +1,6 @@
 const { OAuth2Client } = require('google-auth-library')
 const client = new OAuth2Client('135401201253-5dd1qt8cqq3qh4h3jfnibkcclkrs8l2g.apps.googleusercontent.com')
-const mariadb = require('mariadb');
-const pool = mariadb.createPool({
-     host: 'classmysql.engr.oregonstate.edu', 
-     database: 'capstone_2021_group60',
-     user:'capstone_2021_group60', 
-     password: 'Perro109*',
-     connectionLimit: 5
-});
+const pool = require("../dbPool");
 
 const express = require("express");
 const router = express.Router();
