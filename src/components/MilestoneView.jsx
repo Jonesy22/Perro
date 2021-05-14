@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { setSelectedId, removeTaskDB } from '../data/actions'
 import { getSelectedTaskId, getTaskHierarchy, getUserProfile, getSelectedTask, getTasksState } from "../data/selectors";
 import InputModal from './InputModal';
-import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faUsers, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const { Panel } = Collapse;
 
@@ -84,7 +84,7 @@ class MilestoneView extends React.Component {
     buildRecursivePanels = (parentTask, parentSharedTeamIds) => {
         return (
             <Collapse key={parentTask.id} forceRender={true} ghost={false} bordered={false}>
-                <Panel showArrow={parentTask.content.childIds.length > 0} header={<div onClick={(event) => {event.stopPropagation(); this.callback([parentTask.id]);}} style={{display: "flex", overflow:"hidden", flexGrow: "1" }}><div style={{display: "inline-block", whiteSpace: "nowrap", overflow:"hidden", textOverflow: "ellipsis", marginLeft: "41px", marginTop: "10px", marginBottom: "10px"}}>{parentTask.content.sharedTeamIds.length > 0 && (parentTask.content.parentId === null || parentTask.content.parentId === -1 || !this.areArraysEqualSets(parentSharedTeamIds, parentTask.content.sharedTeamIds)) ? <FontAwesomeIcon style={{marginRight: "5px"}} icon={faUsers} /> : ""}{parentTask.content.Name}{parentTask.content.completed ? "✔" : ""}</div>{this.genAnotherPanel(parentTask.id)}</div>} key={parentTask.id}>
+                <Panel showArrow={parentTask.content.childIds.length > 0} header={<div onClick={(event) => {event.stopPropagation(); this.callback([parentTask.id]);}} style={{display: "flex", overflow:"hidden", flexGrow: "1" }}><div style={{display: "inline-block", whiteSpace: "nowrap", overflow:"hidden", textOverflow: "ellipsis", marginLeft: "41px", marginTop: "10px", marginBottom: "10px"}}>{parentTask.content.sharedTeamIds.length > 0 && (parentTask.content.parentId === null || parentTask.content.parentId === -1 || !this.areArraysEqualSets(parentSharedTeamIds, parentTask.content.sharedTeamIds)) ? <FontAwesomeIcon style={{marginRight: "5px"}} icon={faUsers} /> : ""}{parentTask.content.Name}{parentTask.content.completed ? <FontAwesomeIcon style={{marginLeft: "5px"}} icon={faCheck} color="green" /> : ""}</div>{this.genAnotherPanel(parentTask.id)}</div>} key={parentTask.id}>
                     {Object.entries(parentTask.content.children).map((value, index) => {
                         return this.buildRecursivePanels(value[1], parentTask.content.sharedTeamIds)
                     })}

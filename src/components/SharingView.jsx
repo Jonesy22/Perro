@@ -39,7 +39,8 @@ class SharingView extends React.Component {
 
     render() {
         return (
-            <div style={{marginTop: "15px"}}>
+            <div style={{marginTop: "10px"}}>
+                <h2><b>{this.props.selectedTask.content.Name}</b></h2>
                 {this.props.selectedTask.content.sharedTeamIds.length > 0 && 
                     <div>
                         <h5>Shared With Teams</h5>

@@ -6,7 +6,7 @@ const app = express();
 const passport = require('passport');
 const mariadb = require('mariadb');
 var session = require('express-session')
-require('dotenv').config()
+require('dotenv').config({path:__dirname+'/./../.env'})
 
 app.use(session({
     secret: 'secretidhere',

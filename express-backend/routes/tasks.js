@@ -1,12 +1,4 @@
-const mariadb = require('mariadb');
-const pool = mariadb.createPool({
-     host: 'classmysql.engr.oregonstate.edu', 
-     database: 'capstone_2021_group60',
-     user:'capstone_2021_group60', 
-     password: 'Perro109*',
-     multipleStatements: true,
-     connectionLimit: 10
-});
+const pool = require("../dbPool");
 
 const express = require("express");
 const router = express.Router();
@@ -59,11 +51,13 @@ router.post("/shareTeam", async (req, res) => {
                 values.push(new Array(Number(req.body.teamId), req.body.taskIdList[i]))
             }
 
-            try {
-                conn.batch("INSERT IGNORE INTO `TeamsAccessibleTasks` (`teamID`, `taskID`) VALUES (?, ?)",values);
-                conn.commit();
-            } catch (err) {
-                conn.rollback();
+            if (req.body.taskIdList.length > 0) {
+                try {
+                    conn.batch("INSERT IGNORE INTO `TeamsAccessibleTasks` (`teamID`, `taskID`) VALUES (?, ?)",values);
+                    conn.commit();
+                } catch (err) {
+                    conn.rollback();
+                }
             }
         }
         console.log("after query");
@@ -94,12 +88,14 @@ router.post("/removeShareTeam", async (req, res) => {
                 values.push(new Array(Number(req.body.teamId), req.body.taskIdList[i]))
             }
 
-            try {
-                tat = await conn.query("DELETE FROM `TeamsAccessibleTasks` WHERE `teamID`=? AND `taskID` IN (?)", [req.body.teamId, req.body.taskIdList]);
-                delete tat.meta
-            } catch (err) {
-                console.log(err)
-                // conn.rollback();
+            if (req.body.taskIdList.length > 0) {
+                try {
+                    tat = await conn.query("DELETE FROM `TeamsAccessibleTasks` WHERE `teamID`=? AND `taskID` IN (?)", [req.body.teamId, req.body.taskIdList]);
+                    delete tat.meta
+                } catch (err) {
+                    console.log(err)
+                    // conn.rollback();
+                }
             }
         }
         console.log("after query");
@@ -127,7 +123,7 @@ router.post("/create", async (req, res) => {
         user = await conn.query("SELECT `userID` FROM `Users` WHERE `sessionID`=?", [req.sessionID]);
         console.log(user)
         console.log(req.sessionID)
-        task = await conn.query("INSERT INTO `Tasks` VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `parentID`=VALUES(`parentID`), `tname`=VALUES(`tname`), `userId`=VALUES(`userId`), `timeEstimate`=VALUES(`timeEstimate`), `summary`=VALUES(`summary`), `description`=VALUES(`description`), `dueDate`=VALUES(`dueDate`)", [req.body.taskId, req.body.parentId, req.body.Name, req.body.Estimate, req.body.Summary, req.body.Description, req.body.DueDate, req.body.userId])
+        task = await conn.query("INSERT INTO `Tasks` VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `parentID`=VALUES(`parentID`), `tname`=VALUES(`tname`), `userId`=VALUES(`userId`), `timeEstimate`=VALUES(`timeEstimate`), `summary`=VALUES(`summary`), `description`=VALUES(`description`), `dueDate`=VALUES(`dueDate`)", [req.body.taskId, req.body.parentId, req.body.Name, req.body.Estimate, req.body.Summary, req.body.Description, req.body.DueDate.substring(0, 10), req.body.userId])
         
         if(task.insertId) {
             // uat = await conn.query("INSERT INTO `UserAccessibleTasks` VALUES (?, ?)", [1, task.insertId])
@@ -137,11 +133,13 @@ router.post("/create", async (req, res) => {
                 values.push(new Array(Number(req.body.teamIdList[i]), task.insertId));
             }
 
-            try {
-                conn.batch("INSERT IGNORE INTO `TeamsAccessibleTasks` (`teamID`, `taskID`) VALUES (?, ?)",values);
-                conn.commit();
-            } catch (err) {
-                conn.rollback();
+            if (req.body.teamIdList.length > 0) {
+                try {
+                    conn.batch("INSERT IGNORE INTO `TeamsAccessibleTasks` (`teamID`, `taskID`) VALUES (?, ?)",values);
+                    conn.commit();
+                } catch (err) {
+                    conn.rollback();
+                }
             }
         }
         console.log("after query");
