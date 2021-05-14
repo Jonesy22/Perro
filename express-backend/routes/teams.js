@@ -90,6 +90,11 @@ router.post("/declineInv", async (req, res) => {
         console.log("after conn")
         user = await conn.query("SELECT `userID`, `email` FROM `Users` WHERE `sessionID`=?", [req.sessionID]);
         teamUser = await conn.query("DELETE FROM `TeamUsers` WHERE `userEmail`=? AND `teamID`=?", [req.body.email, req.body.teamId])
+        teamLeader = await conn.query("SELECT * FROM `TeamUsers` WHERE `teamID`=? AND `teamAdmin`=1", [req.body.teamId])
+        delete teamLeader.meta;
+        if(teamLeader.length <=0) {
+            newTeamLeader = await conn.query("UPDATE `TeamUsers` SET `teamAdmin`=1 WHERE `teamID`=? AND `userEmail`=(SELECT `userEmail` FROM `TeamUsers` WHERE `teamID`=? ORDER BY `userEmail` LIMIT 1)", [req.body.teamId, req.body.teamId])
+        }
         console.log("after query");
 
     } catch (err) {
