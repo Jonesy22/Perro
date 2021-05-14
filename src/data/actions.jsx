@@ -252,7 +252,7 @@ export async function fetchCommits(dispatch, getState) {
   console.log("data from commits: ", data);
   let commits = {};
   for(let idx in data) {
-    commits[data[idx].commitID] = createCommit(data[idx].commitID, data[idx].commitName, data[idx].parentTaskID, data[idx].timeWorked, data[idx].commitMessage, data[idx].commitTime, data[idx].commitCompleted, data[idx].commitingUserID)
+    commits[data[idx].commitID] = createCommit(data[idx].commitID, data[idx].commitName, data[idx].parentTaskID, data[idx].timeWorked, data[idx].commitMessage, data[idx].commitTime, data[idx].commitCompleted, data[idx].committingUserID)
   }
   dispatch(addCommitList(commits));
 }
