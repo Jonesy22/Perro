@@ -163,6 +163,17 @@ export const getTaskChildrenList = function (store, taskId) {
     return list
 }
 
+export const getTaskChildrenIds = function (store, taskId) {
+    var task = getTaskById(store, taskId)
+    var list = []
+    list.push(task.id)
+    if (task.content.childIds.length > 0) {
+        for(var i = 0; i < task.content.childIds.length; i++) {
+            list = list.concat(getTaskChildrenIds(store, task.content.childIds[i]))
+        }
+    }
+    return list
+}
 
 export const getTaskDataByDate = function(store, taskId) {
     let taskList = getTaskChildrenList(store, taskId);

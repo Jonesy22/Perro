@@ -1,4 +1,4 @@
-import { ADD_TASK, ADD_TASK_LIST, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT, ADD_COMMIT_LIST, DELETE_COMMIT, ADD_INV_LIST, UPDATE_TASK, SET_USER_PROFILE, ADD_TEAM, ADD_USER, ADD_USER_LIST, ADD_MEMBER, REMOVE_MEMBER, ADD_TEAM_TO_USER, ADD_TEAMS_LIST, REMOVE_TEAM_FROM_USER, UPDATE_TEAMS_TEAMSTATUS, UPDATE_USERS_TEAMSTATUS, DELETE_TEAM, DELETE_INVITATION } from "./actionTypes";
+import { ADD_TASK, ADD_TASK_LIST, ADD_TIME_ESTIMATE, SET_SELECTED_ID, DELETE_TASK, ADD_COMMIT, ADD_COMMIT_LIST, DELETE_COMMIT, ADD_INV_LIST, UPDATE_TASK, SET_USER_PROFILE, REMOVE_TEAM_SHARE_LIST, ADD_TEAM_SHARE_LIST, ADD_TEAM, ADD_USER, ADD_USER_LIST, ADD_MEMBER, REMOVE_MEMBER, ADD_TEAM_TO_USER, ADD_TEAMS_LIST, REMOVE_TEAM_FROM_USER, UPDATE_TEAMS_TEAMSTATUS, UPDATE_USERS_TEAMSTATUS, DELETE_TEAM, DELETE_INVITATION } from "./actionTypes";
 import {createTask, createCommit, createTeam, createUser} from './createObjects';
 
 let nextTaskId = 5;
@@ -80,6 +80,20 @@ export const deleteTask = (content) => ({
   type: DELETE_TASK,
   payload: {
     id: content.taskId,
+    content
+  }
+});
+
+export const addTeamShareList = (content) => ({
+  type: ADD_TEAM_SHARE_LIST,
+  payload: {
+    content
+  }
+});
+
+export const removeTeamShareList = (content) => ({
+  type: REMOVE_TEAM_SHARE_LIST,
+  payload: {
     content
   }
 });
@@ -195,7 +209,8 @@ export async function fetchTasks(dispatch, getState) {
       "Access-Control-Allow-Headers": "true"
     }
   });
-  const data = await tasksResponse.json();
+  const response = await tasksResponse.json();
+  const data = response.tasks;
   if (data.error) throw new Error(data.error)
   
   console.log("data from tasks: ", data);
@@ -208,6 +223,12 @@ export async function fetchTasks(dispatch, getState) {
     }
     allIds.push(data[taskIdx].taskID)
     byIds[data[taskIdx].taskID] = createTask(data[taskIdx].tname, data[taskIdx].timeEstimate, data[taskIdx].dueDate, data[taskIdx].summary, data[taskIdx].description, data[taskIdx].parentID, data[taskIdx].userId, []);
+  }
+
+  for (let tatIdx in response.teamAccessibleTasks) {
+    if(byIds[response.teamAccessibleTasks[tatIdx].taskID]) {
+      byIds[response.teamAccessibleTasks[tatIdx].taskID].sharedTeamIds.push(response.teamAccessibleTasks[tatIdx].teamID);
+    }
   }
   dispatch(addTaskList(allIds, byIds));
   dispatch(setSelectedId(selectedId));
@@ -310,12 +331,14 @@ export function uploadCommit(commit) {
   }
 }
 
-export function uploadTask(task) {
+export function uploadTask(task, teamIdList=[]) {
   let newTask = false;
   if (!task.taskId) {
     task.taskId = null;
     newTask = true;
   } 
+
+  task.teamIdList = teamIdList;
 
   return async function uploadTaskThunk(dispatch, getState) {
     const taskResponse = await fetch("http://localhost:5000/tasks/create", {
@@ -337,6 +360,9 @@ export function uploadTask(task) {
       dispatch(addTask(task));
     } else {
       dispatch(updateTask(task));
+    }
+    if(data.values.length > 0) {
+      dispatch(addTeamShareList(data.values))
     }
   }
 }
@@ -482,5 +508,24 @@ export function uploadTeamMember(team) {
     if (data.error) throw new Error(data.error)
     
     dispatch(addMember(team.email, team.teamId));
+  }
+}
+
+export function uploadShareTeam(taskIdList, teamId) {
+  return async function uploadTeamMemberThunk(dispatch, getState) {
+    const teamResponse = await fetch("http://localhost:5000/tasks/shareTeam", {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify({taskIdList: taskIdList, teamId: teamId}),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "true"
+      }
+    });
+    const data = await teamResponse.json();
+    console.log(data)
+    if (data.error) throw new Error(data.error)
+    dispatch(addTeamShareList(data))
   }
 }

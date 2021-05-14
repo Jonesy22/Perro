@@ -6,6 +6,7 @@ import TrackingView from './TrackingView'
 import InputModal from './InputModal'
 import DataView from './DataView'
 import SummaryView from './SummaryView'
+import SharingView from './SharingView'
 import { getSelectedTaskId } from "../data/selectors";
 
 class RightProjectView extends React.Component {
@@ -40,6 +41,9 @@ class RightProjectView extends React.Component {
                     </Tab>
                     <Tab eventKey="trackingView" title="Tracking">
                         <TrackingView />
+                    </Tab>
+                    <Tab eventKey="sharingView" title="Share">
+                        <SharingView />
                     </Tab>
                 </Tabs>
 

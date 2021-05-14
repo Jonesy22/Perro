@@ -5,8 +5,10 @@ import { Collapse } from 'antd';
 import { PlusOutlined, CloseOutlined, EditOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux'
 import { setSelectedId, removeTaskDB } from '../data/actions'
-import { getSelectedTaskId, getTaskHierarchy, getUserProfile, getSelectedTask } from "../data/selectors";
+import { getSelectedTaskId, getTaskHierarchy, getUserProfile, getSelectedTask, getTasksState } from "../data/selectors";
 import InputModal from './InputModal';
+import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const { Panel } = Collapse;
 
 class MilestoneView extends React.Component {
@@ -55,15 +57,17 @@ class MilestoneView extends React.Component {
         </div>  
     );
 
-    buildRecursivePanels = (parentTask) => (
-        <Collapse key={parentTask.id} forceRender={true} ghost={false} bordered={false}>
-            <Panel showArrow={parentTask.content.childIds.length > 0} header={<div onClick={(event) => {event.stopPropagation(); this.callback([parentTask.id]);}} style={{display: "flex", overflow:"hidden", flexGrow: "1" }}><div style={{display: "inline-block", whiteSpace: "nowrap", overflow:"hidden", textOverflow: "ellipsis", marginLeft: "41px", marginTop: "10px", marginBottom: "10px"}}>{parentTask.content.Name}{parentTask.content.completed ? "✔" : ""}</div>{this.genAnotherPanel(parentTask.id)}</div>} key={parentTask.id}>
-                {Object.entries(parentTask.content.children).map((value, index) => {
-                    return this.buildRecursivePanels(value[1])
-                })}
-            </Panel>
-        </Collapse>
-    );
+    buildRecursivePanels = (parentTask, parentSharedTeamIds) => {
+        return (
+            <Collapse key={parentTask.id} forceRender={true} ghost={false} bordered={false}>
+                <Panel showArrow={parentTask.content.childIds.length > 0} header={<div onClick={(event) => {event.stopPropagation(); this.callback([parentTask.id]);}} style={{display: "flex", overflow:"hidden", flexGrow: "1" }}><div style={{display: "inline-block", whiteSpace: "nowrap", overflow:"hidden", textOverflow: "ellipsis", marginLeft: "41px", marginTop: "10px", marginBottom: "10px"}}>{parentTask.content.sharedTeamIds.length > 0 && (parentTask.content.parentId === null || parentTask.content.parentId === -1 || parentSharedTeamIds.length === 0) ? <FontAwesomeIcon style={{marginRight: "5px"}} icon={faUsers} /> : ""}{parentTask.content.Name}{parentTask.content.completed ? "✔" : ""}</div>{this.genAnotherPanel(parentTask.id)}</div>} key={parentTask.id}>
+                    {Object.entries(parentTask.content.children).map((value, index) => {
+                        return this.buildRecursivePanels(value[1], parentTask.content.sharedTeamIds)
+                    })}
+                </Panel>
+            </Collapse>
+        )
+    };
 
     deleteModalClose = () => this.setState({showModal:false});
 
@@ -123,7 +127,7 @@ class MilestoneView extends React.Component {
                 />
                 <div>
                 {Object.entries(this.props.taskHierarchy).map((value, index) => {
-                    return this.buildRecursivePanels(value[1]);
+                    return this.buildRecursivePanels(value[1], []);
                 })}
                 </div>
 
@@ -155,6 +159,6 @@ class MilestoneView extends React.Component {
 }
 
 export default connect(
-    state => ({ taskHierarchy: getTaskHierarchy(state), userProfile: getUserProfile(state), selectedId: getSelectedTaskId(state), selectedTask: getSelectedTask(state) }),
+    state => ({ taskHierarchy: getTaskHierarchy(state), userProfile: getUserProfile(state), selectedId: getSelectedTaskId(state), selectedTask: getSelectedTask(state), tasks: getTasksState(state) }),
     { setSelectedId, removeTaskDB }
   )(MilestoneView)
