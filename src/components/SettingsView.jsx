@@ -27,8 +27,6 @@ class SettingsView extends React.Component {
             notifications: false,
         };
     }
-    //Object.entries(OBJECT).forEach(([key, value]) => ...)
-
     render() {
         let teamCreateModalClose = () =>{
             this.setState({
@@ -75,7 +73,6 @@ class SettingsView extends React.Component {
 
         function NotifcationRenderer(props) {
             const notifications = props.notificationsBool;
-            console.log(props.userId)
             const dispatch = useDispatch();
             if (props.invitations.length > 0)
             {
@@ -100,8 +97,6 @@ class SettingsView extends React.Component {
                                                 <Button
                                                     onClick={() => {
                                                         dispatch(acceptTeamInvDB(props.userEmail, inv.teamId))
-                                                        // dispatch(updateTeamsTeamStatus(inv.teamId, tempUserId));
-                                                        // dispatch(updateUsersTeamStatus(tempUserId, inv.teamId));
                                                     }}
                                                     variant="primary"
                                                 >
@@ -111,10 +106,7 @@ class SettingsView extends React.Component {
                                             <span>
                                                 <Button
                                                     onClick={() => {
-                                                        //replace first argument with current users userID
                                                         dispatch(declineTeamInvDB(props.userEmail, inv.teamId))
-                                                        // dispatch(removeMember(tempUserId, inv.teamId));
-                                                        // dispatch(removeTeamFromUser(tempUserId, inv.teamId))
                                                     }}
                                                     variant="danger"
                                                 >
@@ -142,7 +134,6 @@ class SettingsView extends React.Component {
         return (
             <div class="float-container">
                 <Header />
-
                 <div class="flex-wrapper">
                     <NotifcationRenderer notificationsBool={true} invitations={this.props.invitations} teams={this.props.teams} userId={this.props.appData.userProfile.id} userEmail={this.props.appData.userProfile.email} deleteTeam={this.props.deleteTeam}/>
                     <div class="team-table-container">
@@ -170,29 +161,43 @@ class SettingsView extends React.Component {
                             <tbody>
                                 {Object.entries(this.props.teams).map(
                                     (team, index) => {
-                                        return (
-                                            <tr key={index}>
-                                                
-                                                <td>{team[1].content.teamName}</td>
-                                                <td>{team[1].content.teamLead}</td>
-                                                <td>
-                                                    <span style={{marginRight: 10}}>
-                                                        <Button
-                                                            onClick={() => {
-                                                                this.setState({
-                                                                    editTeamModalShow: true,
-                                                                    teamId: team[0],
-                                                                });
-                                                            }}
-                                                            variant="outline-secondary"
-                                                        >
-                                                            Edit
-                                                        </Button>
-                                                    </span>
-                                                    <RenderDeleteButton teamLead={team[1].content.teamLead} teamId={team[0]} userEmail={this.props.appData.userProfile.email} userId={this.props.appData.userProfile.id} deleteTeam={this.props.deleteTeam} removeTeamDB={removeTeamDB}/>
-                                                </td>
-                                            </tr>
-                                        );
+                                        var i = 0;
+                                        let accepted = false;
+                                        let memberArray = team[1].content.teamMembers;
+                                        for(i = 0; i < memberArray.length; i++){
+                                            if(memberArray[i].userId === this.props.appData.userProfile.email && memberArray[i].teamStatus == true){
+                                                accepted = true
+                                            }
+                                        }
+                                        if (accepted){
+                                            return (
+                                                <tr key={index}>
+                                                    
+                                                    <td>{team[1].content.teamName}</td>
+                                                    <td>{team[1].content.teamLead}</td>
+                                                    <td>
+                                                        <span style={{marginRight: 10}}>
+                                                            <Button
+                                                                onClick={() => {
+                                                                    this.setState({
+                                                                        editTeamModalShow: true,
+                                                                        teamId: team[0],
+                                                                    });
+                                                                }}
+                                                                variant="outline-secondary"
+                                                            >
+                                                                Edit
+                                                            </Button>
+                                                        </span>
+                                                        <RenderDeleteButton teamLead={team[1].content.teamLead} teamId={team[0]} userEmail={this.props.appData.userProfile.email} userId={this.props.appData.userProfile.id} deleteTeam={this.props.deleteTeam} removeTeamDB={removeTeamDB}/>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        }
+                                        else{
+                                            return('')
+                                        }
+
                                     }
                                 )}
                             </tbody>

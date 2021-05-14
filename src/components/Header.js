@@ -13,7 +13,6 @@ const Header = (props) => {
 
     const userProfile = useSelector(state =>  getUserProfile(state));
     const notifications = useSelector(state => getAllInvitations(state));
-    console.log("notifications: ", notifications.length)
     let history = useHistory();
 
     function settingsClick() { 
