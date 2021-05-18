@@ -61,15 +61,43 @@ class MilestoneView extends React.Component {
         </div>  
     );
 
-    buildRecursivePanels = (parentTask) => (
-            <Collapse key={parentTask.id} forceRender={true} ghost={false} bordered={false}>
+    dfs = (parentTask, currentTask) => {
+        if (parentTask.content.Name == currentTask.content.Name) {
+            return true;
+        }
+        const children = parentTask.content.children;
+        if (!!parentTask.content.children) {
+        
+            Object.entries(parentTask.content.children).map((value, index) => {
+                this.dfs(parentTask, value[1]);
+            })
+        }
+        return false;
+
+    }
+
+    buildRecursivePanels = (parentTask) =>  {
+        console.log("parentTask name: ", parentTask.content.Name);
+        // loop through the children of a parent passed in and see if theyre equal
+        const parentsChildren = parentTask.content.children;
+        const isChild = false;
+        Object.entries(parentTask.content.children).map((value, index) => {
+            if (this.dfs(parentTask, value[1])) {
+                isChild = true;
+            }
+        })
+
+        if (this.props.searchTerm == "" || this.props.searchTerm == parentTask.content.Name || isChild) {
+
+            return <Collapse key={parentTask.id} forceRender={true} ghost={false} bordered={false}>
                 <Panel showArrow={parentTask.content.childIds.length > 0} header={<div onClick={(event) => {event.stopPropagation(); this.callback([parentTask.id]);}} style={{display: "flex", overflow:"hidden", flexGrow: "1" }}><div style={{display: "inline-block", whiteSpace: "nowrap", overflow:"hidden", textOverflow: "ellipsis", marginLeft: "41px", marginTop: "10px", marginBottom: "10px"}}>{parentTask.content.Name}{parentTask.content.completed ? "✔" : ""}</div>{this.genAnotherPanel(parentTask.id)}</div>} key={parentTask.id}>
                     {Object.entries(parentTask.content.children).map((value, index) => {
                         return this.buildRecursivePanels(value[1])
                     })}
                 </Panel>
             </Collapse>
-    );
+        }
+    }
 
     deleteModalClose = () => this.setState({showModal:false});
 
@@ -134,9 +162,7 @@ class MilestoneView extends React.Component {
                 />
                 <div>
                 {Object.entries(this.props.taskHierarchy).map((value, index) => {
-                    if (this.props.searchTerm == "data") {
-                        return this.buildRecursivePanels(value[1]);
-                    }
+                    return this.buildRecursivePanels(value[1]);
                 })}
                 </div>
 

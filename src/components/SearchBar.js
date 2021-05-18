@@ -1,4 +1,4 @@
-import React, { Component, component, useState } from "react";
+import React, { Component, component, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Modal, Button, Row, Col, Form, Table, Dropdown, FormControl,Toast } from "react-bootstrap";
 import { addTeam, addMember, removeMember, addTeamToUser, removeTeamFromUser, setSearchTask } from "../data/actions";
@@ -16,11 +16,18 @@ function SearchBar(props) {
     //const results = useCityMatch(term);
     const handleChange = (event) => {
 		setTerm(event.target.value);
+		event.persist();
 		//Object.assign(props.searchTerm, term);
-		props.setSearchTask(term);
+	 	props.setSearchTask(event.target.value);
 		console.log("******search: ", term);
 
 	}
+
+	useEffect(() => {
+		console.log("Search message inside useEffect: ", term);
+	  }, [term]);
+
+
 	return (
 	  <div>
 		<Combobox aria-labelledby="search box" >
