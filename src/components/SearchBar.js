@@ -1,5 +1,10 @@
-import React from "react";
-import { setSearchTask } from "../data/actions";
+import React, { Component, component, useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Modal, Button, Row, Col, Form, Table, Dropdown, FormControl,Toast } from "react-bootstrap";
+import { addTeam, addMember, removeMember, addTeamToUser, removeTeamFromUser, setSearchTask } from "../data/actions";
+import {matchSorter} from 'match-sorter'
+import { useThrottle } from "react-use";
+import { createMatchSelector } from "connected-react-router";
 import { connect } from 'react-redux'
 import {  Combobox,  ComboboxInput,  ComboboxPopover,  ComboboxList,  ComboboxOption,  ComboboxOptionText,} from "@reach/combobox";
 import "@reach/combobox/styles.css";
@@ -10,10 +15,18 @@ function SearchBar(props) {
 	const [term, setTerm] = React.useState("");
     const handleChange = (event) => {
 		setTerm(event.target.value);
-		props.setSearchTask(term);
+		event.persist();
+		//Object.assign(props.searchTerm, term);
+	 	props.setSearchTask(event.target.value);
 		console.log("******search: ", term);
 
 	}
+
+	useEffect(() => {
+		console.log("Search message inside useEffect: ", term);
+	  }, [term]);
+
+
 	return (
 	  <div>
 		<Combobox aria-labelledby="search box" >
