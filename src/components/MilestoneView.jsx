@@ -135,7 +135,7 @@ class MilestoneView extends React.Component {
                 />
                 <div>
                 {Object.entries(this.props.taskHierarchy).map((value, index) => {
-                    if (this.props.searchTerm == "data") {
+                    if (this.props.searchTerm == "Task 1") {
                         return this.buildRecursivePanels(value[1]);
                     }
                 })}

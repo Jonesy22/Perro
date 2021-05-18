@@ -39,7 +39,6 @@ function SearchBar(props) {
   }
 
 
-  
 export default connect(
 	state => ({ tasks: getTasks(state) }),
 	{ setSearchTask }
