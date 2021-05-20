@@ -63,48 +63,60 @@ class MilestoneView extends React.Component {
         </div>  
     );
 
-    dfs = (parentTask, currentTask) => {
-        if (parentTask.content.Name == currentTask.content.Name) {
+    dfs = (currentTask) => {
+        console.log("^^^^^^currentTask: ", currentTask.content.Name);
+        console.log("^^^^^^searchTerm: ", this.props.searchTerm);
+        if ((this.props.searchTerm[0] == currentTask.content.Name[0] && this.props.searchTerm.length == 1) || stringSimilarity(this.props.searchTerm, currentTask.content.Name) > .15) {
+            console.log("hellooo");
             return true;
         }
-        const children = parentTask.content.children;
-        if (!parentTask.content.children) {
+        const children = currentTask.content.children;
+        if (currentTask.content.children) {
         
-            Object.entries(parentTask.content.children).map((value, index) => {
-                this.dfs(parentTask, value[1]);
+            Object.entries(currentTask.content.children).map((value, index) => {
+                console.log("children: ", value[1]);
+                this.dfs(value[1])
             })
+        } else {
+           console.log("returning false!!!");
+            return false; 
         }
-        return false;
+
+        
+        
 
     }
 
-    buildRecursivePanels = (parentTask) =>  {
+    buildRecursivePanels = (parentTask, parentPasses) =>  {
+
         console.log("parentTask name: ", parentTask.content.Name);
         // loop through the children of a parent passed in and see if theyre equal
         const parentsChildren = parentTask.content.children;
         var isChild = false;
         Object.entries(parentTask.content.children).map((value, index) => {
-            if (this.dfs(parentTask, value[1])) {
+            console.log("value[1]: ", value[1]);
+            if (this.dfs(value[1])) {
+                console.log("!!!!!!value[1] is child: ", value[1]);
                 isChild = true;
             }
         })
-        var i;
         if (this.props.searchTerm == "") {
             return <Collapse key={parentTask.id} forceRender={true} ghost={false} bordered={false}>
                 <Panel showArrow={parentTask.content.childIds.length > 0} header={<div onClick={(event) => {event.stopPropagation(); this.callback([parentTask.id]);}} style={{display: "flex", overflow:"hidden", flexGrow: "1" }}><div style={{display: "inline-block", whiteSpace: "nowrap", overflow:"hidden", textOverflow: "ellipsis", marginLeft: "41px", marginTop: "10px", marginBottom: "10px"}}>{parentTask.content.Name}{parentTask.content.completed ? "✔" : ""}</div>{this.genAnotherPanel(parentTask.id)}</div>} key={parentTask.id}>
                     {Object.entries(parentTask.content.children).map((value, index) => {
-                        return this.buildRecursivePanels(value[1])
+                        return this.buildRecursivePanels(value[1], parentPasses)
                     })}
                 </Panel>
             </Collapse>
         }
 
         else {
-            if (stringSimilarity(this.props.searchTerm, parentTask.content.Name) > .15 || isChild || (this.props.searchTerm[0] == parentTask.content.Name[0]) && this.props.searchTerm.length == 1) {
+            if (parentPasses || stringSimilarity(this.props.searchTerm, parentTask.content.Name) > .15 || isChild || (this.props.searchTerm[0] == parentTask.content.Name[0]) && this.props.searchTerm.length == 1) {
                 return <Collapse key={parentTask.id} forceRender={true} ghost={false} bordered={false}>
                     <Panel showArrow={parentTask.content.childIds.length > 0} header={<div onClick={(event) => {event.stopPropagation(); this.callback([parentTask.id]);}} style={{display: "flex", overflow:"hidden", flexGrow: "1" }}><div style={{display: "inline-block", whiteSpace: "nowrap", overflow:"hidden", textOverflow: "ellipsis", marginLeft: "41px", marginTop: "10px", marginBottom: "10px"}}>{parentTask.content.Name}{parentTask.content.completed ? "✔" : ""}</div>{this.genAnotherPanel(parentTask.id)}</div>} key={parentTask.id}>
                      {Object.entries(parentTask.content.children).map((value, index) => {
-                         return this.buildRecursivePanels(value[1])
+                         console.log("*********inside collapse panel recursion: ", value[1]);
+                         return this.buildRecursivePanels(value[1], true)
                      })}
                  </Panel>
              </Collapse>
@@ -175,7 +187,7 @@ class MilestoneView extends React.Component {
                 />
                 <div>
                 {Object.entries(this.props.taskHierarchy).map((value, index) => {
-                    return this.buildRecursivePanels(value[1]);
+                    return this.buildRecursivePanels(value[1], false);
                 })}
                 </div>
 
