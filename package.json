@@ -47,6 +47,8 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
+    "string-similarity": "^4.0.4",
+    "string-similarity-js": "^2.1.2",
     "styled-components": "^5.2.1",
     "web-vitals": "^0.2.4"
   },

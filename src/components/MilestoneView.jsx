@@ -1,4 +1,5 @@
 import React from 'react';
+import { stringSimilarity } from "string-similarity-js";
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal';
 import { Collapse } from 'antd';
@@ -67,7 +68,7 @@ class MilestoneView extends React.Component {
             return true;
         }
         const children = parentTask.content.children;
-        if (!!parentTask.content.children) {
+        if (!parentTask.content.children) {
         
             Object.entries(parentTask.content.children).map((value, index) => {
                 this.dfs(parentTask, value[1]);
@@ -81,15 +82,14 @@ class MilestoneView extends React.Component {
         console.log("parentTask name: ", parentTask.content.Name);
         // loop through the children of a parent passed in and see if theyre equal
         const parentsChildren = parentTask.content.children;
-        const isChild = false;
+        var isChild = false;
         Object.entries(parentTask.content.children).map((value, index) => {
             if (this.dfs(parentTask, value[1])) {
                 isChild = true;
             }
         })
-
-        if (this.props.searchTerm == "" || this.props.searchTerm == parentTask.content.Name || isChild) {
-
+        var i;
+        if (this.props.searchTerm == "") {
             return <Collapse key={parentTask.id} forceRender={true} ghost={false} bordered={false}>
                 <Panel showArrow={parentTask.content.childIds.length > 0} header={<div onClick={(event) => {event.stopPropagation(); this.callback([parentTask.id]);}} style={{display: "flex", overflow:"hidden", flexGrow: "1" }}><div style={{display: "inline-block", whiteSpace: "nowrap", overflow:"hidden", textOverflow: "ellipsis", marginLeft: "41px", marginTop: "10px", marginBottom: "10px"}}>{parentTask.content.Name}{parentTask.content.completed ? "✔" : ""}</div>{this.genAnotherPanel(parentTask.id)}</div>} key={parentTask.id}>
                     {Object.entries(parentTask.content.children).map((value, index) => {
@@ -97,6 +97,18 @@ class MilestoneView extends React.Component {
                     })}
                 </Panel>
             </Collapse>
+        }
+
+        else {
+            if (stringSimilarity(this.props.searchTerm, parentTask.content.Name) > .15 || isChild || (this.props.searchTerm[0] == parentTask.content.Name[0]) && this.props.searchTerm.length == 1) {
+                return <Collapse key={parentTask.id} forceRender={true} ghost={false} bordered={false}>
+                    <Panel showArrow={parentTask.content.childIds.length > 0} header={<div onClick={(event) => {event.stopPropagation(); this.callback([parentTask.id]);}} style={{display: "flex", overflow:"hidden", flexGrow: "1" }}><div style={{display: "inline-block", whiteSpace: "nowrap", overflow:"hidden", textOverflow: "ellipsis", marginLeft: "41px", marginTop: "10px", marginBottom: "10px"}}>{parentTask.content.Name}{parentTask.content.completed ? "✔" : ""}</div>{this.genAnotherPanel(parentTask.id)}</div>} key={parentTask.id}>
+                     {Object.entries(parentTask.content.children).map((value, index) => {
+                         return this.buildRecursivePanels(value[1])
+                     })}
+                 </Panel>
+             </Collapse>
+            }
         }
     }
 
