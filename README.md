@@ -10,6 +10,10 @@ This needs database credentials and google login client id. You can set the `MYS
 
 You can generate a client id after creating a project through the [Google API dashboard](https://console.cloud.google.com/apis/dashboard)
 
+The `docker-compose` for the sql server uses volumes to persist data between containers, if `docker-compose up` is ran when there is no valid sql database in the volume, then it will reinitialize by running all `.sql` files in the `/init/` folder in alphabetical order. To reset the database, simply run `docker-compose down`, remove the volume with `docker volume ls` followed by `docker volume rm <volume-name>` and restart with `docker-compose up` to reinitialize from the `/init/` folder.
+
+The frontend makes heavy use of redux, and all redux code is within the `/src/data/` directory. Data is initially loaded from the database on login starting in `/src/components/GoogleLoginButton.jsx`. [Redux thunks](https://github.com/reduxjs/redux-thunk) are used for sending requests to the backend and updating the local redux state on response.
+
 #### `npm i` to install the dependencies
 
 #### `docker-compose up` to start the database from .env vars
