@@ -4,13 +4,19 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 To get started:
 
-Create a .env file containing all environment variables in the root dir
+Create a `.env` file from the `.env-template` containing all environment variables in the root dir
 
-This needs database credentials and google login client id
+This needs database credentials and google login client id. You can set the `MYSQL_HOST` to `localhost` if running the db locally with docker, and the rest of the db envs will be used to startup that docker container.
+
+You can generate a client id after creating a project through the [Google API dashboard](https://console.cloud.google.com/apis/dashboard)
+
+#### `npm i` to install the dependencies
 
 #### `docker-compose up` to start the database from .env vars
+
 #### `npm start` to start the react dev server
-#### `cd ./express-backend/` then run `nodemon` to start the backend server
+
+#### `npm run backend:dev` to start the backend server in development mode with nodemon
 
 ## Available Scripts
 
