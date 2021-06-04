@@ -17,7 +17,7 @@ app.use(session({
     resave:true
 }));
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3060;
 
 var corsOptions = {
     origin: 'http://localhost:3000',
@@ -51,12 +51,20 @@ app.use("/api/v1/auth/", googleAuthRouter);
 //     next();
 // })
 
+app.get('/*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'build/index.html'), function(err) {
+      if (err) {
+        res.status(500).send(err)
+      }
+    })
+  })
+
 app.get('/ping', (req, res) => {
     return res.send('pong');
 })
 
 app.listen(port, () =>
-    console.log('Perro listening on port 5000!'),
+    console.log('Perro listening on port ' + port),
 );
 
 module.exports = app;
