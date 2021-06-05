@@ -17,7 +17,7 @@ app.use(session({
     resave:true
 }));
 
-const port = process.env.PORT || 3060;
+const port = process.env.PORT || 5000;
 
 var corsOptions = {
     origin: 'http://localhost:3000',
